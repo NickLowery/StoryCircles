@@ -5,7 +5,6 @@ from .consumers import validate_word
 # Create your tests here.
 
 class ValidateWordTestCase(TestCase):
-    # TODO: Test all major cases
 
     def test_title_case(self):
         """After sentence-ending punctuation, the next word should be
