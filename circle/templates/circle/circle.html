@@ -1,0 +1,14 @@
+{% extends "circle/layout.html" %}
+{% load static %}
+{% block body %}
+    <h1>
+        Mockup Room
+    </h1>
+    <p id="story-p">
+        <span id="text"></span><input id="word-input" type="text" size="20">
+    </p>
+    <input id="word-submit" type="button" value="Go">
+    <div id="dev-turn-order"></div>
+
+    <script src="{% static 'circle/circle.js' %}"></script>
+{% endblock %}

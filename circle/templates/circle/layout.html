@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}Story Circles{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'circle/styles.css' %}" rel="stylesheet">
+        {% csrf_token %}
+    </head>
+    <body>
+        <header>
+            {{ user.username|json_script:"user-data" }}
+            {% if user.is_authenticated %}
+            Dev: You are logged in as {{ user }}. <a href="{% url 'logout' %}">Log out</a>
+            {% else %}
+            Dev: You are not logged in. <a href="{% url 'login' %}">Log in</a>
+            {% endif %}
+        </header>
+
+
+        {% comment %}
+        {# Add a navbar that matches this project later #}
+        {% endcomment %}
+        
+        <div class="body">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>
