@@ -33,7 +33,14 @@ circleSocket.onmessage = function(e) {
       }
       break;
     case ('message'):
+      // Display message in an alert
       console.log("Message: " + data.message_text);
+      const alertTemplateDom = document.querySelector("#alert-template");
+      const alert = alertTemplateDom.cloneNode(true);
+      const alertText = alert.querySelector("#alert-text");
+      alertText.innerHTML = data.message_text;
+      document.querySelector("#alert-holder").appendChild(alert);
+      alert.style.display = "block";
       break;
     default:
       console.error("Default hit on socket message type")
@@ -55,9 +62,6 @@ wordSubmitDom.onclick = function(e) {
   
   const word = wordInputDom.value;
   //TODO: Client-side checking of submission
-  circleSocket.send(JSON.stringify({
-    'word': word
-  }));
   circleSocket.send(JSON.stringify({
     'word': word
   }));

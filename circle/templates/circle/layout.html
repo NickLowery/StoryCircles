@@ -19,6 +19,11 @@
             Dev: You are not logged in. <a href="{% url 'login' %}">Log in</a>
             {% endif %}
         </header>
+        <div id="alert-holder"></div>
+        <div class="alert alert-warning alert-dismissible fade show" id="alert-template" role="alert" style="display: none;">
+            <span id="alert-text">Placeholder Alert text</span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
 
 
         {% comment %}
@@ -30,5 +35,7 @@
             {% endblock %}
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+        {% block script %}
+        {% endblock %}
     </body>
 </html>

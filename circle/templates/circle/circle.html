@@ -10,5 +10,7 @@
     <input id="word-submit" type="button" value="Go">
     <div id="dev-turn-order"></div>
 
-    <script src="{% static 'circle/circle.js' %}"></script>
 {% endblock %}
+{% block script %}
+    <script src="{% static 'circle/circle.js' %}"></script>
+    {% endblock %}
