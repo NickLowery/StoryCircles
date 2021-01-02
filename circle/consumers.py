@@ -68,36 +68,46 @@ class CircleConsumer(WebsocketConsumer):
 
     # Receive message from WebSocket
     def receive(self, text_data):
+        #NOTE: Eventually there will be different types of messages from circle client, right
+        # now there are only word submissions.
         story_instance = WorkingStory.objects.get(circle_name=self.circle_name)
         text_data_json = json.loads(text_data)
         word = text_data_json['word']
-        valid, formatted_word, message = validate_word(word, story_instance.text)
-        # TODO: validate whether it's my turn
-
-        if (valid):
-            # Update text
-            story_instance.text += formatted_word
-
-            # Update whose turn it is
-            turn_order = json.loads(story_instance.turn_order_json)
-            turn_order.append(turn_order.pop(0))
-            story_instance.turn_order_json = json.dumps(turn_order)
-
-            # Update database
-            story_instance.save()
-
-            # Send message to the circle
-            async_to_sync(self.channel_layer.group_send)(
-                self.circle_group_name,
-                {
-                    'type': 'update',
-                    'text': story_instance.text,
-                    'turn_order': turn_order
-                }
-            )
+        turn_order = json.loads(story_instance.turn_order_json)
+        if (turn_order[0] != self.user_instance.username):
+            self.send(text_data=json.dumps({
+                'type': 'message',
+                'message_text': 'Error: we got a word submission from your browser when it was not your turn.',
+            }))
         else:
-            pass
-            #TODO: Give the word back to the client with a message
+            valid, formatted_word, message = validate_word(word, story_instance.text)
+
+            if (valid):
+                # Update text
+                story_instance.text += formatted_word
+
+                # Update whose turn it is
+                turn_order = json.loads(story_instance.turn_order_json)
+                turn_order.append(turn_order.pop(0))
+                story_instance.turn_order_json = json.dumps(turn_order)
+
+                # Update database
+                story_instance.save()
+
+                # Send message to the circle
+                async_to_sync(self.channel_layer.group_send)(
+                    self.circle_group_name,
+                    {
+                        'type': 'update',
+                        'text': story_instance.text,
+                        'turn_order': turn_order
+                    }
+                )
+            else:
+                self.send(text_data=json.dumps({
+                    'type': 'message',
+                    'message_text': message,
+                }))
 
     # Receive message from circle
     def update(self, event):
@@ -107,6 +117,7 @@ class CircleConsumer(WebsocketConsumer):
     # Update client with new state of the game
     def update_client(self, text, turn_order):
         self.send(text_data=json.dumps({
+            'type': 'game_update',
             'text': text,
             'turn_order': turn_order
         }))
