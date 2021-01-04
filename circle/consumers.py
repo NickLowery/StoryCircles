@@ -72,6 +72,23 @@ class CircleConsumer(WebsocketConsumer):
         # now there are only word submissions.
         story_instance = WorkingStory.objects.get(circle_name=self.circle_name)
         text_data_json = json.loads(text_data)
+        message_process_func = {
+            "word_submit": self.word_submit,
+            "propose_end": self.propose_end,
+        }.get(text_data_json['type'])
+        message_process_func(text_data_json, story_instance)
+
+
+    # Process proposal to end the story from client
+    def propose_end(self, text_data_json, story_instance):
+        self.send(text_data=json.dumps({
+            'type': 'message',
+            'message_text': "Proposal to end the story received."
+        }))
+        # TODO: Implement proposing ending the story and actually ending it.
+
+    # Process word submission from client
+    def word_submit(self, text_data_json, story_instance):
         word = text_data_json['word']
         turn_order = json.loads(story_instance.turn_order_json)
         if (turn_order[0] != self.user_instance.username):

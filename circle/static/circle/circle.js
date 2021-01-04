@@ -63,7 +63,14 @@ wordSubmitDom.onclick = function(e) {
   const word = wordInputDom.value;
   //TODO: Client-side checking of submission
   circleSocket.send(JSON.stringify({
+    'type': 'word_submit',
     'word': word
   }));
   wordInputDom.value = '';
 };
+
+document.querySelector("#propose-end").onclick = function(e) {
+  circleSocket.send(JSON.stringify({
+    'type': 'propose_end',
+  }));
+}
