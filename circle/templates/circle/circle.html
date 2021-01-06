@@ -9,7 +9,13 @@
     </p>
     <input id="word-submit" type="button" value="Go">
     <div id="dev-turn-order"></div>
-    <input id="propose-end" type="button" value="Propose end">
+    <div id="story-ending-div">
+        <input id="propose-end-button" type="button" value="Propose end">
+        <div id="ending-approval-div">
+            <input id="approve-end-button" type="button" value="Approve ending">
+            <input id="reject-end-button" type="button" value="Reject ending">
+        </div>
+    </div>
 
 {% endblock %}
 {% block script %}

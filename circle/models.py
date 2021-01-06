@@ -30,4 +30,7 @@ class WorkingStory(models.Model):
     text = models.TextField()
     turn_order_json = models.TextField() # in turn order, whoever is "it" is
         # first
-
+    approved_ending = models.ManyToManyField(
+        User,
+        blank=True
+    )
