@@ -3,7 +3,9 @@ import re
 import string
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
-from .models import WorkingStory, User
+from .models import WorkingStory, User, FinishedStory
+from .views import FinishedStoryView
+from django.urls import reverse
 
 class CircleConsumer(WebsocketConsumer):
     # When a client connects
@@ -114,6 +116,20 @@ class CircleConsumer(WebsocketConsumer):
             story_instance.save()
             approved_ending_list = [user.username for user in story_instance.approved_ending.all()]
             turn_order = json.loads(story_instance.turn_order_json)
+            # If everyone in the turn order has approved the ending, the story should end here.
+            if all((username in approved_ending_list) for username in turn_order):
+                finished_story = FinishedStory(text=story_instance.text)
+                finished_story.save()
+                finished_story.authors.set(story_instance.authors.all())
+                story_instance.delete()
+                async_to_sync(self.channel_layer.group_send)(
+                    self.circle_group_name,
+                    {
+                        'type': 'story_finished',
+                        'redirect': reverse(FinishedStoryView(pk=finished_story.pk))
+                    }
+                )
+
             async_to_sync(self.channel_layer.group_send)(
                 self.circle_group_name,
                 {

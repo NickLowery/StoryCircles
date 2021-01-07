@@ -6,7 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.http import require_POST
-from .models import User
+from django.views.generic import DetailView
+from .models import User, FinishedStory
 
 @login_required
 def index(request):
@@ -66,7 +67,9 @@ def register_view(request):
     else:
         return render(request, "circle/register.html")
 
-
+class FinishedStoryView(DetailView):
+    model = FinishedStory
+    context_object_name = 'story'
 
 def logout_view(request):
     logout(request)
