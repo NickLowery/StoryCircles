@@ -10,22 +10,28 @@ from django.urls import reverse
 class CircleConsumer(WebsocketConsumer):
     # When a client connects
     def connect(self):
+        # Right now there's no circumstance where I don't accept the connection
+        # so I'm putting this first to try not to mess with debugging.
+        self.accept()
         self.circle_name = self.scope['url_route']['kwargs']['circle_name']
         self.circle_group_name = 'circle_%s' % self.circle_name
         # TODO: Make sure group names are valid?
 
         self.user_instance = User.objects.get(username=self.scope['user'])
-        # TODO: Do I actually need the user instance for anything or do I
-        # just need the username?
 
         # Get the model and send text
         story_instance, created = WorkingStory.objects.get_or_create(
             circle_name=self.circle_name)
 
-        # Update turn_order
-        turn_order = json.loads(story_instance.turn_order_json)
-        if (self.user_instance.username not in turn_order):
-            turn_order.append(self.user_instance.username)
+        # If created, we need the initial turn order
+        if (created):
+            turn_order = [self.user_instance.username]
+        else:
+            # Update turn_order
+            turn_order = json.loads(story_instance.turn_order_json)
+            if (self.user_instance.username not in turn_order):
+                turn_order.append(self.user_instance.username)
+
         story_instance.turn_order_json = json.dumps(turn_order)
 
         # Update final authors list
@@ -51,7 +57,6 @@ class CircleConsumer(WebsocketConsumer):
                 'approved_ending_list': approved_ending_list,
             }
         )
-        self.accept()
 
     # Runs when a client disconnects
     def disconnect(self, close_code):
@@ -211,16 +216,6 @@ class CircleConsumer(WebsocketConsumer):
         if message:
             data['message'] = message
         self.send(text_data=json.dumps(data))
-        # Send message to WebSocket
-        # self.update_client(event['text'], event['turn_order'])
-
-    # Update client with new state of the game
-    # def update_client(self, text, turn_order):
-        # self.send(text_data=json.dumps({
-        #     'type': 'game_update',
-        #     'text': text,
-        #     'turn_order': turn_order
-        # }))
 
     def msg_client(self, message):
         self.send(text_data=json.dumps({
@@ -235,6 +230,11 @@ class CircleConsumer(WebsocketConsumer):
 # It can be a word, or ?, !, . for now. Can make it a little more complicated later.
 # TODO: Move this into some appropriate other file since it's not a consumer?
 def validate_word(word, text):
+    if not text:
+        if re.fullmatch("[a-zA-Z']+", word):
+            return (True, word, "")
+        else:
+            return (False, "", "Story must begin with a word")
     if " " in word:
         return (False, "", "Word cannot contain spaces.")
     if word in ["?", ".", "!"]:
