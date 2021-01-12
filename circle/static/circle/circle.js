@@ -1,5 +1,5 @@
-// TODO: Real naming of circles? Some kind of matchmaking.
-const circleName = 'mockupCircle';
+// NOTE: I'm trying the idea that we get working stories by pk
+const storyPk = document.getElementById('data-div').dataset['storypk'];
 const username = JSON.parse(document.getElementById('user-data').textContent);
 const wordInputDom = document.getElementById('word-input');
 const wordSubmitDom = document.getElementById('word-submit');
@@ -8,7 +8,7 @@ const circleSocket = new WebSocket(
   'ws://'
   + window.location.host
   + '/ws/circle/'
-  + circleName
+  + storyPk
   + '/'
 );
 

@@ -2,8 +2,9 @@
 {% load static %}
 {% block body %}
     <h1>
-        Mockup Room
+        {{ story.title }}
     </h1>
+    <div id="data-div" data-storypk="{{ story.pk }}">
     <p id="story-p">
         <span id="text"></span><input id="word-input" type="text" size="20">
     </p>

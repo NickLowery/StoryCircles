@@ -4,33 +4,69 @@ import string
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from .models import WorkingStory, User, FinishedStory
-from .views import FinishedStoryView
+from .views import FinishedStoryView, CircleView
 from django.urls import reverse
+from django.shortcuts import get_object_or_404
+
+class CircleIndexConsumer(WebsocketConsumer):
+    def connect(self):
+        self.user_instance = User.objects.get(username=self.scope['user'])
+        self.accept()
+        self.send(text_data=json.dumps(
+            {
+                'type':'message',
+                'message_text':"Index connection accepted"
+            }))
+
+    def receive(self, text_data):
+        data = json.loads(text_data)
+        if data['type'] == 'circle_create':
+            title = data['title']
+            self.send(text_data=json.dumps(
+                {
+                    'type':'message',
+                    'message_text':'Request to start story "%s" received' % title
+                }))
+            # Validate title
+            # It should contain at least one letter, and nothing but letters, digits, and spaces
+            if validate_title(title):
+                new_story = WorkingStory(title=title)
+                new_story.save()
+                self.send(text_data=json.dumps(
+                    {
+                        'type':'redirect',
+                        'message_text':'Story "%s" created' % title,
+                        'url': reverse("circle", kwargs={'pk': new_story.pk})
+                    }))
+            else:
+                self.send(text_data=json.dumps(
+                    {
+                        'type':'message',
+                        'message_text':'Invalid title'
+                    }))
+
+
+    def disconnect(self, close_code):
+        pass
 
 class CircleConsumer(WebsocketConsumer):
     # When a client connects
     def connect(self):
-        # Right now there's no circumstance where I don't accept the connection
-        # so I'm putting this first to try not to mess with debugging.
-        self.accept()
-        self.circle_name = self.scope['url_route']['kwargs']['circle_name']
-        self.circle_group_name = 'circle_%s' % self.circle_name
-        # TODO: Make sure group names are valid?
-
+        # This will fail if the user isn't logged in, so maybe I'm good as far as authentication?
         self.user_instance = User.objects.get(username=self.scope['user'])
 
-        # Get the model and send text
-        story_instance, created = WorkingStory.objects.get_or_create(
-            circle_name=self.circle_name)
+        self.story_pk = int(self.scope['url_route']['kwargs']['story_pk_string'])
+        story_instance = get_object_or_404(WorkingStory, pk=self.story_pk)
+        self.circle_group_name = 'circle_%s' % story_instance.title
+        # TODO: Make sure group names are valid?
 
-        # If created, we need the initial turn order
-        if (created):
-            turn_order = [self.user_instance.username]
-        else:
-            # Update turn_order
+        # Update turn_order
+        if story_instance.turn_order_json:
             turn_order = json.loads(story_instance.turn_order_json)
             if (self.user_instance.username not in turn_order):
                 turn_order.append(self.user_instance.username)
+        else:
+            turn_order = [self.user_instance.username]
 
         story_instance.turn_order_json = json.dumps(turn_order)
 
@@ -57,11 +93,12 @@ class CircleConsumer(WebsocketConsumer):
                 'approved_ending_list': approved_ending_list,
             }
         )
+        self.accept()
 
     # Runs when a client disconnects
     def disconnect(self, close_code):
         # Update turn schedule
-        story_instance = WorkingStory.objects.get(circle_name=self.circle_name)
+        story_instance = WorkingStory.objects.get(pk=self.story_pk)
         turn_order = json.loads(story_instance.turn_order_json)
         while (self.user_instance.username in turn_order):
             turn_order.remove(self.user_instance.username)
@@ -79,19 +116,19 @@ class CircleConsumer(WebsocketConsumer):
 
     # Receive message from WebSocket
     def receive(self, text_data):
-        story_instance = WorkingStory.objects.get(circle_name=self.circle_name)
-        text_data_json = json.loads(text_data)
+        story_instance = WorkingStory.objects.get(pk=self.story_pk)
+        data = json.loads(text_data)
         message_process_func = {
             "word_submit": self.word_submit,
             "propose_end": self.propose_end,
             "approve_end": self.approve_end,
             "reject_end": self.reject_end,
-        }.get(text_data_json['type'])
-        message_process_func(text_data_json, story_instance)
+        }.get(data['type'])
+        message_process_func(data, story_instance)
 
 
     # Process proposal to end the story from client
-    def propose_end(self, text_data_json, story_instance):
+    def propose_end(self, data, story_instance):
         self.msg_client("Proposal to end the story received.")
         #NOTE: This should only be an option if there isn't already a 
         # proposal to end the story
@@ -113,7 +150,7 @@ class CircleConsumer(WebsocketConsumer):
             )
 
     # Process ending approval from client
-    def approve_end(self, text_data_json, story_instance):
+    def approve_end(self, data, story_instance):
         if (self.user_instance in story_instance.approved_ending.all()):
             self.msg_clinet("You have already approved the ending")
         else:
@@ -145,7 +182,7 @@ class CircleConsumer(WebsocketConsumer):
                 }
             )
 
-    def reject_end(self, text_data_json, story_instance):
+    def reject_end(self, data, story_instance):
         story_instance.approved_ending.clear()
         story_instance.save()
         approved_ending_list = []
@@ -164,8 +201,8 @@ class CircleConsumer(WebsocketConsumer):
 
 
     # Process word submission from client
-    def word_submit(self, text_data_json, story_instance):
-        word = text_data_json['word']
+    def word_submit(self, data, story_instance):
+        word = data['word']
         turn_order = json.loads(story_instance.turn_order_json)
         #It has to be our client's turn
         if (turn_order[0] != self.user_instance.username):
@@ -248,9 +285,20 @@ def validate_word(word, text):
         else:
             return (True, (' ' + word), "")
     if re.fullmatch("\-[a-zA-Z']+", word):
-        if text[-1].isalpha():
-            return (True, word, "")
-        else:
+        if not text[-1].isalpha():
             return (False, "", "You can only hyphenate after a word.")
+        elif re.search("'", word):
+            return (False, "", "I can't think of a case where an apostrophe after a hyphen would be valid.")
+        else:
+            return (True, word, "")
     else:
         return (False, "", "Not a valid word for some reason (disallowed characters?)")
+
+# Check if a story title is valid. It needs to contain at least one letter and nothing but 
+# letters, digits, and spaces. Return True if valid, False if not
+# TODO: Would it be worth it to allow apostrophes?
+def validate_title(title):
+    if re.search("[a-zA-Z]", title) and re.fullmatch("[a-zA-Z0-9\ ]+", title):
+        return True
+    else:
+        return False

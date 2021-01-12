@@ -1,6 +1,6 @@
 import itertools
 from django.test import TestCase
-from .consumers import validate_word
+from .consumers import validate_word, validate_title
 
 # Create your tests here.
 
@@ -48,3 +48,36 @@ class ValidateWordTestCase(TestCase):
     def test_ordinary_words(self):
         #TODO: implement test_ordinary_words
         pass
+
+class ValidateTitleTestCase(TestCase):
+    #TODO: Should I test more exhaustively for disallowed characters?
+    # TODO: Should I disallow using spaces in stupid ways (like some of the valid tests right now?)
+    def test_empty(self):
+        self.assertFalse(validate_title(""))
+
+    def test_no_letters(self):
+        self.assertFalse(validate_title(" "))
+        self.assertFalse(validate_title("       "))
+        self.assertFalse(validate_title("9"))
+        self.assertFalse(validate_title("0"))
+        self.assertFalse(validate_title("130 3940"))
+
+    def test_valid(self):
+        self.assertTrue(validate_title("a"))
+        self.assertTrue(validate_title("Title"))
+        self.assertTrue(validate_title("Rambo 9"))
+        self.assertTrue(validate_title("7 Samurai"))
+        self.assertTrue(validate_title("The end of the world"))
+        self.assertTrue(validate_title("a       "))
+        self.assertTrue(validate_title("X9134457914 390281795"))
+        self.assertTrue(validate_title("a       "))
+        self.assertTrue(validate_title("a       "))
+
+    def test_disallowed_characters(self):
+        self.assertFalse(validate_title("a ."))
+        self.assertFalse(validate_title("a ,"))
+        self.assertFalse(validate_title("a '"))
+        self.assertFalse(validate_title("a \""))
+        self.assertFalse(validate_title("a ["))
+        self.assertFalse(validate_title("a {"))
+        self.assertFalse(validate_title("a <"))

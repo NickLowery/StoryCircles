@@ -7,11 +7,25 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView
-from .models import User, FinishedStory
+from .models import User, FinishedStory, WorkingStory
 
 @login_required
 def index(request):
-    return render(request, 'circle/circle.html')
+    return render(request, 'circle/index.html')
+    # TODO: We need a list of working stories that need authors
+    # This will maybe connect up with a circle view? Yes I think so. We can 
+    # redirect to it from the index
+    #return render(request, 'circle/circle.html')
+
+@login_required
+def circle_view(request, pk):
+    return render(request, 'circle/circle.html', {
+    })
+
+class CircleView(LoginRequiredMixin, DetailView):
+    model = WorkingStory
+    context_object_name = 'story'
+    template_name = 'circle/circle.html'
 
 def index_redirect(request):
     return HttpResponseRedirect(reverse("index"))
@@ -67,7 +81,7 @@ def register_view(request):
     else:
         return render(request, "circle/register.html")
 
-class FinishedStoryView(DetailView):
+class FinishedStoryView(LoginRequiredMixin, DetailView):
     model = FinishedStory
     context_object_name = 'story'
 

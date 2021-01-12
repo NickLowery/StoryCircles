@@ -21,7 +21,7 @@ class FinishedStory(models.Model):
     text = models.TextField()
 
 class WorkingStory(models.Model):
-    circle_name = models.TextField()
+    title = models.TextField()
     authors = models.ManyToManyField(
         User,
         related_name="wip",
