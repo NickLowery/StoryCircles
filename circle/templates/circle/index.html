@@ -1,0 +1,15 @@
+{% extends "circle/layout.html" %}
+{% load static %}
+{% block body %}
+    <h1>
+        Story Circle Home
+    </h1>
+    <h3>Start a new circle by typing a title</h3>
+    <input id="title-input" type="text" size="20">
+    <input id="title-submit" type="button" value="Begin">
+    <h3>Stories Waiting for Authors:</h3>
+
+{% endblock %}
+{% block script %}
+    <script src="{% static 'circle/index.js' %}"></script>
+{% endblock %}
