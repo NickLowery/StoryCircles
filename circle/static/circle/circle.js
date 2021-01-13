@@ -1,5 +1,4 @@
-// NOTE: I'm trying the idea that we get working stories by pk
-const storyPk = document.getElementById('data-div').dataset['storypk'];
+const circlePk = document.getElementById('data-div').dataset['circlepk'];
 const username = JSON.parse(document.getElementById('user-data').textContent);
 const wordInputDom = document.getElementById('word-input');
 const wordSubmitDom = document.getElementById('word-submit');
@@ -8,7 +7,7 @@ const circleSocket = new WebSocket(
   'ws://'
   + window.location.host
   + '/ws/circle/'
-  + storyPk
+  + circlePk
   + '/'
 );
 
@@ -47,6 +46,11 @@ circleSocket.onmessage = function(e) {
     case ('message'):
       // Display message in an alert
       alert_message(data.message_text);
+      break;
+    case ('story_finished'):
+      // For now, just redirect to the finished story page
+      // TODO: Do something nicer
+      window.location.href = data.redirect_url;
       break;
     default:
       console.error("Default hit on socket message type")

@@ -21,10 +21,6 @@ indexSocket.onmessage = function(e) {
 
 }
 
-indexSocket.onclose = function(e) {
-  console.error('Circle socket closed unexpectedly');
-}
-
 titleInputDom.focus();
 titleInputDom.onkeyup = function(e) {
   if (e.keyCode === 13) { // enter, return

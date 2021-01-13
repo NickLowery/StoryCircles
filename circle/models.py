@@ -13,11 +13,10 @@ class User(AbstractUser):
     # def get_absolute_url(self):
     #     return reverse('user_profile', args=[self.username])
 
-# TODO: Titles should not be duplicated between finished and working stories!!
 class FinishedStory(models.Model):
     authors = models.ManyToManyField(
         User,
-        related_name="works"
+        related_name="old_works"
     )
     text = models.TextField()
 
@@ -44,19 +43,19 @@ class Circle(models.Model):
         blank=True
     )
 
-# class Story(models.Model):
-#     title = models.TextField(unique=True)
-#     authors = models.ManyToManyField(
-#         User,
-#         related_name="works",
-#         blank=True
-#     )
-#     text = models.TextField()
-#     finished = models.BooleanField(default=False)
-#     circle = models.OneToOneField(
-#         Circle,
-#         blank=True,
-#         null=True,
-#         on_delete=models.SET_NULL,
-#     )
+class Story(models.Model):
+    title = models.TextField(unique=True)
+    authors = models.ManyToManyField(
+        User,
+        related_name="works",
+        blank=True
+    )
+    text = models.TextField()
+    finished = models.BooleanField(default=False)
+    circle = models.OneToOneField(
+        Circle,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
 

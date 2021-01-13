@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView
-from .models import User, FinishedStory, WorkingStory
+from .models import User, FinishedStory, WorkingStory, Circle, Story
 
 @login_required
 def index(request):
@@ -23,8 +23,8 @@ def circle_view(request, pk):
     })
 
 class CircleView(LoginRequiredMixin, DetailView):
-    model = WorkingStory
-    context_object_name = 'story'
+    model = Circle
+    context_object_name = 'circle'
     template_name = 'circle/circle.html'
 
 def index_redirect(request):
@@ -82,7 +82,9 @@ def register_view(request):
         return render(request, "circle/register.html")
 
 class FinishedStoryView(LoginRequiredMixin, DetailView):
-    model = FinishedStory
+    model = Story
+    template_name = "circle/finishedstory_detail.html"
+    queryset = Story.objects.filter(finished=True)
     context_object_name = 'story'
 
 def logout_view(request):
