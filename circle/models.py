@@ -62,3 +62,4 @@ class Story(models.Model):
         on_delete=models.SET_NULL,
     )
 
+

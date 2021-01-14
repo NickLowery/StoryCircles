@@ -12,24 +12,17 @@ class CircleIndexConsumer(WebsocketConsumer):
     def connect(self):
         self.user_instance = User.objects.get(username=self.scope['user'])
         self.accept()
-        self.send(text_data=json.dumps(
-            {
-                'type':'message',
-                'message_text':"Index connection accepted"
-            }))
+        self.msg_client("Index connection accepted")
 
     def receive(self, text_data):
         data = json.loads(text_data)
         if data['type'] == 'circle_create':
             title = data['title']
-            self.send(text_data=json.dumps(
-                {
-                    'type':'message',
-                    'message_text':'Request to start story "%s" received' % title
-                }))
+            self.msg_client('Request to start story "%s" received' % title)
             # Validate title
             # It should contain at least one letter, and nothing but letters, digits, and spaces
             if validate_title(title):
+                # NOTE: It might be good to encapsulate this in creating the new story
                 circle = Circle.objects.create()
                 new_story = Story(title=title, circle=circle)
                 new_story.save()
@@ -40,15 +33,16 @@ class CircleIndexConsumer(WebsocketConsumer):
                         'url': reverse("circle", kwargs={'pk': circle.pk})
                     }))
             else:
-                self.send(text_data=json.dumps(
-                    {
-                        'type':'message',
-                        'message_text':'Invalid title'
-                    }))
-
+                self.msg_client('Invalid title')
 
     def disconnect(self, close_code):
         pass
+
+    def msg_client(self, message):
+        self.send(text_data=json.dumps({
+            'type': 'message',
+            'message_text': message,
+        }))
 
 class CircleConsumer(WebsocketConsumer):
     # When a client connects
@@ -57,17 +51,17 @@ class CircleConsumer(WebsocketConsumer):
         self.user_instance = User.objects.get(username=self.scope['user'])
 
         self.circle_pk = int(self.scope['url_route']['kwargs']['circle_pk_string'])
+        #TODO: Redirect the user if the story is finished.
         circle_instance = get_object_or_404(Circle, pk=self.circle_pk, story__finished=False)
         self.circle_group_name = 'circle_%s' % circle_instance.group_name
 
-        # Update turn_order
+        # Update or begin turn_order
         if circle_instance.turn_order_json:
             turn_order = json.loads(circle_instance.turn_order_json)
             if (self.user_instance.username not in turn_order):
                 turn_order.append(self.user_instance.username)
         else:
             turn_order = [self.user_instance.username]
-
         circle_instance.turn_order_json = json.dumps(turn_order)
 
         # Update final authors list
@@ -80,19 +74,8 @@ class CircleConsumer(WebsocketConsumer):
             self.channel_name
         )
 
-        # Check if there is a pending ending
-        approved_ending_list = [author.username for author in circle_instance.approved_ending.all()]
-
         # Send message to the circle
-        async_to_sync(self.channel_layer.group_send)(
-            self.circle_group_name,
-            {
-                'type': 'update',
-                'text': circle_instance.story.text,
-                'turn_order': turn_order,
-                'approved_ending_list': approved_ending_list,
-            }
-        )
+        self.update_group(circle_instance)
         self.accept()
 
     # Runs when a client disconnects
@@ -110,7 +93,6 @@ class CircleConsumer(WebsocketConsumer):
             # Nothing to do because circle is already deleted
             pass
 
-
         # Leave circle group
         async_to_sync(self.channel_layer.group_discard)(
             self.circle_group_name,
@@ -118,7 +100,7 @@ class CircleConsumer(WebsocketConsumer):
         )
         # TODO: Eventually we need some kind of timeout
 
-
+    # --METHODS RECEIVING MESSAGES FROM CLIENT--
     # Receive message from WebSocket
     def receive(self, text_data):
         circle_instance = Circle.objects.get(pk=self.circle_pk)
@@ -131,7 +113,6 @@ class CircleConsumer(WebsocketConsumer):
         }.get(data['type'])
         message_process_func(data, circle_instance)
 
-
     # Process proposal to end the story from client
     def propose_end(self, data, circle_instance):
         self.msg_client("Proposal to end the story received.")
@@ -142,17 +123,7 @@ class CircleConsumer(WebsocketConsumer):
         else:
             circle_instance.approved_ending.add(self.user_instance)
             circle_instance.save()
-            approved_ending_list = [user.username for user in circle_instance.approved_ending.all()]
-            turn_order = json.loads(circle_instance.turn_order_json)
-            async_to_sync(self.channel_layer.group_send)(
-                self.circle_group_name,
-                {
-                    'type': 'update',
-                    'text': circle_instance.story.text,
-                    'turn_order': turn_order,
-                    'approved_ending_list': approved_ending_list,
-                }
-            )
+            self.update_group(circle_instance)
 
     # Process ending approval from client
     def approve_end(self, data, circle_instance):
@@ -179,33 +150,16 @@ class CircleConsumer(WebsocketConsumer):
                 )
 
             else:
-                async_to_sync(self.channel_layer.group_send)(
-                    self.circle_group_name,
-                    {
-                        'type': 'update',
-                        'text': circle_instance.story.text,
-                        'turn_order': turn_order,
-                        'approved_ending_list': approved_ending_list,
-                    }
-                )
+                self.update_group(circle_instance)
 
+    # Process ending rejection from client
     def reject_end(self, data, circle_instance):
         circle_instance.approved_ending.clear()
         circle_instance.save()
-        approved_ending_list = []
         turn_order = json.loads(circle_instance.turn_order_json)
-        async_to_sync(self.channel_layer.group_send)(
-            self.circle_group_name,
-            {
-                'type': 'update',
-                'text': circle_instance.story.text,
-                'turn_order': turn_order,
-                'approved_ending_list': approved_ending_list,
-                'message': "%s rejected ending the story at this point."
-                % self.user_instance.username
-            }
-        )
-
+        self.update_group(circle_instance,
+                          message="%s rejected ending the story at this point."
+                % self.user_instance.username)
 
     # Process word submission from client
     def word_submit(self, data, circle_instance):
@@ -226,6 +180,8 @@ class CircleConsumer(WebsocketConsumer):
             if (valid):
                 # Update text
                 circle_instance.story.text += formatted_word
+                # NOTE: This IS necessary, unless I add it into saving the circle instance
+                # somehow in the model?
                 circle_instance.story.save()
 
                 # Update whose turn it is
@@ -237,18 +193,11 @@ class CircleConsumer(WebsocketConsumer):
                 circle_instance.save()
 
                 # Send message to the circle
-                async_to_sync(self.channel_layer.group_send)(
-                    self.circle_group_name,
-                    {
-                        'type': 'update',
-                        'text': circle_instance.story.text,
-                        'turn_order': turn_order,
-                        'approved_ending_list': [],
-                    }
-                )
+                self.update_group(circle_instance)
             else:
                 self.msg_client(message)
 
+    # --METHODS SENDING AND RECEIVING FROM CIRCLE
     # Receive story finished message from the circle
     def story_finished(self, event):
         self.send(text_data=json.dumps({
@@ -269,6 +218,23 @@ class CircleConsumer(WebsocketConsumer):
             data['message'] = message
         self.send(text_data=json.dumps(data))
 
+    # Send a game state update to the circle
+    def update_group(self, circle_instance, message=None):
+        data = {'type': 'update',
+                'text': circle_instance.story.text,
+                'turn_order': json.loads(circle_instance.turn_order_json),
+                'approved_ending_list': [author.username for author
+                                         in circle_instance.approved_ending.all()],
+            }
+        if message:
+            data['message'] = message
+        async_to_sync(self.channel_layer.group_send)(
+            self.circle_group_name,
+            data
+        )
+
+    # --OTHER COMMUNICATION METHODS
+    # Send a message to client
     def msg_client(self, message):
         self.send(text_data=json.dumps({
             'type': 'message',
