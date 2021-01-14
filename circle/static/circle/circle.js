@@ -48,9 +48,10 @@ circleSocket.onmessage = function(e) {
       alert_message(data.message_text);
       break;
     case ('story_finished'):
-      // For now, just redirect to the finished story page
-      // TODO: Do something nicer
-      window.location.href = data.redirect_url;
+      alert_message("Story finished! Going to its permanent home in 5 seconds");
+      setTimeout(() => {
+        window.location.href = data.redirect_url;
+      }, 5000);
       break;
     default:
       console.error("Default hit on socket message type")
@@ -82,7 +83,6 @@ function alert_message(message) {
 wordSubmitDom.onclick = function(e) {
   
   const word = wordInputDom.value;
-  //TODO: Client-side checking of submission
   circleSocket.send(JSON.stringify({
     'type': 'word_submit',
     'word': word

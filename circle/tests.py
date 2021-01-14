@@ -10,6 +10,7 @@ from circle.models import User
 # Create your tests here.
 
 class ValidateWordTestCase(TestCase):
+    #TODO: Test for first word
 
     def test_title_case(self):
         """After sentence-ending punctuation, the next word should be

@@ -141,7 +141,6 @@ class CircleConsumer(WebsocketConsumer):
                 self.msg_client("Error: There is already a pending proposal to end the story")
         else:
             circle_instance.approved_ending.add(self.user_instance)
-            #TODO: try removing circle_instance.save(), I think it's unnecessary here
             circle_instance.save()
             approved_ending_list = [user.username for user in circle_instance.approved_ending.all()]
             turn_order = json.loads(circle_instance.turn_order_json)
@@ -161,7 +160,6 @@ class CircleConsumer(WebsocketConsumer):
             self.msg_client("You have already approved the ending")
         else:
             circle_instance.approved_ending.add(self.user_instance)
-            #TODO: try removing circle_instance.save(), I think it's unnecessary here
             circle_instance.save()
             approved_ending_list = [user.username for user in circle_instance.approved_ending.all()]
             turn_order = json.loads(circle_instance.turn_order_json)
@@ -286,7 +284,7 @@ class CircleConsumer(WebsocketConsumer):
 def validate_word(word, text):
     if not text:
         if re.fullmatch("[a-zA-Z']+", word):
-            return (True, word, "")
+            return (True, string.capwords(word), "")
         else:
             return (False, "", "Story must begin with a word")
     if " " in word:

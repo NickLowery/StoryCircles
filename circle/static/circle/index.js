@@ -31,7 +31,6 @@ titleInputDom.onkeyup = function(e) {
 titleSubmitDom.onclick = function(e) {
   const title = titleInputDom.value;
   titleInputDom.value = '';
-  // TODO: Title should be alphanumeric as well as non-empty
   if (title !== "") {
     indexSocket.send(JSON.stringify({
       'type': 'circle_create',
