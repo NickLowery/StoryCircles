@@ -1,6 +1,11 @@
 import itertools
 from django.test import TestCase
 from .consumers import validate_word, validate_title
+from channels.testing import WebsocketCommunicator
+from channels.db import database_sync_to_async
+from storycircles.asgi import application as asgi_app
+from asgiref.sync import async_to_sync, sync_to_async
+from circle.models import User
 
 # Create your tests here.
 
@@ -81,3 +86,19 @@ class ValidateTitleTestCase(TestCase):
         self.assertFalse(validate_title("a ["))
         self.assertFalse(validate_title("a {"))
         self.assertFalse(validate_title("a <"))
+
+# NOTE: Experimental testing of starting a new story
+# NOTE: I could not get this working. May return to it but I'm going to try to 
+# just fix the bug instead for now
+# class IndexChannelTestCase(TestCase):
+#     async def test_auth(self):
+#         user = User.objects.create_user('test_user')
+#         communicator = WebsocketCommunicator(asgi_app, "/ws/circle_index/")
+#         communicator.scope['user'] = user
+#         connected, subprotocol = await communicator.connect()
+#         self.assertTrue(connected)
+#         self.assertEquals(communicator.instance.scope['user'], user)
+#         communicator.disconnect()
+
+#     async def test_valid_title(self):
+#         pass

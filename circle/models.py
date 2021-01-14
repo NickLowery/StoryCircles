@@ -42,6 +42,9 @@ class Circle(models.Model):
         User,
         blank=True
     )
+    @property
+    def group_name(self):
+        self.story.title.replace(" ", "_")
 
 class Story(models.Model):
     title = models.TextField(unique=True)

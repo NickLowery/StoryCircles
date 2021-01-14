@@ -58,8 +58,7 @@ class CircleConsumer(WebsocketConsumer):
 
         self.circle_pk = int(self.scope['url_route']['kwargs']['circle_pk_string'])
         circle_instance = get_object_or_404(Circle, pk=self.circle_pk, story__finished=False)
-        self.circle_group_name = 'circle_%s' % circle_instance.story.title
-        # TODO: Make sure group names are valid?
+        self.circle_group_name = 'circle_%s' % circle_instance.group_name
 
         # Update turn_order
         if circle_instance.turn_order_json:
