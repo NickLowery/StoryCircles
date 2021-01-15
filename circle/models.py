@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     liked_stories = models.ManyToManyField(
-        "FinishedStory",
+        "Story",
         related_name="liked_by",
         blank=True,
     )
@@ -13,31 +13,10 @@ class User(AbstractUser):
     # def get_absolute_url(self):
     #     return reverse('user_profile', args=[self.username])
 
-class FinishedStory(models.Model):
-    authors = models.ManyToManyField(
-        User,
-        related_name="old_works"
-    )
-    text = models.TextField()
-
-class WorkingStory(models.Model):
-    title = models.TextField()
-    authors = models.ManyToManyField(
-        User,
-        related_name="wip",
-        blank=True
-    )
-    text = models.TextField()
-    turn_order_json = models.TextField() # in turn order, whoever is "it" is
-        # first
-    approved_ending = models.ManyToManyField(
-        User,
-        blank=True
-    )
-
 class Circle(models.Model):
-    turn_order_json = models.TextField() # in turn order, whoever is "it" is
-        # first
+    # This is a list of the usernames of users in the turn order. First name
+    # is the user whose turn it is.
+    turn_order = models.JSONField(default=list)
     approved_ending = models.ManyToManyField(
         User,
         blank=True

@@ -1,6 +1,6 @@
 from django.contrib import admin
-from circle.models import User, FinishedStory
+from circle.models import User, Story
 
 # Register your models here.
 admin.site.register(User)
-admin.site.register(FinishedStory)
+admin.site.register(Story)

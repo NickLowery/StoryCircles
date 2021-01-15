@@ -3,7 +3,7 @@ import re
 import string
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
-from .models import WorkingStory, User, FinishedStory, Story, Circle
+from .models import User, Story, Circle
 from .views import FinishedStoryView, CircleView
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
@@ -23,6 +23,7 @@ class CircleIndexConsumer(WebsocketConsumer):
             # It should contain at least one letter, and nothing but letters, digits, and spaces
             if validate_title(title):
                 # NOTE: It might be good to encapsulate this in creating the new story
+                # TODO: Right now we crash if the story title is not unique, handle that.
                 circle = Circle.objects.create()
                 new_story = Story(title=title, circle=circle)
                 new_story.save()
@@ -56,16 +57,13 @@ class CircleConsumer(WebsocketConsumer):
         self.circle_group_name = 'circle_%s' % circle_instance.group_name
 
         # Update or begin turn_order
-        if circle_instance.turn_order_json:
-            turn_order = json.loads(circle_instance.turn_order_json)
-            if (self.user_instance.username not in turn_order):
-                turn_order.append(self.user_instance.username)
-        else:
-            turn_order = [self.user_instance.username]
-        circle_instance.turn_order_json = json.dumps(turn_order)
+        if (self.user_instance.username not in circle_instance.turn_order):
+            circle_instance.turn_order.append(self.user_instance.username)
 
         # Update final authors list
         circle_instance.story.authors.add(self.user_instance)
+
+        # Save the circle instance
         circle_instance.save()
 
         # Join circle group
@@ -83,11 +81,8 @@ class CircleConsumer(WebsocketConsumer):
         # Update turn schedule
         try:
             circle_instance = Circle.objects.get(pk=self.circle_pk)
-            turn_order = json.loads(circle_instance.turn_order_json)
-            while (self.user_instance.username in turn_order):
-                turn_order.remove(self.user_instance.username)
-            # NOTE: Only one remove should be necessary if this is working right
-            circle_instance.turn_order_json = json.dumps(turn_order)
+            circle_instance.turn_order.remove(self.user_instance.username)
+            self.update_group(circle_instance)
             circle_instance.save()
         except Circle.DoesNotExist:
             # Nothing to do because circle is already deleted
@@ -118,6 +113,7 @@ class CircleConsumer(WebsocketConsumer):
         self.msg_client("Proposal to end the story received.")
         #NOTE: This should only be an option if there isn't already a 
         # proposal to end the story
+        #TODO: This should only work if it's our user's turn
         if circle_instance.approved_ending.all():
                 self.msg_client("Error: There is already a pending proposal to end the story")
         else:
@@ -133,9 +129,8 @@ class CircleConsumer(WebsocketConsumer):
             circle_instance.approved_ending.add(self.user_instance)
             circle_instance.save()
             approved_ending_list = [user.username for user in circle_instance.approved_ending.all()]
-            turn_order = json.loads(circle_instance.turn_order_json)
             # If everyone in the turn order has approved the ending, the story should end here.
-            if all((username in approved_ending_list) for username in turn_order):
+            if all((username in approved_ending_list) for username in circle_instance.turn_order):
                 finished_story = circle_instance.story
                 finished_story.finished = True
                 finished_story.save()
@@ -156,7 +151,6 @@ class CircleConsumer(WebsocketConsumer):
     def reject_end(self, data, circle_instance):
         circle_instance.approved_ending.clear()
         circle_instance.save()
-        turn_order = json.loads(circle_instance.turn_order_json)
         self.update_group(circle_instance,
                           message="%s rejected ending the story at this point."
                 % self.user_instance.username)
@@ -164,9 +158,8 @@ class CircleConsumer(WebsocketConsumer):
     # Process word submission from client
     def word_submit(self, data, circle_instance):
         word = data['word']
-        turn_order = json.loads(circle_instance.turn_order_json)
         #It has to be our client's turn
-        if (turn_order[0] != self.user_instance.username):
+        if (circle_instance.turn_order[0] != self.user_instance.username):
             self.msg_client('Error: we got a word submission from ' \
                                 'your browser when it was not your turn.')
         # No submitting words when there's an ending of the circle proposed
@@ -185,9 +178,7 @@ class CircleConsumer(WebsocketConsumer):
                 circle_instance.story.save()
 
                 # Update whose turn it is
-                turn_order = json.loads(circle_instance.turn_order_json)
-                turn_order.append(turn_order.pop(0))
-                circle_instance.turn_order_json = json.dumps(turn_order)
+                circle_instance.turn_order.append(circle_instance.turn_order.pop(0))
 
                 # Update database
                 circle_instance.save()
@@ -222,7 +213,7 @@ class CircleConsumer(WebsocketConsumer):
     def update_group(self, circle_instance, message=None):
         data = {'type': 'update',
                 'text': circle_instance.story.text,
-                'turn_order': json.loads(circle_instance.turn_order_json),
+                'turn_order': circle_instance.turn_order,
                 'approved_ending_list': [author.username for author
                                          in circle_instance.approved_ending.all()],
             }

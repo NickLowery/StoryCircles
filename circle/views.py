@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView
-from .models import User, FinishedStory, WorkingStory, Circle, Story
+from .models import User, Circle, Story
 
 @login_required
 def index(request):
