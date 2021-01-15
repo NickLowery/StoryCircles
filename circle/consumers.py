@@ -54,7 +54,6 @@ class CircleConsumer(WebsocketConsumer):
         self.circle_pk = int(self.scope['url_route']['kwargs']['circle_pk_string'])
         #TODO: Redirect the user if the story is finished.
         circle_instance = get_object_or_404(Circle, pk=self.circle_pk, story__finished=False)
-        self.circle_group_name = 'circle_%s' % circle_instance.group_name
 
         # Update or begin turn_order
         if (self.user_instance.username not in circle_instance.turn_order):
@@ -63,12 +62,15 @@ class CircleConsumer(WebsocketConsumer):
         # Update final authors list
         circle_instance.story.authors.add(self.user_instance)
 
+        # Remember group name (we need it here for disconnect)
+        self.group_name = circle_instance.group_name
+
         # Save the circle instance
         circle_instance.save()
 
         # Join circle group
         async_to_sync(self.channel_layer.group_add)(
-            self.circle_group_name,
+            self.group_name,
             self.channel_name
         )
 
@@ -90,7 +92,7 @@ class CircleConsumer(WebsocketConsumer):
 
         # Leave circle group
         async_to_sync(self.channel_layer.group_discard)(
-            self.circle_group_name,
+            self.group_name,
             self.channel_name
         )
         # TODO: Eventually we need some kind of timeout
@@ -137,7 +139,7 @@ class CircleConsumer(WebsocketConsumer):
                 #TODO: I need to figure out something to do with orphaned story instances that don't get finished, probably
                 circle_instance.delete()
                 async_to_sync(self.channel_layer.group_send)(
-                    self.circle_group_name,
+                    self.group_name,
                     {
                         'type': 'story_finished',
                         'redirect': reverse("story", kwargs={'pk': finished_story.pk})
@@ -220,7 +222,7 @@ class CircleConsumer(WebsocketConsumer):
         if message:
             data['message'] = message
         async_to_sync(self.channel_layer.group_send)(
-            self.circle_group_name,
+            self.group_name,
             data
         )
 

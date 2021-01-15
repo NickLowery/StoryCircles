@@ -21,9 +21,11 @@ class Circle(models.Model):
         User,
         blank=True
     )
+
+    # This will be used as the channel layer group name.
     @property
     def group_name(self):
-        self.story.title.replace(" ", "_")
+        return 'circle_' + self.story.title.replace(" ", "_")
 
 class Story(models.Model):
     title = models.TextField(unique=True)
