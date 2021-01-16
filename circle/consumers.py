@@ -119,8 +119,11 @@ class CircleConsumer(WebsocketConsumer):
         else:
             self.msg_client("Proposal to end the story received.")
             circle_instance.approved_ending.add(self.user_instance)
-            circle_instance.save()
-            self.update_group(circle_instance)
+            if circle_instance.all_approve_ending():
+                self.end_story(circle_instance)
+            else:
+                circle_instance.save()
+                self.update_group(circle_instance)
 
     # Process ending approval from client
     def approve_end(self, data, circle_instance):
@@ -128,24 +131,10 @@ class CircleConsumer(WebsocketConsumer):
             self.msg_client("You have already approved the ending")
         else:
             circle_instance.approved_ending.add(self.user_instance)
-            circle_instance.save()
-            approved_ending_list = [user.username for user in circle_instance.approved_ending.all()]
-            # If everyone in the turn order has approved the ending, the story should end here.
-            if all((username in approved_ending_list) for username in circle_instance.turn_order):
-                finished_story = circle_instance.story
-                finished_story.finished = True
-                finished_story.save()
-                #TODO: I need to figure out something to do with orphaned story instances that don't get finished, probably
-                circle_instance.delete()
-                async_to_sync(self.channel_layer.group_send)(
-                    self.group_name,
-                    {
-                        'type': 'story_finished',
-                        'redirect': reverse("story", kwargs={'pk': finished_story.pk})
-                    }
-                )
-
+            if circle_instance.all_approve_ending():
+                self.end_story(circle_instance)
             else:
+                circle_instance.save()
                 self.update_group(circle_instance)
 
     # Process ending rejection from client
@@ -158,7 +147,6 @@ class CircleConsumer(WebsocketConsumer):
 
     # Process word submission from client
     def word_submit(self, data, circle_instance):
-        word = data['word']
         #It has to be our client's turn
         if (circle_instance.turn_order[0] != self.user_instance.username):
             self.msg_client('Error: we got a word submission from ' \
@@ -169,7 +157,7 @@ class CircleConsumer(WebsocketConsumer):
                                 "of the circle is pending.")
 
         else:
-            valid, formatted_word, message = validate_word(word, circle_instance.story.text)
+            valid, formatted_word, message = validate_word(data['word'], circle_instance.story.text)
 
             if (valid):
                 # Update text
@@ -223,6 +211,17 @@ class CircleConsumer(WebsocketConsumer):
         async_to_sync(self.channel_layer.group_send)(
             self.group_name,
             data
+        )
+
+    # End story and send a message to the circle
+    def end_story(self, circle_instance):
+        finished_story = circle_instance.finish_story()
+        async_to_sync(self.channel_layer.group_send)(
+            self.group_name,
+            {
+                'type': 'story_finished',
+                'redirect': reverse("story", kwargs={'pk': finished_story.pk})
+            }
         )
 
     # --OTHER COMMUNICATION METHODS

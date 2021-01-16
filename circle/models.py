@@ -22,6 +22,20 @@ class Circle(models.Model):
         blank=True
     )
 
+    # End the story and return a reference to the finished story instance.
+    def finish_story(self):
+        story = self.story
+        story.finished = True
+        story.save()
+        self.delete()
+        return story
+
+    def all_approve_ending(self):
+        approved_usernames = list(user.username for user in self.approved_ending.all())
+        return all((username in approved_usernames) for username in self.turn_order)
+
+    #TODO: I need to figure out something to do with orphaned story instances that don't get finished, probably
+
     # This will be used as the channel layer group name.
     @property
     def group_name(self):
