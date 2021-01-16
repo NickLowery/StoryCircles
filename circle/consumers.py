@@ -159,10 +159,7 @@ class CircleConsumer(WebsocketConsumer):
 
             if (valid):
                 # Update text
-                circle_instance.story.text += formatted_word
-                # NOTE: This IS necessary, unless I add it into saving the circle instance
-                # somehow in the model?
-                circle_instance.story.save()
+                circle_instance.story.append_text(formatted_word)
 
                 # Update whose turn it is
                 circle_instance.turn_order.append(circle_instance.turn_order.pop(0))

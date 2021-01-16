@@ -29,6 +29,10 @@ class Story(models.Model):
     text = models.TextField()
     finished = models.BooleanField(default=False)
 
+    def append_text(self, new_text):
+        self.text += new_text
+        self.save()
+
 class Circle(models.Model):
     # This is a list of the usernames of users in the turn order. First name
     # is the user whose turn it is.
