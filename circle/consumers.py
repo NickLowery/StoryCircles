@@ -55,7 +55,7 @@ class CircleConsumer(WebsocketConsumer):
         #TODO: Redirect the user if the story is finished.
         circle_instance = get_object_or_404(Circle, pk=self.circle_pk, story__finished=False)
 
-        # Update or begin turn_order
+        # Put our user at the end of the turn order
         if (self.user_instance.username not in circle_instance.turn_order):
             circle_instance.turn_order.append(self.user_instance.username)
 
@@ -65,7 +65,6 @@ class CircleConsumer(WebsocketConsumer):
         # Remember group name (we need it here for disconnect)
         self.group_name = circle_instance.group_name
 
-        # Save the circle instance
         circle_instance.save()
 
         # Join circle group
@@ -95,30 +94,30 @@ class CircleConsumer(WebsocketConsumer):
             self.group_name,
             self.channel_name
         )
-        # TODO: Eventually we need some kind of timeout
+        # TODO: Eventually we need some kind of timeout for removing users or at least
+        # skipping them in the order
 
     # --METHODS RECEIVING MESSAGES FROM CLIENT--
     # Receive message from WebSocket
     def receive(self, text_data):
         circle_instance = Circle.objects.get(pk=self.circle_pk)
         data = json.loads(text_data)
-        message_process_func = {
+        method_for_message_type = {
             "word_submit": self.word_submit,
             "propose_end": self.propose_end,
             "approve_end": self.approve_end,
             "reject_end": self.reject_end,
         }.get(data['type'])
-        message_process_func(data, circle_instance)
+        method_for_message_type(data, circle_instance)
 
     # Process proposal to end the story from client
     def propose_end(self, data, circle_instance):
-        self.msg_client("Proposal to end the story received.")
-        #NOTE: This should only be an option if there isn't already a 
-        # proposal to end the story
-        #TODO: This should only work if it's our user's turn
         if circle_instance.approved_ending.all():
-                self.msg_client("Error: There is already a pending proposal to end the story")
+            self.msg_client("Error: There is already a pending proposal to end the story")
+        elif circle_instance.turn_order[0] != self.user_instance.username:
+            self.msg_client("Error: You can only propose ending the story if it's your turn")
         else:
+            self.msg_client("Proposal to end the story received.")
             circle_instance.approved_ending.add(self.user_instance)
             circle_instance.save()
             self.update_group(circle_instance)
