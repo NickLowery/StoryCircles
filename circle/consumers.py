@@ -24,9 +24,7 @@ class CircleIndexConsumer(WebsocketConsumer):
             if validate_title(title):
                 # NOTE: It might be good to encapsulate this in creating the new story
                 # TODO: Right now we crash if the story title is not unique, handle that.
-                circle = Circle.objects.create()
-                new_story = Story(title=title, circle=circle)
-                new_story.save()
+                circle = Circle.objects.create_circle(title)
                 self.send(text_data=json.dumps(
                     {
                         'type':'redirect',
