@@ -31,14 +31,16 @@ circleSocket.onmessage = function(e) {
       else {
         wordInputDom.style.display = "none";
         wordSubmitDom.style.display = "none";
-        // Allow approving or rejecting an ending if one was proposed
-        if (data.approved_ending_list.length 
-              && !data.approved_ending_list.includes(username)) {
-          document.querySelector("#ending-approval-div").style.display = "block";
-        } else {
-          document.querySelector("#ending-approval-div").style.display = "none";
-        }
       }
+      
+      // Allow approving or rejecting an ending if one was proposed
+      if (data.approved_ending_list.length 
+            && !data.approved_ending_list.includes(username)) {
+        document.querySelector("#ending-approval-div").style.display = "block";
+      } else {
+        document.querySelector("#ending-approval-div").style.display = "none";
+      }
+
       if (data.message) {
         alert_message(data.message);
       }
