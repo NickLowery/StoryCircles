@@ -22,15 +22,28 @@ circleSocket.onmessage = function(e) {
       document.querySelector("#dev-turn-order").innerHTML = data.turn_order;
       // Only allow input and ending if it's our turn
       if (username === data.turn_order[0]) {
-        // console.log("my turn");
-        wordInputDom.style.display = "inline-block";
-        wordSubmitDom.style.display = "inline-block";
-        wordInputDom.focus();
-        document.querySelector("#ending-approval-div").style.display = "none";
+        if (!data.approved_ending_list.length) {
+          // Only allow input if no ending is proposed
+          wordInputDom.style.display = "inline-block";
+          wordSubmitDom.style.display = "inline-block";
+          wordInputDom.focus();
+        }
+        else {
+          wordInputDom.style.display = "none";
+          wordSubmitDom.style.display = "none";
+        }
+
+        if (data.text !== "" && !data.approved_ending_list.length) {
+          document.querySelector("#propose-end-button").style.display = "block";
+        }
+        else {
+          document.querySelector("#propose-end-button").style.display = "none";
+        }
       }
       else {
         wordInputDom.style.display = "none";
         wordSubmitDom.style.display = "none";
+        document.querySelector("#propose-end-button").style.display = "none";
       }
       
       // Allow approving or rejecting an ending if one was proposed
