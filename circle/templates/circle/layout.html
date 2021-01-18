@@ -11,25 +11,43 @@
         {% csrf_token %}
     </head>
     <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'index' %}">Story Circles</a>
+          
+            <div>
+                <ul class="navbar-nav mr-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ user.get_absolute_url }}"><strong>{{ user.username }}</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Write</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'finished_stories' %}">Read</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
         <header>
             {{ user.username|json_script:"user-data" }}
-            {% if user.is_authenticated %}
-            Dev: You are logged in as {{ user }}. <a href="{% url 'logout' %}">Log out</a>
-            {% else %}
-            Dev: You are not logged in. <a href="{% url 'login' %}">Log in</a>
-            {% endif %}
         </header>
         <div id="alert-holder"></div>
         <div class="alert alert-warning alert-dismissible fade show" id="alert-template" role="alert" style="display: none;">
             <span id="alert-text">Placeholder Alert text</span>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-
-
-        {% comment %}
-        {# Add a navbar that matches this project later #}
-        {% endcomment %}
-        
         <div class="body">
             {% block body %}
             {% endblock %}

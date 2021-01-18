@@ -1,0 +1,14 @@
+{% extends "circle/layout.html" %}
+{% load static %}
+{% block body %}
+    <h1>
+        Finished Stories
+    </h1>
+    <ul>
+        {% for story in stories %}
+        <li>
+            <a href="{{ story.get_absolute_url }}">{{ story.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

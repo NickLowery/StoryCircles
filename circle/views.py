@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.http import require_POST
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from .models import User, Circle, Story
 
 @login_required
@@ -17,11 +17,6 @@ def index(request):
     # redirect to it from the index
     #return render(request, 'circle/circle.html')
 
-@login_required
-def circle_view(request, pk):
-    return render(request, 'circle/circle.html', {
-    })
-
 class CircleView(LoginRequiredMixin, DetailView):
     model = Circle
     context_object_name = 'circle'
@@ -29,6 +24,22 @@ class CircleView(LoginRequiredMixin, DetailView):
 
 def index_redirect(request):
     return HttpResponseRedirect(reverse("index"))
+
+class FinishedStoryListView(LoginRequiredMixin, ListView):
+    model = Story
+    template_name = "circle/finishedstory_list.html"
+    queryset = Story.objects.filter(finished=True)
+    context_object_name = 'stories'
+
+class FinishedStoryView(LoginRequiredMixin, DetailView):
+    model = Story
+    template_name = "circle/finishedstory_detail.html"
+    queryset = Story.objects.filter(finished=True)
+    context_object_name = 'story'
+
+class UserDetailView(LoginRequiredMixin, DetailView):
+    model = User
+    context_object_name = 'detail_user'
 
 def login_view(request):
     if request.method == "POST":
@@ -80,12 +91,6 @@ def register_view(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "circle/register.html")
-
-class FinishedStoryView(LoginRequiredMixin, DetailView):
-    model = Story
-    template_name = "circle/finishedstory_detail.html"
-    queryset = Story.objects.filter(finished=True)
-    context_object_name = 'story'
 
 def logout_view(request):
     logout(request)

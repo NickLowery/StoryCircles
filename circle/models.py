@@ -9,9 +9,8 @@ class User(AbstractUser):
         blank=True,
     )
 
-    # Can use this later if we want user profiles pages
-    # def get_absolute_url(self):
-    #     return reverse('user_profile', args=[self.username])
+    def get_absolute_url(self):
+        return reverse('user', args=[self.pk])
 
 class CircleManager(models.Manager):
     def create_circle(self, title):
@@ -28,6 +27,12 @@ class Story(models.Model):
     )
     text = models.TextField()
     finished = models.BooleanField(default=False)
+    def get_absolute_url(self):
+        if self.finished:
+            return reverse('finished_story', args = [self.pk])
+        else:
+            # TODO: Use this in list of working stories
+            return reverse('circle', args = [self.circle.pk])
 
     def append_text(self, new_text):
         self.text += new_text
