@@ -2,6 +2,8 @@ const circlePk = document.getElementById('data-div').dataset['circlepk'];
 const username = JSON.parse(document.getElementById('user-data').textContent);
 const wordInputDom = document.getElementById('word-input');
 const wordSubmitDom = document.getElementById('word-submit');
+const endingApprovalDom = document.getElementById('ending-approval-div');
+const proposeEndDom = document.getElementById('propose-end-button');
 
 const circleSocket = new WebSocket(
   'ws://'
@@ -22,36 +24,35 @@ circleSocket.onmessage = function(e) {
       document.querySelector("#dev-turn-order").innerHTML = data.turn_order;
       // Only allow input and ending if it's our turn
       if (username === data.turn_order[0]) {
+        // Only allow input if no ending is proposed
         if (!data.approved_ending_list.length) {
-          // Only allow input if no ending is proposed
-          wordInputDom.style.display = "inline-block";
-          wordSubmitDom.style.display = "inline-block";
-          wordInputDom.focus();
+          showWordInput();
         }
         else {
-          wordInputDom.style.display = "none";
-          wordSubmitDom.style.display = "none";
+          hideWordInput();
         }
 
+        // You can propose ending the story on your turn, if it's not proposed and
+        // there's at least some text in the story.
         if (data.text !== "" && !data.approved_ending_list.length) {
-          document.querySelector("#propose-end-button").style.display = "block";
+          showProposeEnd();
         }
         else {
-          document.querySelector("#propose-end-button").style.display = "none";
+          hideProposeEnd();
         }
       }
       else {
-        wordInputDom.style.display = "none";
-        wordSubmitDom.style.display = "none";
-        document.querySelector("#propose-end-button").style.display = "none";
+        hideWordInput();
+        hideProposeEnd();
       }
       
-      // Allow approving or rejecting an ending if one was proposed
+      // Allow approving or rejecting an ending if one was proposed and we
+      // haven't approved it.
       if (data.approved_ending_list.length 
             && !data.approved_ending_list.includes(username)) {
-        document.querySelector("#ending-approval-div").style.display = "block";
+        endingApprovalDom.style.display = "block";
       } else {
-        document.querySelector("#ending-approval-div").style.display = "none";
+        endingApprovalDom.style.display = "none";
       }
 
       if (data.message) {
@@ -77,7 +78,25 @@ circleSocket.onclose = function(e) {
   console.error('Circle socket closed unexpectedly');
 }
 
-wordInputDom.focus();
+function showWordInput() {
+  wordInputDom.style.display = "inline-block";
+  wordSubmitDom.style.display = "inline-block";
+  wordInputDom.focus();
+}
+
+function hideWordInput() {
+  wordInputDom.style.display = "none";
+  wordSubmitDom.style.display = "none";
+}
+
+function showProposeEnd() {
+  document.querySelector("#propose-end-button").style.display = "block";
+}
+
+function hideProposeEnd() {
+  document.querySelector("#propose-end-button").style.display = "none";
+}
+
 wordInputDom.onkeyup = function(e) {
   if (e.keyCode === 13) { // enter, return
     wordSubmitDom.click();
@@ -85,7 +104,6 @@ wordInputDom.onkeyup = function(e) {
 };
 
 wordSubmitDom.onclick = function(e) {
-  
   const word = wordInputDom.value;
   circleSocket.send(JSON.stringify({
     'type': 'word_submit',
