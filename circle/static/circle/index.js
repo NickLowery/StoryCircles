@@ -2,6 +2,11 @@ const titleInputDom = document.getElementById('title-input');
 const titleSubmitDom = document.getElementById('title-submit');
 const username = JSON.parse(document.getElementById('user-data').textContent);
 
+// Set nav style
+let currentNav = document.getElementById('write-nav');
+currentNav.classList.add("active");
+currentNav.setAttribute("aria-current", "page");
+
 const indexSocket = new WebSocket(
   'ws://'
   + window.location.host
