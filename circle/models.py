@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class User(AbstractUser):
     liked_stories = models.ManyToManyField(
@@ -26,7 +27,10 @@ class Story(models.Model):
         blank=True
     )
     text = models.TextField()
+    start_time = models.DateTimeField()
+    finish_time = models.DateTimeField()
     finished = models.BooleanField(default=False)
+
     def get_absolute_url(self):
         if self.finished:
             return reverse('finished_story', args = [self.pk])
@@ -41,6 +45,16 @@ class Story(models.Model):
 class Circle(models.Model):
     # This is a list of the usernames of users in the turn order. First name
     # is the user whose turn it is.
+    creation_time = models.DateTimeField(auto_now_add=True)
+
+    threshold_user_ct = models.IntegerField( #This is the number of users that must be connected to start the story
+        validators=[MinValueValidator(2),
+                    MaxValueValidator(100)]
+    )
+    max_user_ct = models.IntegerField(
+        validators=[MinValueValidator(2),
+                    MaxValueValidator(100)]
+    )
     turn_order = models.JSONField(default=list)
     approved_ending = models.ManyToManyField(
         User,
@@ -51,6 +65,7 @@ class Circle(models.Model):
         blank=True,
         on_delete=models.CASCADE,
     )
+
     objects = CircleManager()
 
     # This will be used as the channel layer group name.
