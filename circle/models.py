@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
+import datetime
 
 class User(AbstractUser):
     liked_stories = models.ManyToManyField(
@@ -14,8 +15,8 @@ class User(AbstractUser):
         return reverse('user', args=[self.pk])
 
 class CircleManager(models.Manager):
-    def create_circle(self, title):
-        circle = self.create(story=Story.objects.create(title=title))
+    def create_circle(self, title, **kwargs):
+        circle = self.create(story=Story.objects.create(title=title), **kwargs)
         circle.save()
         return circle
 
@@ -27,8 +28,9 @@ class Story(models.Model):
         blank=True
     )
     text = models.TextField()
-    start_time = models.DateTimeField()
-    finish_time = models.DateTimeField()
+    # TODO: This needs to be set when threshold user ct is reached
+    start_time = models.DateTimeField(blank=True, null=True)
+    finish_time = models.DateTimeField(blank=True, null=True)
     finished = models.BooleanField(default=False)
 
     def get_absolute_url(self):
@@ -77,6 +79,7 @@ class Circle(models.Model):
     def finish_story(self):
         story = self.story
         story.finished = True
+        story.finish_time = datetime.datetime.now()
         story.save()
         self.delete()
         return story

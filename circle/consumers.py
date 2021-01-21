@@ -18,13 +18,17 @@ class CircleIndexConsumer(WebsocketConsumer):
         data = json.loads(text_data)
         if data['type'] == 'circle_create':
             title = data['title']
+            threshold_user_ct = data['threshold_user_ct']
+            max_user_ct = data['max_user_ct']
             self.msg_client('Request to start story "%s" received' % title)
             # Validate title
             # It should contain at least one letter, and nothing but letters, digits, and spaces
             if validate_title(title):
                 # NOTE: It might be good to encapsulate this in creating the new story
                 # TODO: Right now we crash if the story title is not unique, handle that.
-                circle = Circle.objects.create_circle(title)
+                circle = Circle.objects.create_circle(title,
+                                                      threshold_user_ct=threshold_user_ct,
+                                                      max_user_ct=max_user_ct)
                 self.send(text_data=json.dumps(
                     {
                         'type':'redirect',
@@ -215,7 +219,7 @@ class CircleConsumer(WebsocketConsumer):
             self.group_name,
             {
                 'type': 'story_finished',
-                'redirect': reverse("story", kwargs={'pk': finished_story.pk})
+                'redirect': finished_story.get_absolute_url()
             }
         )
 

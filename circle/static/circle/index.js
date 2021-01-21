@@ -1,5 +1,7 @@
 const titleInputDom = document.getElementById('title-input');
 const titleSubmitDom = document.getElementById('title-submit');
+const thresholdUserCtInput = document.getElementById('threshold-user-ct-input');
+const maxUserCtInput = document.getElementById('max-user-ct-input');
 const username = JSON.parse(document.getElementById('user-data').textContent);
 
 // Set nav style
@@ -35,11 +37,15 @@ titleInputDom.onkeyup = function(e) {
 
 titleSubmitDom.onclick = function(e) {
   const title = titleInputDom.value;
+  const thresholdUserCt = thresholdUserCtInput.value;
+  const maxUserCt = maxUserCtInput.value;
   titleInputDom.value = '';
   if (title !== "") {
     indexSocket.send(JSON.stringify({
       'type': 'circle_create',
-      'title': title
+      'title': title,
+      'threshold_user_ct': thresholdUserCt,
+      'max_user_ct': maxUserCt 
     }));
   }
   else {
