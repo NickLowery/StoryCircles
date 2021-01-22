@@ -19,40 +19,48 @@ circleSocket.onmessage = function(e) {
 
   switch (data.type) {
     case ('game_update'): 
-      // Update game display
-      document.querySelector("#text").innerHTML = data.text;
-      document.querySelector("#dev-turn-order").innerHTML = data.turn_order;
-      // Only allow input and ending if it's our turn
-      if (username === data.turn_order[0]) {
-        // Only allow input if no ending is proposed
-        if (!data.approved_ending_list.length) {
-          showWordInput();
+      if (!data.story_started) {
+        document.getElementById('current-author-count').innerHTML = data.turn_order.length;
+      }
+      else {
+        // Game is started
+        document.getElementById('game-div').style.display = "block";
+        document.getElementById('waiting-div').style.display = "none";
+        // Update game display
+        document.querySelector("#text").innerHTML = data.text;
+        document.querySelector("#dev-turn-order").innerHTML = data.turn_order;
+        // Only allow input and ending if it's our turn
+        if (username === data.turn_order[0]) {
+          // Only allow input if no ending is proposed
+          if (!data.approved_ending_list.length) {
+            showWordInput();
+          }
+          else {
+            hideWordInput();
+          }
+
+          // You can propose ending the story on your turn, if it's not proposed and
+          // there's at least some text in the story.
+          if (data.text !== "" && !data.approved_ending_list.length) {
+            showProposeEnd();
+          }
+          else {
+            hideProposeEnd();
+          }
         }
         else {
           hideWordInput();
-        }
-
-        // You can propose ending the story on your turn, if it's not proposed and
-        // there's at least some text in the story.
-        if (data.text !== "" && !data.approved_ending_list.length) {
-          showProposeEnd();
-        }
-        else {
           hideProposeEnd();
         }
-      }
-      else {
-        hideWordInput();
-        hideProposeEnd();
-      }
-      
-      // Allow approving or rejecting an ending if one was proposed and we
-      // haven't approved it.
-      if (data.approved_ending_list.length 
-            && !data.approved_ending_list.includes(username)) {
-        endingApprovalDom.style.display = "block";
-      } else {
-        endingApprovalDom.style.display = "none";
+        
+        // Allow approving or rejecting an ending if one was proposed and we
+        // haven't approved it.
+        if (data.approved_ending_list.length 
+              && !data.approved_ending_list.includes(username)) {
+          endingApprovalDom.style.display = "block";
+        } else {
+          endingApprovalDom.style.display = "none";
+        }
       }
 
       if (data.message) {

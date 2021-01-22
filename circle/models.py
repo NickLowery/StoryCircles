@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models import F
 import datetime
 
 class User(AbstractUser):
@@ -20,6 +21,15 @@ class CircleManager(models.Manager):
         circle.save()
         return circle
 
+# Stories in progress allowing more users (i.e. excludes waiting circles)
+class OpenCircleManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(user_ct__lt=F('max_user_ct'), story__start_time__isnull=False)
+
+class WaitingCircleManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(story__start_time__isnull=True)
+
 class Story(models.Model):
     title = models.TextField(unique=True)
     authors = models.ManyToManyField(
@@ -28,10 +38,13 @@ class Story(models.Model):
         blank=True
     )
     text = models.TextField()
-    # TODO: This needs to be set when threshold user ct is reached
     start_time = models.DateTimeField(blank=True, null=True)
     finish_time = models.DateTimeField(blank=True, null=True)
     finished = models.BooleanField(default=False)
+
+    @property
+    def started(self):
+        return (self.start_time is not None)
 
     def get_absolute_url(self):
         if self.finished:
@@ -41,7 +54,12 @@ class Story(models.Model):
             return reverse('circle', args = [self.circle.pk])
 
     def append_text(self, new_text):
+        # NOTE: Throw an error if we try to append when story is finished or not started?
         self.text += new_text
+        self.save()
+
+    def start(self):
+        self.start_time = datetime.datetime.now()
         self.save()
 
 class Circle(models.Model):
@@ -57,6 +75,7 @@ class Circle(models.Model):
         validators=[MinValueValidator(2),
                     MaxValueValidator(100)]
     )
+    user_ct = models.IntegerField(default=0)
     turn_order = models.JSONField(default=list)
     approved_ending = models.ManyToManyField(
         User,
@@ -69,6 +88,13 @@ class Circle(models.Model):
     )
 
     objects = CircleManager()
+    open_circles = OpenCircleManager()
+    waiting_circles = WaitingCircleManager()
+
+    #The number of users needed to meet the start threshold
+    @property
+    def users_needed(self):
+        return max(0, self.threshold_user_ct - self.user_ct)
 
     # This will be used as the channel layer group name.
     @property

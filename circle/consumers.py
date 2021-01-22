@@ -52,6 +52,7 @@ class CircleConsumer(WebsocketConsumer):
     def connect(self):
         # This will fail if the user isn't logged in, so maybe I'm good as far as authentication?
         self.user_instance = User.objects.get(username=self.scope['user'])
+        # TODO: Only accept connection if there is room for another author.
 
         self.circle_pk = int(self.scope['url_route']['kwargs']['circle_pk_string'])
         #TODO: Redirect the user if the story is finished.
@@ -60,6 +61,12 @@ class CircleConsumer(WebsocketConsumer):
         # Put our user at the end of the turn order
         if (self.user_instance.username not in circle_instance.turn_order):
             circle_instance.turn_order.append(self.user_instance.username)
+        circle_instance.user_ct = len(circle_instance.turn_order)
+
+        # Start story if needed.
+        if (circle_instance.user_ct >= circle_instance.threshold_user_ct 
+                and not circle_instance.story.started):
+            circle_instance.story.start()
 
         # Update final authors list
         circle_instance.story.authors.add(self.user_instance)
@@ -85,6 +92,7 @@ class CircleConsumer(WebsocketConsumer):
         try:
             circle_instance = Circle.objects.get(pk=self.circle_pk)
             circle_instance.turn_order.remove(self.user_instance.username)
+            circle_instance.user_ct = len(circle_instance.turn_order)
             self.update_group(circle_instance)
             circle_instance.save()
         except Circle.DoesNotExist:
@@ -188,6 +196,7 @@ class CircleConsumer(WebsocketConsumer):
     def update(self, event):
         data = {
             'type': 'game_update',
+            'story_started': event['started'],
             'text': event['text'],
             'turn_order': event['turn_order'],
             'approved_ending_list': event['approved_ending_list'],
@@ -200,6 +209,7 @@ class CircleConsumer(WebsocketConsumer):
     # Send a game state update to the circle
     def update_group(self, circle_instance, message=None):
         data = {'type': 'update',
+                'started': circle_instance.story.started,
                 'text': circle_instance.story.text,
                 'turn_order': circle_instance.turn_order,
                 'approved_ending_list': [author.username for author

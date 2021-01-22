@@ -11,7 +11,37 @@
     <label for="max-user-ct">Max # of users in circle</label>
     <input id="max-user-ct-input" type="number" name="max-user-ct" min ="2" max="100" value="4">
     <input id="title-submit" type="button" value="Begin">
-    <h3>Stories Waiting for Authors:</h3>
+    <h3>Circles Needing More Authors to Start:</h3>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Current Users</th>
+            <th># Needed</th>
+        </tr>
+        {% for circle in waiting_circles %}
+        <tr>
+            <td><a href="{{ circle.story.get_absolute_url }}">{{ circle.story.title }}</a></td>
+            <td>{{ circle.user_ct }}</td>
+            <td>{{ circle.users_needed}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Other Open Circles:</h3>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Current Users</th>
+            <th>Max Users</th>
+        </tr>
+        {% for circle in open_circles %}
+        <tr>
+            <td><a href="{{ circle.story.get_absolute_url }}">{{ circle.story.title }}</a></td>
+            <td>{{ circle.user_ct }}</td>
+            <td>{{ circle.max_user_ct }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
 
 {% endblock %}
 {% block script %}
