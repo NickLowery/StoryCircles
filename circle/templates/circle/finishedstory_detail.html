@@ -11,7 +11,7 @@
         {% if story.authors.all %}
             By: <ul>
             {% for author in story.authors.all %}
-                <li>{{ author.username }}</li>
+            <li><a href="{{ author.get_absolute_url }}">{{ author.username }}</a></li>
             {% endfor %}
             </ul>
         {% else %}
