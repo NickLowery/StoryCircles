@@ -8,7 +8,7 @@
 <h4>User Since: {{ detail_user.user_since.date }}</h4>
 <h4>Works:</h4>
 <ul>
-    {% for story in detail_user.works.all %}
+    {% for story in works %}
         <li>
             <a href="{{ story.get_absolute_url }}">{{ story.title }}</a>
         </li>

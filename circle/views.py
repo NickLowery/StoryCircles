@@ -39,6 +39,11 @@ class FinishedStoryView(LoginRequiredMixin, DetailView):
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
     context_object_name = 'detail_user'
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['works'] = context['detail_user'].stories.filter(finished=True)
+            print(context)
+            return context
 
 def login_view(request):
     if request.method == "POST":

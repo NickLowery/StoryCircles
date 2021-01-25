@@ -35,7 +35,7 @@ class Story(models.Model):
     title = models.TextField(unique=True)
     authors = models.ManyToManyField(
         User,
-        related_name="works",
+        related_name="stories",
         blank=True
     )
     text = models.TextField()
