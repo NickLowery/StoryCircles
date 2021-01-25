@@ -23,9 +23,11 @@ class CircleIndexConsumer(WebsocketConsumer):
             self.msg_client('Request to start story "%s" received' % title)
             # Validate title
             # It should contain at least one letter, and nothing but letters, digits, and spaces
-            if validate_title(title):
-                # NOTE: It might be good to encapsulate this in creating the new story
-                # TODO: Right now we crash if the story title is not unique, handle that.
+            if not validate_title(title):
+                self.msg_client('Invalid title')
+            elif threshold_user_ct > max_user_ct:
+                self.msg_client('Minimum users cannot be greater than maximum users')
+            else:
                 circle = Circle.objects.create_circle(title,
                                                       threshold_user_ct=threshold_user_ct,
                                                       max_user_ct=max_user_ct)
@@ -35,8 +37,6 @@ class CircleIndexConsumer(WebsocketConsumer):
                         'message_text':'Story "%s" created' % title,
                         'url': reverse("circle", kwargs={'pk': circle.pk})
                     }))
-            else:
-                self.msg_client('Invalid title')
 
     def disconnect(self, close_code):
         pass
