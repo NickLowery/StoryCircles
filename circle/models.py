@@ -67,14 +67,8 @@ class Circle(models.Model):
     # is the user whose turn it is.
     creation_time = models.DateTimeField(auto_now_add=True)
 
-    threshold_user_ct = models.IntegerField( #This is the number of users that must be connected to start the story
-        validators=[MinValueValidator(1),
-                    MaxValueValidator(100)]
-    )
-    max_user_ct = models.IntegerField(
-        validators=[MinValueValidator(1),
-                    MaxValueValidator(100)]
-    )
+    threshold_user_ct = models.IntegerField() #This is the number of users that must be connected to start the story
+    max_user_ct = models.IntegerField()
     # TODO: I have the minvalue of both counts above set to 1 for testing, it should probable be 2
     user_ct = models.IntegerField(default=0)
     turn_order = models.JSONField(default=list)
