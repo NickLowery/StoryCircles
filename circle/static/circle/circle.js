@@ -71,8 +71,8 @@ circleSocket.onmessage = function(e) {
       // Display message in an alert
       alert_message(data.message_text);
       break;
-    case ('story_finished'):
-      alert_message("Story finished! Going to its permanent home in 5 seconds");
+    case ('redirect'):
+      alert_message(data.message_text);
       setTimeout(() => {
         window.location.href = data.redirect_url;
       }, 5000);

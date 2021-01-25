@@ -15,10 +15,6 @@ def index(request):
         "open_circles": Circle.open_circles.all(),
         "waiting_circles": Circle.waiting_circles.order_by('creation_time')
     })
-    # TODO: We need a list of working stories that need authors
-    # This will maybe connect up with a circle view? Yes I think so. We can 
-    # redirect to it from the index
-    #return render(request, 'circle/circle.html')
 
 class CircleView(LoginRequiredMixin, DetailView):
     model = Circle

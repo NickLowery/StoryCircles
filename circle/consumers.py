@@ -58,13 +58,20 @@ class CircleConsumer(WebsocketConsumer):
         #TODO: Redirect the user if the story is finished.
         circle_instance = get_object_or_404(Circle, pk=self.circle_pk, story__finished=False)
 
+        if circle_instance.user_ct >= circle_instance.max_user_ct:
+            self.accept()
+            self.redirect_client(reverse("index"),
+                     "Error: There are too many users in this circle already. \
+                     You will be redirected back to the Write page in 5 seconds.")
+            self.close()
+
         # Put our user at the end of the turn order
         if (self.user_instance.username not in circle_instance.turn_order):
             circle_instance.turn_order.append(self.user_instance.username)
         circle_instance.user_ct = len(circle_instance.turn_order)
 
         # Start story if needed.
-        if (circle_instance.user_ct >= circle_instance.threshold_user_ct 
+        if (circle_instance.user_ct >= circle_instance.threshold_user_ct
                 and not circle_instance.story.started):
             circle_instance.story.start()
 
@@ -187,10 +194,8 @@ class CircleConsumer(WebsocketConsumer):
     # --METHODS SENDING AND RECEIVING FROM CIRCLE
     # Receive story finished message from the circle
     def story_finished(self, event):
-        self.send(text_data=json.dumps({
-            'type': 'story_finished',
-            'redirect_url': event['redirect']
-        }))
+        self.redirect_client(event['redirect'],
+                             "Story finished! You will be redirected to its permanent home in 5 seconds.")
 
     # Receive game update message from circle
     def update(self, event):
@@ -238,6 +243,13 @@ class CircleConsumer(WebsocketConsumer):
     def msg_client(self, message):
         self.send(text_data=json.dumps({
             'type': 'message',
+            'message_text': message,
+        }))
+
+    def redirect_client(self, redirect_url, message):
+        self.send(text_data=json.dumps({
+            'type': 'redirect',
+            'redirect_url': redirect_url,
             'message_text': message,
         }))
 
