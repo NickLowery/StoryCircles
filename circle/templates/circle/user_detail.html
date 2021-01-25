@@ -2,10 +2,19 @@
 {% load static %}
 
 {% block body %}
-<div id=data-div data-isthisme="{% if detail_user.username == user.username %}true{% else %}false{% endif %}">
+<div id=data-div data-isthisme="{% if detail_user.username == user.username %}true{% else %}false{% endif %}"></div>
 
-{{ detail_user.username }}<br>
-TODO: Information. Stories authored?
+<h1>{{ detail_user.username }}</h1>
+<h4>User Since: {{ detail_user.user_since.date }}</h4>
+<h4>Works:</h4>
+<ul>
+    {% for story in detail_user.works.all %}
+        <li>
+            <a href="{{ story.get_absolute_url }}">{{ story.title }}</a>
+        </li>
+    {% endfor %}
+</ul>
+
 {% endblock %}
 {% block script %}
     <script src="{% static 'circle/user_detail.js' %}"></script>

@@ -6,6 +6,7 @@ from django.db.models import F
 import datetime
 
 class User(AbstractUser):
+    user_since = models.DateTimeField(blank=False, auto_now_add=True)
     liked_stories = models.ManyToManyField(
         "Story",
         related_name="liked_by",
