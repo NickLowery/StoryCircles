@@ -12,7 +12,6 @@ class CircleIndexConsumer(WebsocketConsumer):
     def connect(self):
         self.user_instance = User.objects.get(username=self.scope['user'])
         self.accept()
-        self.msg_client("Index connection accepted")
 
     def receive(self, text_data):
         data = json.loads(text_data)

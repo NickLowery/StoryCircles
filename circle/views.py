@@ -42,7 +42,6 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             context['works'] = context['detail_user'].stories.filter(finished=True)
-            print(context)
             return context
 
 def login_view(request):
