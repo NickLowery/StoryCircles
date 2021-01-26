@@ -27,7 +27,7 @@ def index_redirect(request):
 class FinishedStoryListView(LoginRequiredMixin, ListView):
     model = Story
     template_name = "circle/finishedstory_list.html"
-    queryset = Story.objects.filter(finished=True)
+    queryset = Story.objects.filter(finished=True).order_by('-finish_time')
     context_object_name = 'stories'
 
 class FinishedStoryView(LoginRequiredMixin, DetailView):
@@ -41,7 +41,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'detail_user'
     def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            context['works'] = context['detail_user'].stories.filter(finished=True)
+            context['stories'] = context['detail_user'].stories.filter(finished=True)
             return context
 
 def login_view(request):

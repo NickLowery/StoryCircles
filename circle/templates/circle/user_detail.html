@@ -7,14 +7,7 @@
 <h1>{{ detail_user.username }}</h1>
 <h4>User Since: {{ detail_user.user_since.date }}</h4>
 <h4>Works:</h4>
-<ul>
-    {% for story in works %}
-        <li>
-            <a href="{{ story.get_absolute_url }}">{{ story.title }}</a>
-        </li>
-    {% endfor %}
-</ul>
-
+{% include "circle/include/finished_story_table.html" %}
 {% endblock %}
 {% block script %}
     <script src="{% static 'circle/user_detail.js' %}"></script>

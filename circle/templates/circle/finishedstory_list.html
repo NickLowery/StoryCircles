@@ -4,13 +4,7 @@
     <h1>
         Finished Stories
     </h1>
-    <ul>
-        {% for story in stories %}
-        <li>
-            <a href="{{ story.get_absolute_url }}">{{ story.title }}</a>
-        </li>
-        {% endfor %}
-    </ul>
+    {% include "circle/include/finished_story_table.html" %}
 {% endblock %}
 {% block script %}
     <script src="{% static 'circle/finishedstory_list.js' %}"></script>

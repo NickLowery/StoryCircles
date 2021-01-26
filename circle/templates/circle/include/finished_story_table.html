@@ -1,0 +1,12 @@
+<table class="finished-story-table">
+    {% for story in stories %}
+    <tr>
+        <td class="finished-story-title">
+            <a href="{{ story.get_absolute_url }}">{{ story.title }}</a>
+        </td>
+        <td class="finished-story-date">
+            {{ story.finish_time.date }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>

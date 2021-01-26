@@ -2,14 +2,15 @@
 {% load static %}
 {% block body %}
     <h1>
-        Finished Story
+        {{ story.title }}
     </h1>
     <div id="story-text-div">
     {{ story.text }}
     </div>
     <div id="authors-div">
         {% if story.authors.all %}
-            By: <ul>
+            By: 
+            <ul>
             {% for author in story.authors.all %}
             <li><a href="{{ author.get_absolute_url }}">{{ author.username }}</a></li>
             {% endfor %}
