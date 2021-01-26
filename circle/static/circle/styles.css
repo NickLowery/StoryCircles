@@ -1,0 +1,34 @@
+h1 {
+    text-align: center;
+}
+
+h3 {
+    margin-top:0.5em;
+}
+
+h4 {
+    margin-top:0.25em;
+}
+
+input {
+    box-sizing:border-box;
+    margin:3px 1px;
+}
+
+input[type=number] {
+    width:4em;
+}
+
+table {
+    border-collapse: collapse;
+    margin-left: 1rem;
+}
+
+table, th, td {
+    border: 1px solid black;
+    padding: 2px 5px;
+}
+
+.input-div {
+    margin-left: 1rem;
+}
