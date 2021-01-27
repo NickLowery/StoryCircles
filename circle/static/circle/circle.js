@@ -13,6 +13,8 @@ const circleSocket = new WebSocket(
   + '/'
 );
 
+const thresholdUserCt = parseInt(document.getElementById('data-div').dataset.thresholdUserCt);
+
 circleSocket.onmessage = function(e) {
   const data = JSON.parse(e.data);
   console.log(data);
@@ -20,7 +22,7 @@ circleSocket.onmessage = function(e) {
   switch (data.type) {
     case ('game_update'): 
       if (!data.story_started) {
-        document.getElementById('current-author-count').innerHTML = data.turn_order.length;
+        document.getElementById('current-author-count').innerHTML = thresholdUserCt - data.turn_order.length;
       }
       else {
         // Game is started

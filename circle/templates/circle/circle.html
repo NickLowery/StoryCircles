@@ -4,10 +4,10 @@
     <h1>
         {{ circle.story.title }}
     </h1>
-    <div id="data-div" data-circlepk="{{ circle.pk }}"></div>
+    <div id="data-div" data-circlepk="{{ circle.pk }}" data-threshold-user-ct="{{ circle.threshold_user_ct }}"></div>
     <div id="waiting-div">
-        {{ circle.threshold_user_ct }} authors needed to start the story. Currently there are
-        <span id="current-author-count">...</span>.
+        {{ circle.threshold_user_ct }} authors needed to start the story. Waiting for 
+        <span id="current-author-count">...</span> more!
     </div>
     <div id="game-div" style="display: none;">
         <p id="story-p">
