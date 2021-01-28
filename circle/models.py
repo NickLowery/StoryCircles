@@ -73,6 +73,9 @@ class Circle(models.Model):
     # TODO: I have the minvalue of both counts above set to 1 for testing, it should probable be 2
     user_ct = models.IntegerField(default=0)
     turn_order = models.JSONField(default=list)
+    proposed_ending = models.ForeignKey('User',
+                                        null=True, on_delete=models.SET_NULL,
+                                        related_name='ending_proposed')
     approved_ending = models.ManyToManyField(
         User,
         blank=True

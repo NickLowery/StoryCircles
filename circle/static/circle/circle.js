@@ -32,6 +32,8 @@ circleSocket.onmessage = function(e) {
         document.querySelector("#text").innerHTML = data.text;
         document.querySelector("#dev-turn-order").innerHTML = data.turn_order;
         const whoseTurn = data.turn_order[0];
+        // TODO: Restructure this logic. It's super messy. Cover proposed ending first? It doesn't matter
+        // whose turn it is if an ending is proposed actually.
         // Only allow input and ending if it's our turn
         if (username === whoseTurn) {
           // Only allow input if no ending is proposed
@@ -40,7 +42,6 @@ circleSocket.onmessage = function(e) {
             showWordInput();
           }
           else {
-            setStatusBar("Waiting for ending approval from the rest of the circle...");
             hideWordInput();
           }
 
@@ -61,14 +62,21 @@ circleSocket.onmessage = function(e) {
         
         // Allow approving or rejecting an ending if one was proposed and we
         // haven't approved it.
-        if (data.approved_ending_list.length) { 
-          // TODO: Fix this so it reliably shows who actually proposed ending the story. We need to save that
-          // somewhere
-          setStatusBar(`${whoseTurn} proposed ending the story here.`);
-          if (!data.approved_ending_list.includes(username)) {
+        if (data.proposed_ending === username) {
+          setStatusBar("You proposed ending the story. Waiting for other users.");
+          endingApprovalDom.style.display = "none";
+        }
+        else if (data.proposed_ending) { 
+          if (data.approved_ending_list.includes(username)) {
+            setStatusBar(`${data.proposed_ending} proposed ending the story here and you approved.`);
+            endingApprovalDom.style.display = "none";
+          }
+          else {
+          setStatusBar(`${data.proposed_ending} proposed ending the story here.`);
             endingApprovalDom.style.display = "block";
           } 
-        } else {
+        } 
+        else {
           endingApprovalDom.style.display = "none";
         }
       }

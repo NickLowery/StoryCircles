@@ -128,12 +128,13 @@ class CircleConsumer(WebsocketConsumer):
 
     # Process proposal to end the story from client
     def propose_end(self, data, circle_instance):
-        if circle_instance.approved_ending.all():
+        if circle_instance.proposed_ending:
             self.msg_client("Error: There is already a pending proposal to end the story")
         elif circle_instance.turn_order[0] != self.user_instance.username:
             self.msg_client("Error: You can only propose ending the story if it's your turn")
         else:
             self.msg_client("Proposal to end the story received.")
+            circle_instance.proposed_ending = self.user_instance
             circle_instance.approved_ending.add(self.user_instance)
             if circle_instance.all_approve_ending():
                 self.end_story(circle_instance)
@@ -143,7 +144,9 @@ class CircleConsumer(WebsocketConsumer):
 
     # Process ending approval from client
     def approve_end(self, data, circle_instance):
-        if (self.user_instance in circle_instance.approved_ending.all()):
+        if (not circle_instance.proposed_ending):
+            self.msg_client("Error: There is no ending proposed")
+        elif (self.user_instance in circle_instance.approved_ending.all()):
             self.msg_client("You have already approved the ending")
         else:
             circle_instance.approved_ending.add(self.user_instance)
@@ -156,6 +159,7 @@ class CircleConsumer(WebsocketConsumer):
     # Process ending rejection from client
     def reject_end(self, data, circle_instance):
         circle_instance.approved_ending.clear()
+        circle_instance.proposed_ending = None
         circle_instance.save()
         self.update_group(circle_instance,
                           message="%s rejected ending the story at this point."
@@ -205,7 +209,10 @@ class CircleConsumer(WebsocketConsumer):
             'turn_order': event['turn_order'],
             'approved_ending_list': event['approved_ending_list'],
         }
-        message =  event.get('message')
+        proposed_ending = event.get('proposed_ending')
+        if proposed_ending:
+            data['proposed_ending'] = proposed_ending
+        message = event.get('message')
         if message:
             data['message'] = message
         self.send(text_data=json.dumps(data))
@@ -219,6 +226,8 @@ class CircleConsumer(WebsocketConsumer):
                 'approved_ending_list': [author.username for author
                                          in circle_instance.approved_ending.all()],
             }
+        if circle_instance.proposed_ending:
+            data['proposed_ending'] = circle_instance.proposed_ending.username
         if message:
             data['message'] = message
         async_to_sync(self.channel_layer.group_send)(
