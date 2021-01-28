@@ -4,6 +4,7 @@ const wordInputDom = document.getElementById('word-input');
 const wordSubmitDom = document.getElementById('word-submit');
 const endingApprovalDom = document.getElementById('ending-approval-div');
 const proposeEndDom = document.getElementById('propose-end-button');
+const statusBarDom = document.getElementById('story-status-div');
 
 const circleSocket = new WebSocket(
   'ws://'
@@ -22,22 +23,24 @@ circleSocket.onmessage = function(e) {
   switch (data.type) {
     case ('game_update'): 
       if (!data.story_started) {
-        document.getElementById('current-author-count').innerHTML = thresholdUserCt - data.turn_order.length;
+        setStatusBar(`${thresholdUserCt} authors needed to start the story. Waiting for ${thresholdUserCt - data.turn_order.length} more!`);
       }
       else {
         // Game is started
         document.getElementById('game-div').style.display = "block";
-        document.getElementById('waiting-div').style.display = "none";
         // Update game display
         document.querySelector("#text").innerHTML = data.text;
         document.querySelector("#dev-turn-order").innerHTML = data.turn_order;
+        const whoseTurn = data.turn_order[0];
         // Only allow input and ending if it's our turn
-        if (username === data.turn_order[0]) {
+        if (username === whoseTurn) {
           // Only allow input if no ending is proposed
           if (!data.approved_ending_list.length) {
+            setStatusBar("Your turn!");
             showWordInput();
           }
           else {
+            setStatusBar("Waiting for ending approval from the rest of the circle...");
             hideWordInput();
           }
 
@@ -51,15 +54,20 @@ circleSocket.onmessage = function(e) {
           }
         }
         else {
+          setStatusBar(`${whoseTurn}'s turn`);
           hideWordInput();
           hideProposeEnd();
         }
         
         // Allow approving or rejecting an ending if one was proposed and we
         // haven't approved it.
-        if (data.approved_ending_list.length 
-              && !data.approved_ending_list.includes(username)) {
-          endingApprovalDom.style.display = "block";
+        if (data.approved_ending_list.length) { 
+          // TODO: Fix this so it reliably shows who actually proposed ending the story. We need to save that
+          // somewhere
+          setStatusBar(`${whoseTurn} proposed ending the story here.`);
+          if (!data.approved_ending_list.includes(username)) {
+            endingApprovalDom.style.display = "block";
+          } 
         } else {
           endingApprovalDom.style.display = "none";
         }
@@ -92,6 +100,10 @@ function showWordInput() {
   wordInputDom.style.display = "inline-block";
   wordSubmitDom.style.display = "inline-block";
   wordInputDom.focus();
+}
+
+function setStatusBar(status_string) {
+  statusBarDom.innerHTML = status_string;
 }
 
 function hideWordInput() {

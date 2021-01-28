@@ -1,14 +1,13 @@
 {% extends "circle/layout.html" %}
 {% load static %}
 {% block body %}
-    <h1>
-        {{ circle.story.title }}
-    </h1>
-    <div id="data-div" data-circlepk="{{ circle.pk }}" data-threshold-user-ct="{{ circle.threshold_user_ct }}"></div>
-    <div id="waiting-div">
-        {{ circle.threshold_user_ct }} authors needed to start the story. Waiting for 
-        <span id="current-author-count">...</span> more!
+    <div id="story-title-div">
+        <h1>{{ circle.story.title }}</h1>
     </div>
+    <div id="story-status-div" class="bg-secondary">
+        ...
+    </div>
+    <div id="data-div" data-circlepk="{{ circle.pk }}" data-threshold-user-ct="{{ circle.threshold_user_ct }}"></div>
     <div id="game-div" style="display: none;">
         <p id="story-p">
             <span id="text"></span><input id="word-input" type="text" size="20">
