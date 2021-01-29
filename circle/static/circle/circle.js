@@ -32,55 +32,53 @@ circleSocket.onmessage = function(e) {
         document.querySelector("#text").innerHTML = data.text;
         document.querySelector("#dev-turn-order").innerHTML = data.turn_order;
         const whoseTurn = data.turn_order[0];
-        // TODO: Restructure this logic. It's super messy. Cover proposed ending first? It doesn't matter
-        // whose turn it is if an ending is proposed actually.
-        // Only allow input and ending if it's our turn
-        if (username === whoseTurn) {
-          // Only allow input if no ending is proposed
-          if (!data.approved_ending_list.length) {
-            setStatusBar("Your turn!");
-            showWordInput();
-          }
-          else {
-            hideWordInput();
-          }
 
-          // You can propose ending the story on your turn, if it's not proposed and
-          // there's at least some text in the story.
-          if (data.text !== "" && !data.approved_ending_list.length) {
-            showProposeEnd();
-          }
-          else {
-            hideProposeEnd();
-          }
-        }
-        else {
-          setStatusBar(`${whoseTurn}'s turn`);
+        // First deal with any proposed ending that exists because regular input will be 
+        // disabled
+        if (data.proposed_ending) {
           hideWordInput();
           hideProposeEnd();
-        }
-        
-        // Allow approving or rejecting an ending if one was proposed and we
-        // haven't approved it.
-        if (data.proposed_ending === username) {
-          setStatusBar("You proposed ending the story. Waiting for other users.");
-          endingApprovalDom.style.display = "none";
-        }
-        else if (data.proposed_ending) { 
-          if (data.approved_ending_list.includes(username)) {
-            setStatusBar(`${data.proposed_ending} proposed ending the story here and you approved.`);
+          if (data.proposed_ending === username) {
+            setStatusBar("You proposed ending the story. Waiting for other users.");
             endingApprovalDom.style.display = "none";
           }
           else {
-          setStatusBar(`${data.proposed_ending} proposed ending the story here.`);
-            endingApprovalDom.style.display = "block";
-          } 
-        } 
+            // Someone else has proposed ending the story
+            if (data.approved_ending_list.includes(username)) {
+              setStatusBar(`${data.proposed_ending} proposed ending the story here and you approved.`);
+              endingApprovalDom.style.display = "none";
+            }
+            else {
+            // Allow approving or rejecting an ending if one was proposed and we
+            // haven't approved it.
+            setStatusBar(`${data.proposed_ending} proposed ending the story here.`);
+              endingApprovalDom.style.display = "block";
+            }
+          }
+        }
         else {
+          // Ending is not proposed
           endingApprovalDom.style.display = "none";
+          if (username === whoseTurn) {
+              setStatusBar("Your turn!");
+              showWordInput();
+            // You can propose ending the story on your turn, if it's not proposed and
+            // there's at least some text in the story.
+            if (data.text !== "") {
+              showProposeEnd();
+            }
+            else {
+              hideProposeEnd();
+            }
+          }
+          else {
+            // Someone else's turn
+            setStatusBar(`${whoseTurn}'s turn`);
+            hideWordInput();
+            hideProposeEnd();
+          }
         }
       }
-
       if (data.message) {
         alert_message(data.message);
       }
