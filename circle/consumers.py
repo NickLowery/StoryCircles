@@ -292,6 +292,8 @@ def validate_word(word, text):
             return (False, "", "I can't think of a case where an apostrophe after a hyphen would be valid.")
         else:
             return (True, word, "")
+    if word == "":
+        return (False, "", "You have to write something!")
     else:
         return (False, "", "Not a valid word for some reason (disallowed characters?)")
 
