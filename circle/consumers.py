@@ -133,7 +133,6 @@ class CircleConsumer(WebsocketConsumer):
         elif circle_instance.turn_order[0] != self.user_instance.username:
             self.msg_client("Error: You can only propose ending the story if it's your turn")
         else:
-            self.msg_client("Proposal to end the story received.")
             circle_instance.proposed_ending = self.user_instance
             circle_instance.approved_ending.add(self.user_instance)
             if circle_instance.all_approve_ending():
