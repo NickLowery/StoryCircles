@@ -1,4 +1,22 @@
+    @keyframes hide {
+        0% {
+            opacity: 1;
+            height: 100%;
+            line-height: 100%;
+        }
+        75% {
+            opacity: 0;
+            height: 100%;
+            line-height: 100%;
+        }
+        100% {
+            opacity: 0;
+            height: 0px;
+            line-height: 0px;
+        }
+    }
 h1 {
+    margin-top: 0.5rem;
     text-align: center;
 }
 
@@ -31,6 +49,13 @@ table, th, td {
 
 .input-div {
     margin-left: 1rem;
+}
+
+#alert-template {
+    animation-name: hide;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-play-state: paused;
 }
 
 #story-status-div {
