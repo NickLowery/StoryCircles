@@ -8,16 +8,25 @@
         ...
     </div>
     <div id="data-div" data-circlepk="{{ circle.pk }}" data-threshold-user-ct="{{ circle.threshold_user_ct }}"></div>
-    <div id="game-div" style="display: none;">
-        <p id="story-p">
-            <span id="text"></span><input id="word-input" type="text" size="20">
-        </p>
-        <input id="word-submit" type="button" value="Go">
-        <div id="story-ending-div">
-            <input id="propose-end-button" type="button" value="Propose end">
-            <div id="ending-approval-div" style="display: none;">
-                <input id="approve-end-button" type="button" value="Approve ending">
-                <input id="reject-end-button" type="button" value="Reject ending">
+    <div id="game-div" class="container-xxl" style="display: none;">
+        <div id="game-row" class="row">
+            <div id="game-col" class="col">
+                <div id="game-text-div">
+                    <p class="story-p">
+                        <span id="text"></span><input id="word-input" type="text" size="10">
+                    </p>
+                    <input id="word-submit" type="button" value="Go">
+                    <div id="story-ending-div">
+                        <input id="propose-end-button" type="button" value="Propose end">
+                        <div id="ending-approval-div" style="display: none;">
+                            <input id="approve-end-button" type="button" value="Approve ending">
+                            <input id="reject-end-button" type="button" value="Reject ending">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="turn-order-col" class="col">
+                <div id="turn-order-author-template" style="display: none;"></div>
             </div>
         </div>
     </div>

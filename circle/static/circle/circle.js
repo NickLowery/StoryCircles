@@ -33,6 +33,16 @@ circleSocket.onmessage = function(e) {
         document.querySelector("#dev-turn-order").innerHTML = data.turn_order;
         const whoseTurn = data.turn_order[0];
 
+        // Populate turn order list
+        const turnOrderDom = document.querySelector("#turn-order-col");
+        const authorTemplate = document.querySelector("#turn-order-author-template");
+        for (let username of data.turn_order) {
+          const userDiv = authorTemplate.cloneNode(true);
+          userDiv.innerHTML = username;
+          userDiv.style.display = "block";
+          turnOrderDom.appendChild(userDiv);
+        }
+
         // First deal with any proposed ending that exists because regular input will be 
         // disabled
         if (data.proposed_ending) {

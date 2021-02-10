@@ -37,6 +37,7 @@ input[type=number] {
     width:4em;
 }
 
+
 table {
     border-collapse: collapse;
     margin-left: 1rem;
@@ -49,6 +50,16 @@ table, th, td {
 
 .input-div {
     margin-left: 1rem;
+}
+
+#game-text-div {
+    max-width: 60rem;
+    margin: 0 auto;
+    font-size: 1.2em;
+}
+
+p {
+    text-indent: 3em;
 }
 
 #alert-template {
