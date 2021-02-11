@@ -122,7 +122,7 @@ circleSocket.onclose = function(e) {
 
 function showWordInput() {
   wordInputDom.style.display = "inline-block";
-  wordSubmitDom.style.display = "inline-block";
+  wordSubmitDom.style.display = "block";
   wordInputDom.focus();
 }
 
