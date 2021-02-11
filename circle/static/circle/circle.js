@@ -1,5 +1,5 @@
 const circlePk = document.getElementById('data-div').dataset['circlepk'];
-const username = JSON.parse(document.getElementById('user-data').textContent);
+const clientUsername = JSON.parse(document.getElementById('user-data').textContent);
 const wordInputDom = document.getElementById('word-input');
 const wordSubmitDom = document.getElementById('word-submit');
 const endingApprovalDom = document.getElementById('ending-approval-div');
@@ -36,10 +36,14 @@ circleSocket.onmessage = function(e) {
         // Populate turn order list
         const turnOrderDom = document.querySelector("#turn-order-col");
         const authorTemplate = document.querySelector("#turn-order-author-template");
-        for (let username of data.turn_order) {
+        for (let orderUsername of data.turn_order) {
           const userDiv = authorTemplate.cloneNode(true);
-          userDiv.innerHTML = username;
+          userDiv.removeAttribute("id");
+          userDiv.innerHTML = orderUsername;
           userDiv.style.display = "block";
+          if (orderUsername === clientUsername) {
+            userDiv.style.backgroundColor = "chartreuse";
+          }
           turnOrderDom.appendChild(userDiv);
         }
 
@@ -48,13 +52,13 @@ circleSocket.onmessage = function(e) {
         if (data.proposed_ending) {
           hideWordInput();
           hideProposeEnd();
-          if (data.proposed_ending === username) {
+          if (data.proposed_ending === clientUsername) {
             setStatusBar("You proposed ending the story. Waiting for other users.");
             endingApprovalDom.style.display = "none";
           }
           else {
             // Someone else has proposed ending the story
-            if (data.approved_ending_list.includes(username)) {
+            if (data.approved_ending_list.includes(clientUsername)) {
               setStatusBar(`${data.proposed_ending} proposed ending the story here and you approved.`);
               endingApprovalDom.style.display = "none";
             }
@@ -69,7 +73,7 @@ circleSocket.onmessage = function(e) {
         else {
           // Ending is not proposed
           endingApprovalDom.style.display = "none";
-          if (username === whoseTurn) {
+          if (clientUsername === whoseTurn) {
               setStatusBar("Your turn!");
               showWordInput();
             // You can propose ending the story on your turn, if it's not proposed and

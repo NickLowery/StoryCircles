@@ -8,8 +8,8 @@
         ...
     </div>
     <div id="data-div" data-circlepk="{{ circle.pk }}" data-threshold-user-ct="{{ circle.threshold_user_ct }}"></div>
-    <div id="game-div" class="container-xxl" style="display: none;">
-        <div id="game-row" class="row">
+    <div id="game-div" class="container-xxl d-flex flex-column h-100" style="display: none;">
+        <div id="game-row" class="row d-flex flex-fill">
             <div id="game-col" class="col">
                 <div id="game-text-div">
                     <p class="story-p">
@@ -25,13 +25,13 @@
                     </div>
                 </div>
             </div>
-            <div id="turn-order-col" class="col">
-                <div id="turn-order-author-template" style="display: none;"></div>
+            <div id="turn-order-col" class="col-md-auto">
+                <div class="turn-order-author" id="turn-order-author-template"></div>
             </div>
         </div>
     </div>
-    <div id="dev-turn-order"></div>
-    <div id="dev-info">
+    <div id="dev-turn-order" style=display:none;"></div>
+    <div id="dev-info" style="display: none;">
         Threshold User Ct: {{ circle.threshold_user_ct }}<br>
         Max User Ct: {{ circle.max_user_ct }}<br>
         Circle creation time: {{ circle.creation_time }}

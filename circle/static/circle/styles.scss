@@ -1,0 +1,104 @@
+
+@keyframes hide {
+    0% {
+        opacity: 1;
+        height: 100%;
+        line-height: 100%;
+    }
+    75% {
+        opacity: 0;
+        height: 100%;
+        line-height: 100%;
+    }
+    100% {
+        opacity: 0;
+        height: 0px;
+        line-height: 0px;
+    }
+}
+
+html, body {
+    height: 100%;
+}
+
+
+.flex-fill {
+    flex:1;
+}
+
+body {
+    background-color: BurlyWood;
+}
+
+#game-div {
+    background-color:AntiqueWhite;
+}
+
+
+
+h1 {
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+h3 {
+    margin-top:0.5em;
+}
+
+h4 {
+    margin-top:0.25em;
+}
+
+input {
+    box-sizing:border-box;
+    margin:3px 1px;
+}
+
+input[type=number] {
+    width:4em;
+}
+
+
+table {
+    border-collapse: collapse;
+    margin-left: 1rem;
+}
+
+table, th, td {
+    border: 1px solid black;
+    padding: 2px 5px;
+}
+
+.input-div {
+    margin-left: 1rem;
+}
+
+#game-text-div {
+    max-width: 60rem;
+    margin: 0 auto;
+    font-size: 1.2em;
+}
+
+p {
+    text-indent: 3em;
+}
+
+#alert-template {
+    animation-name: hide;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-play-state: paused;
+}
+
+#turn-order-author-template {
+    display: none;
+}
+
+.turn-order-author { 
+    background-color: coral;
+    width: 100%;
+}
+
+#story-status-div {
+    text-align: center;
+}
