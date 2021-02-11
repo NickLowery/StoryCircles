@@ -9,16 +9,25 @@
         opacity: 1;
         height: 100%;
         line-height: 100%;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
     }
-    75% {
+    50% {
         opacity: 0;
         height: 100%;
         line-height: 100%;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
     }
     100% {
         opacity: 0;
         height: 0px;
         line-height: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
     }
 }
 
@@ -36,10 +45,8 @@ body {
 }
 
 #game-div {
-    background-color: coral;
+    background-color: DarkGoldenRod;
 }
-
-
 
 h1 {
     margin-top: 0.5rem;
@@ -96,14 +103,21 @@ p {
     animation-play-state: paused;
 }
 
+#turn-order-col {
+    background-color: BurlyWood;
+}
+
 #turn-order-author-template {
     display: none;
 }
 
 .turn-order-author { 
-    background-color: bisque;
+    background-color: beige;
     width: 100%;
     font-size: 1.5em;
+    border: 1px solid black;
+    margin: 0.2em;
+    padding: 0em 0.3em;
 }
 
 #story-status-div {

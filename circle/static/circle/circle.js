@@ -5,6 +5,8 @@ const wordSubmitDom = document.getElementById('word-submit');
 const endingApprovalDom = document.getElementById('ending-approval-div');
 const proposeEndDom = document.getElementById('propose-end-button');
 const statusBarDom = document.getElementById('story-status-div');
+const turnOrderDom = document.querySelector("#turn-order-col");
+const authorTemplate = document.querySelector("#turn-order-author-template");
 
 const circleSocket = new WebSocket(
   'ws://'
@@ -34,18 +36,20 @@ circleSocket.onmessage = function(e) {
         const whoseTurn = data.turn_order[0];
 
         // Populate turn order list
-        const turnOrderDom = document.querySelector("#turn-order-col");
-        const authorTemplate = document.querySelector("#turn-order-author-template");
-        for (let orderUsername of data.turn_order) {
+        turnOrderDom.innerHTML = "";
+        data.turn_order.forEach(function (username, index) {
           const userDiv = authorTemplate.cloneNode(true);
           userDiv.removeAttribute("id");
-          userDiv.innerHTML = orderUsername;
+          userDiv.innerHTML = username;
           userDiv.style.display = "block";
-          if (orderUsername === clientUsername) {
+          if (username === clientUsername) {
             userDiv.style.backgroundColor = "chartreuse";
           }
+          if (index === 0) {
+            userDiv.style.fontWeight = "bold";
+          }
           turnOrderDom.appendChild(userDiv);
-        }
+        });
 
         // First deal with any proposed ending that exists because regular input will be 
         // disabled
