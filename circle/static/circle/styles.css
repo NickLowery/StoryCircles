@@ -73,7 +73,9 @@ table, th, td {
   background-color: AntiqueWhite;
   max-width: 60rem;
   margin: 0 auto;
-  font-size: 1.2em; }
+  font-size: 1.2em;
+  padding-left: 1rem;
+  padding-right: 1rem; }
 
 p {
   text-indent: 3em; }
