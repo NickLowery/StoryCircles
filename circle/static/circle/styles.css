@@ -1,3 +1,6 @@
+@media screen and (max-width: 768px) {
+  #turn-order-col {
+    display: none; } }
 @keyframes hide {
   0% {
     opacity: 1;
@@ -21,7 +24,7 @@ body {
   background-color: BurlyWood; }
 
 #game-div {
-  background-color: AntiqueWhite; }
+  background-color: coral; }
 
 h1 {
   margin-top: 0.5rem;
@@ -52,6 +55,7 @@ table, th, td {
   margin-left: 1rem; }
 
 #game-text-div {
+  background-color: AntiqueWhite;
   max-width: 60rem;
   margin: 0 auto;
   font-size: 1.2em; }
@@ -69,8 +73,9 @@ p {
   display: none; }
 
 .turn-order-author {
-  background-color: coral;
-  width: 100%; }
+  background-color: bisque;
+  width: 100%;
+  font-size: 1.5em; }
 
 #story-status-div {
   text-align: center; }

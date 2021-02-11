@@ -1,3 +1,8 @@
+@media screen and (max-width: 768px) {
+    #turn-order-col {
+        display: none;
+    }
+}
 
 @keyframes hide {
     0% {
@@ -31,7 +36,7 @@ body {
 }
 
 #game-div {
-    background-color:AntiqueWhite;
+    background-color: coral;
 }
 
 
@@ -74,6 +79,7 @@ table, th, td {
 }
 
 #game-text-div {
+    background-color: AntiqueWhite;
     max-width: 60rem;
     margin: 0 auto;
     font-size: 1.2em;
@@ -95,8 +101,9 @@ p {
 }
 
 .turn-order-author { 
-    background-color: coral;
+    background-color: bisque;
     width: 100%;
+    font-size: 1.5em;
 }
 
 #story-status-div {
