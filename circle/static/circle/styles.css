@@ -32,6 +32,12 @@ html, body {
 body {
   background-color: BurlyWood; }
 
+#story-title-div {
+  background-color: Peru; }
+  #story-title-div h1 {
+    font-weight: bold;
+    font-family: "Times New Roman", serif; }
+
 #game-div {
   background-color: DarkGoldenRod; }
 
@@ -87,12 +93,14 @@ p {
 .turn-order-author {
   background-color: beige;
   width: 100%;
-  font-size: 1.5em;
+  font-size: 1.5rem;
   border: 1px solid black;
   margin: 0.2em;
   padding: 0em 0.3em; }
 
 #story-status-div {
-  text-align: center; }
+  text-align: center;
+  background-color: LightSteelBlue;
+  font-size: 1.5rem; }
 
 /*# sourceMappingURL=styles.css.map */
