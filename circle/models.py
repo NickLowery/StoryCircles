@@ -71,7 +71,6 @@ class Circle(models.Model):
 
     threshold_user_ct = models.IntegerField() #This is the number of users that must be connected to start the story
     max_user_ct = models.IntegerField()
-    # TODO: I have the minvalue of both counts above set to 1 for testing, it should probable be 2
     user_ct = models.IntegerField(default=0)
     turn_order = models.JSONField(default=list)
 
@@ -123,8 +122,8 @@ class Circle(models.Model):
         return story
 
     # Check if everyone in the game has approved ending the story in its current state
-    def all_approve_ending(self):
-        approved_usernames = list(user.username for user in self.approved_ending.all())
+    def all_approve_proposal(self):
+        approved_usernames = list(user.username for user in self.approved_proposal.all())
         return all((username in approved_usernames) for username in self.turn_order)
 
     #TODO: I need to figure out something to do with orphaned story instances that don't get finished, probably

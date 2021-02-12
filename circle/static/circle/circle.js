@@ -51,25 +51,25 @@ circleSocket.onmessage = function(e) {
           turnOrderDom.appendChild(userDiv);
         });
 
-        // First deal with any proposed ending that exists because regular input will be 
+        // First deal with any proposal that exists because regular input will be 
         // disabled
-        if (data.proposed_ending) {
+        if (data.active_proposal) {
           hideWordInput();
           hideProposeEnd();
-          if (data.proposed_ending === clientUsername) {
+          if (data.proposing_user === clientUsername) {
             setStatusBar("You proposed ending the story. Waiting for other users.");
             endingApprovalDom.style.display = "none";
           }
           else {
             // Someone else has proposed ending the story
-            if (data.approved_ending_list.includes(clientUsername)) {
-              setStatusBar(`${data.proposed_ending} proposed ending the story here and you approved.`);
+            if (data.approved_proposal_list.includes(clientUsername)) {
+              setStatusBar(`${data.proposing_user} proposed ending the story here and you approved.`);
               endingApprovalDom.style.display = "none";
             }
             else {
             // Allow approving or rejecting an ending if one was proposed and we
             // haven't approved it.
-            setStatusBar(`${data.proposed_ending} proposed ending the story here.`);
+            setStatusBar(`${data.proposing_user} proposed ending the story here.`);
               endingApprovalDom.style.display = "block";
             }
           }
