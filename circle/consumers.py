@@ -272,13 +272,8 @@ def validate_word(word, text):
             return (True, string.capwords(word), "")
         else:
             return (False, "", "Story must begin with a word")
-    if " " in word:
-        return (False, "", "Word cannot contain spaces.")
-    if word in ["?", ".", "!"]:
-        if text[-1].isalpha():
-            return (True, word, "")
-        else:
-            return (False, "", "Sentence-ending punctuation can only go after a word.")
+    if word == "":
+        return (False, "", "You have to write something!")
     if re.fullmatch("[a-zA-Z']+", word):
         if text[-1] in ["?", ".", "!"]:
             return (True, (' ' + string.capwords(word)), "")
@@ -287,12 +282,26 @@ def validate_word(word, text):
     if re.fullmatch("\-[a-zA-Z']+", word):
         if not text[-1].isalpha():
             return (False, "", "You can only hyphenate after a word.")
-        elif re.search("'", word):
-            return (False, "", "I can't think of a case where an apostrophe after a hyphen would be valid.")
+        if re.search("\-'", word):
+            return(False, "", "An apostrophe cannot directly follow a hyphen.")
         else:
             return (True, word, "")
-    if word == "":
-        return (False, "", "You have to write something!")
+    if re.search(",", word):
+        if re.fullmatch(", [a-zA-Z']+", word):
+            if text[-1].isalpha():
+                return (True, word, "")
+            else:
+                return (False, "", "A comma can only come after a word.")
+        else:
+            return (False, "", "Invalid comma use.")
+
+    if word in ["?", ".", "!"]:
+        if text[-1].isalpha():
+            return (True, word, "")
+        else:
+            return (False, "", "Sentence-ending punctuation can only go after a word.")
+    if " " in word:
+        return (False, "", "Word cannot contain spaces except after a comma.")
     else:
         return (False, "", "Not a valid word for some reason (disallowed characters?)")
 

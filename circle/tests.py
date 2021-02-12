@@ -12,6 +12,30 @@ from circle.models import User
 class ValidateWordTestCase(TestCase):
     #TODO: Test for first word
 
+    def test_comma(self):
+        """After a word, the next 'word' can be of the form ', word'."""
+        self.assertEqual((True, ", and"), validate_word(", and", "disembarked")[:-1])
+        self.assertEqual((True, ", Robert"), validate_word(", Robert", "disembarked")[:-1])
+        self.assertEqual((True, ", hasn't"), validate_word(", hasn't", "disembarked")[:-1])
+
+    def test_invalid_commas(self):
+        """Comma should fail anywhere else in a word submission, and followed by or following any punctuation"""
+        self.assertFalse(validate_word(",", "text")[0])
+        self.assertFalse(validate_word(", ", "text")[0])
+        self.assertFalse(validate_word(", ,", "text")[0])
+        self.assertFalse(validate_word(", !", "text")[0])
+        self.assertFalse(validate_word(", ?", "text")[0])
+        self.assertFalse(validate_word(", .", "text")[0])
+        self.assertFalse(validate_word(", ..", "text")[0])
+        self.assertFalse(validate_word(", -ending", "text")[0])
+        self.assertFalse(validate_word(",word", "text")[0])
+        self.assertFalse(validate_word(", wo,rd", "text")[0])
+        self.assertFalse(validate_word("wo,rd", "text")[0])
+        self.assertFalse(validate_word(", and", "ending.")[0])
+        self.assertFalse(validate_word(", and", "ending?")[0])
+        self.assertFalse(validate_word(", and", "ending!")[0])
+        self.assertFalse(validate_word(", and", "")[0])
+
     def test_title_case(self):
         """After sentence-ending punctuation, the next word should be
         capitalized."""
@@ -32,7 +56,7 @@ class ValidateWordTestCase(TestCase):
             self.assertFalse(validate_word(word, text)[0])
 
     def test_space(self):
-        """Any submission with a space in it should fail"""
+        """Any submission with a space in it other than ', word' should fail"""
         for (word, text) in itertools.product([' ', ' word', 'a b'],['word', 'ending.',
                                                                      "isn't", "lily-livered"]):
             self.assertFalse(validate_word(word, text)[0])
