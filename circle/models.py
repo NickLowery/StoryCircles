@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models import F
+from django.utils.translation import gettext_lazy as _
 import datetime
 
 class User(AbstractUser):
@@ -73,13 +74,25 @@ class Circle(models.Model):
     # TODO: I have the minvalue of both counts above set to 1 for testing, it should probable be 2
     user_ct = models.IntegerField(default=0)
     turn_order = models.JSONField(default=list)
-    proposed_ending = models.ForeignKey('User',
+
+    class Proposal(models.TextChoices):
+        END_STORY = 'ES', _('End Story')
+        NEW_PARAGRAPH = 'NP', _('New Paragraph')
+
+    active_proposal = models.CharField(
+        max_length=2,
+        choices=Proposal.choices,
+        blank=True,
+        null=True,
+    )
+    proposing_user = models.ForeignKey('User',
                                         null=True, on_delete=models.SET_NULL,
                                         related_name='ending_proposed')
-    approved_ending = models.ManyToManyField(
+    approved_proposal = models.ManyToManyField(
         User,
         blank=True
     )
+
     story = models.OneToOneField(
         'Story',
         blank=True,
