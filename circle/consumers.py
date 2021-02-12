@@ -294,7 +294,6 @@ def validate_word(word, text):
                 return (False, "", "A comma can only come after a word.")
         else:
             return (False, "", "Invalid comma use.")
-
     if word in ["?", ".", "!"]:
         if text[-1].isalpha():
             return (True, word, "")
