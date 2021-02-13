@@ -73,6 +73,9 @@ circleSocket.onmessage = function(e) {
             // haven't approved it.
             setStatusBar(`${data.proposing_user} proposed ${prop_string}; waiting for your response.`);
               proposalApprovalDom.style.display = "block";
+              document.querySelector("#approve-button").onclick = () => {
+                sendApproval(data.active_proposal)
+              };
             }
           }
         }
@@ -155,6 +158,13 @@ function hideProposeNewParagraph() {
   document.querySelector("#propose-new-paragraph-button").style.display = "none";
 }
 
+function sendApproval(prop) {
+  circleSocket.send(JSON.stringify({
+    'type': 'approve',
+    'proposal': prop,
+  }));
+}
+
 function prop_code_to_string(code) {
   switch (code) {
     case ("ES"):
@@ -183,12 +193,6 @@ wordSubmitDom.onclick = function(e) {
   wordInputDom.value = '';
 };
 
-document.querySelector("#approve-button").onclick = function(e) {
-  circleSocket.send(JSON.stringify({
-    'type': 'approve',
-    'proposal': 'ES',
-  }));
-}
 
 document.querySelector("#reject-button").onclick = function(e) {
   circleSocket.send(JSON.stringify({
@@ -203,3 +207,9 @@ document.querySelector("#propose-end-button").onclick = function(e) {
   }));
 }
 
+document.querySelector("#propose-new-paragraph-button").onclick = function(e) {
+  circleSocket.send(JSON.stringify({
+    'type': 'propose',
+    'proposal': 'NP',
+  }));
+}
