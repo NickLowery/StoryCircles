@@ -78,6 +78,12 @@ class Circle(models.Model):
         END_STORY = 'ES', _('End Story')
         NEW_PARAGRAPH = 'NP', _('New Paragraph')
 
+        def gerund(self):
+            if self.name == 'END_STORY':
+                return 'ending the story'
+            elif self.name == 'NEW_PARAGRAPH':
+                return 'starting a new paragraph'
+
     active_proposal = models.CharField(
         max_length=2,
         choices=Proposal.choices,
@@ -125,6 +131,13 @@ class Circle(models.Model):
     def all_approve_proposal(self):
         approved_usernames = list(user.username for user in self.approved_proposal.all())
         return all((username in approved_usernames) for username in self.turn_order)
+
+    # Get rid of active proposal, reset proposal state, and save
+    def reset_proposal(self):
+        self.approved_proposal.clear()
+        self.proposing_user = None
+        self.active_proposal = None
+        self.save()
 
     #TODO: I need to figure out something to do with orphaned story instances that don't get finished, probably
 

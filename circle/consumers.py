@@ -120,51 +120,58 @@ class CircleConsumer(WebsocketConsumer):
         data = json.loads(text_data)
         method_for_message_type = {
             "word_submit": self.word_submit,
-            "propose_end": self.propose_end,
-            "approve_end": self.approve_end,
-            "reject_end": self.reject_end,
+            "propose": self.propose,
+            "approve": self.approve,
+            "reject": self.reject,
         }.get(data['type'])
         method_for_message_type(data, circle_instance)
 
     # Process proposal to end the story from client
-    def propose_end(self, data, circle_instance):
-        if circle_instance.active_proposal:
+    def propose(self, data, circle_instance):
+        if data['proposal'] not in Circle.Proposal.values:
+            self.msg_client("Error: Unknown proposal.")
+        elif circle_instance.active_proposal:
             self.msg_client("Error: There is already a pending proposal.")
         elif circle_instance.turn_order[0] != self.user_instance.username:
-            self.msg_client("Error: You can only propose ending the story if it's your turn")
+            self.msg_client("Error: You can only make a proposal if it's your turn")
         else:
             circle_instance.proposing_user = self.user_instance
             circle_instance.approved_proposal.add(self.user_instance)
-            circle_instance.active_proposal = Circle.Proposal.END_STORY
-            if circle_instance.all_approve_proposal():
-                self.end_story(circle_instance)
-            else:
-                circle_instance.save()
-                self.update_group(circle_instance)
+            circle_instance.active_proposal = data['proposal']
+            self.check_approval_and_update(circle_instance)
 
-    # Process ending approval from client
-    def approve_end(self, data, circle_instance):
-        if (circle_instance.active_proposal != Circle.Proposal.END_STORY):
-            self.msg_client("Error: There is no ending proposed")
+    # Process proposal approval from client
+    def approve(self, data, circle_instance):
+        if (circle_instance.active_proposal != data['proposal']):
+            self.msg_client("Error: The proposal you approved is not active.")
         elif (self.user_instance in circle_instance.approved_proposal.all()):
-            self.msg_client("You have already approved the ending")
+            self.msg_client("You have already approved the proposal.")
         else:
             circle_instance.approved_proposal.add(self.user_instance)
-            if circle_instance.all_approve_proposal():
-                self.end_story(circle_instance)
-            else:
-                circle_instance.save()
-                self.update_group(circle_instance)
+            self.check_approval_and_update(circle_instance)
 
-    # Process ending rejection from client
-    def reject_end(self, data, circle_instance):
-        circle_instance.approved_proposal.clear()
-        circle_instance.proposing_user = None
-        circle_instance.active_proposal = None
-        circle_instance.save()
+    """ See if a proposal has been unanimously approved, take appropriate action
+    if it has, save the circle instance and update the group """
+    def check_approval_and_update(self, circle_instance):
+        if circle_instance.all_approve_proposal():
+            if circle_instance.active_proposal == Circle.Proposal.END_STORY:
+                self.end_story(circle_instance)
+            elif circle_instance.active_proposal == Circle.Proposal.NEW_PARAGRAPH:
+                self.msg_client("TODO: Add a paragraph break")
+                circle_instance.reset_proposal()
+                self.update_group(circle_instance)
+        else:
+            circle_instance.save()
+            self.update_group(circle_instance)
+
+
+    # Process proposal rejection from client
+    def reject(self, data, circle_instance):
+        proposal = Circle.Proposal(circle_instance.active_proposal)
+        circle_instance.reset_proposal()
         self.update_group(circle_instance,
-                          message="%s rejected ending the story at this point."
-                % self.user_instance.username)
+                          message=f"{self.user_instance.username} rejected {proposal.gerund()}."
+                          )
 
     # Process word submission from client
     def word_submit(self, data, circle_instance):

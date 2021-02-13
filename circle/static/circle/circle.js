@@ -2,7 +2,7 @@ const circlePk = document.getElementById('data-div').dataset['circlepk'];
 const clientUsername = JSON.parse(document.getElementById('user-data').textContent);
 const wordInputDom = document.getElementById('word-input');
 const wordSubmitDom = document.getElementById('word-submit');
-const endingApprovalDom = document.getElementById('ending-approval-div');
+const proposalApprovalDom = document.getElementById('proposal-approval-div');
 const proposeEndDom = document.getElementById('propose-end-button');
 const statusBarDom = document.getElementById('story-status-div');
 const turnOrderDom = document.querySelector("#turn-order-col");
@@ -54,30 +54,31 @@ circleSocket.onmessage = function(e) {
         // First deal with any proposal that exists because regular input will be 
         // disabled
         if (data.active_proposal) {
+          prop_string = prop_code_to_string(data.active_proposal);
           hideWordInput();
           hideProposeEnd();
           hideProposeNewParagraph();
           if (data.proposing_user === clientUsername) {
-            setStatusBar("You proposed SOMETHING. Waiting for other users.");
-            endingApprovalDom.style.display = "none";
+            setStatusBar(`You proposed ${prop_string}. Waiting for other users.`);
+            proposalApprovalDom.style.display = "none";
           }
           else {
             // Someone else has proposed ending the story
             if (data.approved_proposal_list.includes(clientUsername)) {
-              setStatusBar(`${data.proposing_user} proposed SOMETHING here and you approved.`);
-              endingApprovalDom.style.display = "none";
+              setStatusBar(`${data.proposing_user} proposed ${prop_string} here and you approved.`);
+              proposalApprovalDom.style.display = "none";
             }
             else {
             // Allow approving or rejecting an ending if one was proposed and we
             // haven't approved it.
-            setStatusBar(`${data.proposing_user} proposed SOMETHING here.`);
-              endingApprovalDom.style.display = "block";
+            setStatusBar(`${data.proposing_user} proposed ${prop_string}; waiting for your response.`);
+              proposalApprovalDom.style.display = "block";
             }
           }
         }
         else {
           // No proposal active
-          endingApprovalDom.style.display = "none";
+          proposalApprovalDom.style.display = "none";
           if (clientUsername === whoseTurn) {
               setStatusBar("Your turn!");
               showWordInput();
@@ -154,6 +155,19 @@ function hideProposeNewParagraph() {
   document.querySelector("#propose-new-paragraph-button").style.display = "none";
 }
 
+function prop_code_to_string(code) {
+  switch (code) {
+    case ("ES"):
+      return "ending the story";
+      break;
+    case ("NP"):
+      return "starting a new paragraph";
+      break;
+    default:
+      console.error("Unknown proposal code");
+  }
+}
+
 wordInputDom.onkeyup = function(e) {
   if (e.keyCode === 13) { // enter, return
     wordSubmitDom.click();
@@ -169,21 +183,23 @@ wordSubmitDom.onclick = function(e) {
   wordInputDom.value = '';
 };
 
-document.querySelector("#approve-end-button").onclick = function(e) {
+document.querySelector("#approve-button").onclick = function(e) {
   circleSocket.send(JSON.stringify({
-    'type': 'approve_end',
+    'type': 'approve',
+    'proposal': 'ES',
   }));
 }
 
-document.querySelector("#reject-end-button").onclick = function(e) {
+document.querySelector("#reject-button").onclick = function(e) {
   circleSocket.send(JSON.stringify({
-    'type': 'reject_end',
+    'type': 'reject',
   }));
 }
 
 document.querySelector("#propose-end-button").onclick = function(e) {
   circleSocket.send(JSON.stringify({
-    'type': 'propose_end',
+    'type': 'propose',
+    'proposal': 'ES',
   }));
 }
 
