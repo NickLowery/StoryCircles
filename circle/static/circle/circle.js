@@ -56,34 +56,36 @@ circleSocket.onmessage = function(e) {
         if (data.active_proposal) {
           hideWordInput();
           hideProposeEnd();
+          hideProposeNewParagraph();
           if (data.proposing_user === clientUsername) {
-            setStatusBar("You proposed ending the story. Waiting for other users.");
+            setStatusBar("You proposed SOMETHING. Waiting for other users.");
             endingApprovalDom.style.display = "none";
           }
           else {
             // Someone else has proposed ending the story
             if (data.approved_proposal_list.includes(clientUsername)) {
-              setStatusBar(`${data.proposing_user} proposed ending the story here and you approved.`);
+              setStatusBar(`${data.proposing_user} proposed SOMETHING here and you approved.`);
               endingApprovalDom.style.display = "none";
             }
             else {
             // Allow approving or rejecting an ending if one was proposed and we
             // haven't approved it.
-            setStatusBar(`${data.proposing_user} proposed ending the story here.`);
+            setStatusBar(`${data.proposing_user} proposed SOMETHING here.`);
               endingApprovalDom.style.display = "block";
             }
           }
         }
         else {
-          // Ending is not proposed
+          // No proposal active
           endingApprovalDom.style.display = "none";
           if (clientUsername === whoseTurn) {
               setStatusBar("Your turn!");
               showWordInput();
-            // You can propose ending the story on your turn, if it's not proposed and
-            // there's at least some text in the story.
-            if (data.text !== "") {
+            // You can propose ending or new paragraph on your turn, if the text ends with
+            // a sentence-ending punctuation mark.
+            if (data.text.length > 0 && ["?", "!", "."].includes(data.text.charAt(data.text.length-1))) {
               showProposeEnd();
+              showProposeNewParagraph();
             }
             else {
               hideProposeEnd();
@@ -94,6 +96,7 @@ circleSocket.onmessage = function(e) {
             setStatusBar(`${whoseTurn}'s turn`);
             hideWordInput();
             hideProposeEnd();
+            hideProposeNewParagraph();
           }
         }
       }
@@ -141,6 +144,14 @@ function showProposeEnd() {
 
 function hideProposeEnd() {
   document.querySelector("#propose-end-button").style.display = "none";
+}
+
+function showProposeNewParagraph() {
+  document.querySelector("#propose-new-paragraph-button").style.display = "block";
+}
+
+function hideProposeNewParagraph() {
+  document.querySelector("#propose-new-paragraph-button").style.display = "none";
 }
 
 wordInputDom.onkeyup = function(e) {
