@@ -4,7 +4,9 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models import F
 from django.utils.translation import gettext_lazy as _
+from django.template.loader import get_template
 import datetime
+import re
 
 class User(AbstractUser):
     user_since = models.DateTimeField(blank=False, auto_now_add=True)
@@ -63,6 +65,13 @@ class Story(models.Model):
     def start(self):
         self.start_time = datetime.datetime.now()
         self.save()
+
+    """ Return the text as html with "\n\n" converted to paragraph breaks """
+    def text_as_html(self):
+        t = get_template('circle/story_text.html')
+        text = t.render({'story': self}).rstrip()
+        return text
+
 
 class Circle(models.Model):
     # This is a list of the usernames of users in the turn order. First name

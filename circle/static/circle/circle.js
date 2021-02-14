@@ -34,7 +34,7 @@ circleSocket.onmessage = function(e) {
         // Game is started
         document.getElementById('game-div').style.display = "block";
         // Update game display
-        storyTextDom.innerHTML = "<p>" + data.text.replaceAll(/\n\n/ig, "</p><p>") + "</p>";
+        storyTextDom.innerHTML = data.text_html;
         storyTextDom.lastChild.appendChild(wordInputDom);
 
         document.querySelector("#dev-turn-order").innerHTML = data.turn_order;
@@ -88,11 +88,12 @@ circleSocket.onmessage = function(e) {
           // No proposal active
           proposalApprovalDom.style.display = "none";
           if (clientUsername === whoseTurn) {
-              setStatusBar("Your turn!");
-              showWordInput();
+            setStatusBar("Your turn!");
+            showWordInput();
             // You can propose ending or new paragraph on your turn, if the text ends with
             // a sentence-ending punctuation mark.
-            if ((data.text.length > 0) && ["?", "!", "."].includes(data.text.charAt(data.text.length-1))) {
+            const storyLastP = storyTextDom.lastChild.innerText;
+            if ((storyLastP.length > 0) && ["?", "!", "."].includes(storyLastP.charAt(storyLastP.length-1))) {
               showProposeEnd();
               showProposeNewParagraph();
             }

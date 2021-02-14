@@ -214,11 +214,10 @@ class CircleConsumer(WebsocketConsumer):
 
     # Send a game state update to the circle
     def update_group(self, circle_instance, message=None):
-        story_template = get_template('circle/story_text.html')
-        story_html = story_template.render({'text': circle_instance.story.text})
         data = {'type': 'game_update',
                 'story_started': circle_instance.story.started,
                 'text': circle_instance.story.text,
+                'text_html': circle_instance.story.text_as_html(),
                 'turn_order': circle_instance.turn_order,
             }
         if circle_instance.active_proposal:

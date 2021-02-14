@@ -5,7 +5,7 @@
         {{ story.title }}
     </h1>
     <div id="story-text-div">
-    {{ story.text }}
+        {% include 'circle/story_text.html' %}
     </div>
     <div id="authors-div">
         {% if story.authors.all %}
