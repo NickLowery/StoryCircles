@@ -7,6 +7,7 @@ from .models import User, Story, Circle
 from .views import FinishedStoryView, CircleView
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
+from django.template.loader import get_template
 
 class CircleIndexConsumer(WebsocketConsumer):
     def connect(self):
@@ -120,49 +121,59 @@ class CircleConsumer(WebsocketConsumer):
         data = json.loads(text_data)
         method_for_message_type = {
             "word_submit": self.word_submit,
-            "propose_end": self.propose_end,
-            "approve_end": self.approve_end,
-            "reject_end": self.reject_end,
+            "propose": self.propose,
+            "approve": self.approve,
+            "reject": self.reject,
         }.get(data['type'])
         method_for_message_type(data, circle_instance)
 
     # Process proposal to end the story from client
-    def propose_end(self, data, circle_instance):
-        if circle_instance.proposed_ending:
-            self.msg_client("Error: There is already a pending proposal to end the story")
+    def propose(self, data, circle_instance):
+        if data['proposal'] not in Circle.Proposal.values:
+            self.msg_client("Error: Unknown proposal.")
+        elif circle_instance.active_proposal:
+            self.msg_client("Error: There is already a pending proposal.")
         elif circle_instance.turn_order[0] != self.user_instance.username:
-            self.msg_client("Error: You can only propose ending the story if it's your turn")
+            self.msg_client("Error: You can only make a proposal if it's your turn")
         else:
-            circle_instance.proposed_ending = self.user_instance
-            circle_instance.approved_ending.add(self.user_instance)
-            if circle_instance.all_approve_ending():
-                self.end_story(circle_instance)
-            else:
-                circle_instance.save()
-                self.update_group(circle_instance)
+            circle_instance.proposing_user = self.user_instance
+            circle_instance.approved_proposal.add(self.user_instance)
+            circle_instance.active_proposal = data['proposal']
+            self.check_approval_and_update(circle_instance)
 
-    # Process ending approval from client
-    def approve_end(self, data, circle_instance):
-        if (not circle_instance.proposed_ending):
-            self.msg_client("Error: There is no ending proposed")
-        elif (self.user_instance in circle_instance.approved_ending.all()):
-            self.msg_client("You have already approved the ending")
+    # Process proposal approval from client
+    def approve(self, data, circle_instance):
+        if (circle_instance.active_proposal != data['proposal']):
+            self.msg_client("Error: The proposal you approved is not active.")
+        elif (self.user_instance in circle_instance.approved_proposal.all()):
+            self.msg_client("You have already approved the proposal.")
         else:
-            circle_instance.approved_ending.add(self.user_instance)
-            if circle_instance.all_approve_ending():
-                self.end_story(circle_instance)
-            else:
-                circle_instance.save()
-                self.update_group(circle_instance)
+            circle_instance.approved_proposal.add(self.user_instance)
+            self.check_approval_and_update(circle_instance)
 
-    # Process ending rejection from client
-    def reject_end(self, data, circle_instance):
-        circle_instance.approved_ending.clear()
-        circle_instance.proposed_ending = None
-        circle_instance.save()
+    """ See if a proposal has been unanimously approved, take appropriate action
+    if it has, save the circle instance and update the group """
+    def check_approval_and_update(self, circle_instance):
+        if circle_instance.all_approve_proposal():
+            if circle_instance.active_proposal == Circle.Proposal.END_STORY:
+                self.end_story(circle_instance)
+            elif circle_instance.active_proposal == Circle.Proposal.NEW_PARAGRAPH:
+                self.msg_client("New paragraph initiated")
+                circle_instance.story.append_text("\n\n")
+                circle_instance.reset_proposal()
+                self.update_group(circle_instance)
+        else:
+            circle_instance.save()
+            self.update_group(circle_instance)
+
+
+    # Process proposal rejection from client
+    def reject(self, data, circle_instance):
+        proposal = Circle.Proposal(circle_instance.active_proposal)
+        circle_instance.reset_proposal()
         self.update_group(circle_instance,
-                          message="%s rejected ending the story at this point."
-                % self.user_instance.username)
+                          message=f"{self.user_instance.username} rejected {proposal.gerund()}."
+                          )
 
     # Process word submission from client
     def word_submit(self, data, circle_instance):
@@ -171,10 +182,8 @@ class CircleConsumer(WebsocketConsumer):
             self.msg_client('Error: we got a word submission from ' \
                                 'your browser when it was not your turn.')
         # No submitting words when there's an ending of the circle proposed
-        elif circle_instance.approved_ending.all():
-            self.msg_client("Error: Can't submit a word when an ending " \
-                                "of the circle is pending.")
-
+        elif circle_instance.active_proposal:
+            self.msg_client("Error: Can't submit a word when a proposal is pending.")
         else:
             valid, formatted_word, message = validate_word(data['word'], circle_instance.story.text)
 
@@ -200,33 +209,24 @@ class CircleConsumer(WebsocketConsumer):
                              "Story finished! You will be redirected to its permanent home in 5 seconds.")
 
     # Receive game update message from circle
-    def update(self, event):
-        data = {
-            'type': 'game_update',
-            'story_started': event['started'],
-            'text': event['text'],
-            'turn_order': event['turn_order'],
-            'approved_ending_list': event['approved_ending_list'],
-        }
-        proposed_ending = event.get('proposed_ending')
-        if proposed_ending:
-            data['proposed_ending'] = proposed_ending
-        message = event.get('message')
-        if message:
-            data['message'] = message
-        self.send(text_data=json.dumps(data))
+    def game_update(self, event):
+        self.send(text_data=json.dumps(event))
 
     # Send a game state update to the circle
     def update_group(self, circle_instance, message=None):
-        data = {'type': 'update',
-                'started': circle_instance.story.started,
+        data = {'type': 'game_update',
+                'story_started': circle_instance.story.started,
                 'text': circle_instance.story.text,
+                'text_html': circle_instance.story.text_as_html(),
                 'turn_order': circle_instance.turn_order,
-                'approved_ending_list': [author.username for author
-                                         in circle_instance.approved_ending.all()],
             }
-        if circle_instance.proposed_ending:
-            data['proposed_ending'] = circle_instance.proposed_ending.username
+        if circle_instance.active_proposal:
+            data.update({
+                'proposing_user': circle_instance.proposing_user.username,
+            'active_proposal':  circle_instance.active_proposal,
+            'approved_proposal_list': [author.username for author
+                                     in circle_instance.approved_proposal.all()],
+            })
         if message:
             data['message'] = message
         async_to_sync(self.channel_layer.group_send)(
@@ -275,7 +275,7 @@ def validate_word(word, text):
     if word == "":
         return (False, "", "You have to write something!")
     if re.fullmatch("[a-zA-Z']+", word):
-        if text[-1] in ["?", ".", "!"]:
+        if text[-1] in ["?", ".", "!", "\n"]:
             return (True, (' ' + string.capwords(word)), "")
         else:
             return (True, (' ' + word), "")

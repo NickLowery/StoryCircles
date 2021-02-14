@@ -12,20 +12,19 @@
         <div id="game-row" class="row d-flex flex-fill">
             <div id="game-col" class="col">
                 <div id="game-text-div" class="flex-column h-100">
-                    <p class="story-p">
-                        <span id="text"></span><input id="word-input" type="text" size="10">
-                    </p>
+                    <div id="text"></div><input id="word-input" type="text" size="10">
                     <div id="alert-holder"></div>
                     <div class="alert alert-warning alert-dismissible fade show" id="alert-template" role="alert" style="display: none;">
                         <span id="alert-text">Placeholder Alert text</span>
                       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     <input id="word-submit" type="button" value="Go">
-                    <div id="story-ending-div">
+                    <div id="proposal-div">
                         <input id="propose-end-button" type="button" value="Propose end">
-                        <div id="ending-approval-div" style="display: none;">
-                            <input id="approve-end-button" type="button" value="Approve ending">
-                            <input id="reject-end-button" type="button" value="Reject ending">
+                        <input id="propose-new-paragraph-button" type="button" value="Propose new paragraph">
+                        <div id="proposal-approval-div" style="display: none;">
+                            <input id="approve-button" type="button" value="Approve">
+                            <input id="reject-button" type="button" value="Reject">
                         </div>
                     </div>
                 </div>

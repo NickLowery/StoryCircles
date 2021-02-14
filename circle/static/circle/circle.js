@@ -2,11 +2,12 @@ const circlePk = document.getElementById('data-div').dataset['circlepk'];
 const clientUsername = JSON.parse(document.getElementById('user-data').textContent);
 const wordInputDom = document.getElementById('word-input');
 const wordSubmitDom = document.getElementById('word-submit');
-const endingApprovalDom = document.getElementById('ending-approval-div');
+const proposalApprovalDom = document.getElementById('proposal-approval-div');
 const proposeEndDom = document.getElementById('propose-end-button');
 const statusBarDom = document.getElementById('story-status-div');
 const turnOrderDom = document.querySelector("#turn-order-col");
 const authorTemplate = document.querySelector("#turn-order-author-template");
+const storyTextDom = document.querySelector("#text");
 
 const circleSocket = new WebSocket(
   'ws://'
@@ -26,12 +27,16 @@ circleSocket.onmessage = function(e) {
     case ('game_update'): 
       if (!data.story_started) {
         setStatusBar(`${thresholdUserCt} authors needed to start the story. Waiting for ${thresholdUserCt - data.turn_order.length} more!`);
+        hideProposeEnd();
+        hideProposeNewParagraph();
       }
       else {
         // Game is started
         document.getElementById('game-div').style.display = "block";
         // Update game display
-        document.querySelector("#text").innerHTML = data.text;
+        storyTextDom.innerHTML = data.text_html;
+        storyTextDom.lastChild.appendChild(wordInputDom);
+
         document.querySelector("#dev-turn-order").innerHTML = data.turn_order;
         const whoseTurn = data.turn_order[0];
 
@@ -51,42 +56,50 @@ circleSocket.onmessage = function(e) {
           turnOrderDom.appendChild(userDiv);
         });
 
-        // First deal with any proposed ending that exists because regular input will be 
+        // First deal with any proposal that exists because regular input will be 
         // disabled
-        if (data.proposed_ending) {
+        if (data.active_proposal) {
+          prop_string = prop_code_to_string(data.active_proposal);
           hideWordInput();
           hideProposeEnd();
-          if (data.proposed_ending === clientUsername) {
-            setStatusBar("You proposed ending the story. Waiting for other users.");
-            endingApprovalDom.style.display = "none";
+          hideProposeNewParagraph();
+          if (data.proposing_user === clientUsername) {
+            setStatusBar(`You proposed ${prop_string}. Waiting for other users.`);
+            proposalApprovalDom.style.display = "none";
           }
           else {
             // Someone else has proposed ending the story
-            if (data.approved_ending_list.includes(clientUsername)) {
-              setStatusBar(`${data.proposed_ending} proposed ending the story here and you approved.`);
-              endingApprovalDom.style.display = "none";
+            if (data.approved_proposal_list.includes(clientUsername)) {
+              setStatusBar(`${data.proposing_user} proposed ${prop_string} here and you approved.`);
+              proposalApprovalDom.style.display = "none";
             }
             else {
             // Allow approving or rejecting an ending if one was proposed and we
             // haven't approved it.
-            setStatusBar(`${data.proposed_ending} proposed ending the story here.`);
-              endingApprovalDom.style.display = "block";
+            setStatusBar(`${data.proposing_user} proposed ${prop_string}; waiting for your response.`);
+              proposalApprovalDom.style.display = "block";
+              document.querySelector("#approve-button").onclick = () => {
+                sendApproval(data.active_proposal)
+              };
             }
           }
         }
         else {
-          // Ending is not proposed
-          endingApprovalDom.style.display = "none";
+          // No proposal active
+          proposalApprovalDom.style.display = "none";
           if (clientUsername === whoseTurn) {
-              setStatusBar("Your turn!");
-              showWordInput();
-            // You can propose ending the story on your turn, if it's not proposed and
-            // there's at least some text in the story.
-            if (data.text !== "") {
+            setStatusBar("Your turn!");
+            showWordInput();
+            // You can propose ending or new paragraph on your turn, if the text ends with
+            // a sentence-ending punctuation mark.
+            const storyLastP = storyTextDom.lastChild.innerText;
+            if ((storyLastP.length > 0) && ["?", "!", "."].includes(storyLastP.charAt(storyLastP.length-1))) {
               showProposeEnd();
+              showProposeNewParagraph();
             }
             else {
               hideProposeEnd();
+              hideProposeNewParagraph();
             }
           }
           else {
@@ -94,6 +107,7 @@ circleSocket.onmessage = function(e) {
             setStatusBar(`${whoseTurn}'s turn`);
             hideWordInput();
             hideProposeEnd();
+            hideProposeNewParagraph();
           }
         }
       }
@@ -143,6 +157,34 @@ function hideProposeEnd() {
   document.querySelector("#propose-end-button").style.display = "none";
 }
 
+function showProposeNewParagraph() {
+  document.querySelector("#propose-new-paragraph-button").style.display = "block";
+}
+
+function hideProposeNewParagraph() {
+  document.querySelector("#propose-new-paragraph-button").style.display = "none";
+}
+
+function sendApproval(prop) {
+  circleSocket.send(JSON.stringify({
+    'type': 'approve',
+    'proposal': prop,
+  }));
+}
+
+function prop_code_to_string(code) {
+  switch (code) {
+    case ("ES"):
+      return "ending the story";
+      break;
+    case ("NP"):
+      return "starting a new paragraph";
+      break;
+    default:
+      console.error("Unknown proposal code");
+  }
+}
+
 wordInputDom.onkeyup = function(e) {
   if (e.keyCode === 13) { // enter, return
     wordSubmitDom.click();
@@ -158,21 +200,23 @@ wordSubmitDom.onclick = function(e) {
   wordInputDom.value = '';
 };
 
-document.querySelector("#approve-end-button").onclick = function(e) {
-  circleSocket.send(JSON.stringify({
-    'type': 'approve_end',
-  }));
-}
 
-document.querySelector("#reject-end-button").onclick = function(e) {
+document.querySelector("#reject-button").onclick = function(e) {
   circleSocket.send(JSON.stringify({
-    'type': 'reject_end',
+    'type': 'reject',
   }));
 }
 
 document.querySelector("#propose-end-button").onclick = function(e) {
   circleSocket.send(JSON.stringify({
-    'type': 'propose_end',
+    'type': 'propose',
+    'proposal': 'ES',
   }));
 }
 
+document.querySelector("#propose-new-paragraph-button").onclick = function(e) {
+  circleSocket.send(JSON.stringify({
+    'type': 'propose',
+    'proposal': 'NP',
+  }));
+}

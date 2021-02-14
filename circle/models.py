@@ -3,7 +3,10 @@ from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models import F
+from django.utils.translation import gettext_lazy as _
+from django.template.loader import get_template
 import datetime
+import re
 
 class User(AbstractUser):
     user_since = models.DateTimeField(blank=False, auto_now_add=True)
@@ -63,6 +66,13 @@ class Story(models.Model):
         self.start_time = datetime.datetime.now()
         self.save()
 
+    """ Return the text as html with "\n\n" converted to paragraph breaks """
+    def text_as_html(self):
+        t = get_template('circle/story_text.html')
+        text = t.render({'story': self}).rstrip()
+        return text
+
+
 class Circle(models.Model):
     # This is a list of the usernames of users in the turn order. First name
     # is the user whose turn it is.
@@ -70,16 +80,33 @@ class Circle(models.Model):
 
     threshold_user_ct = models.IntegerField() #This is the number of users that must be connected to start the story
     max_user_ct = models.IntegerField()
-    # TODO: I have the minvalue of both counts above set to 1 for testing, it should probable be 2
     user_ct = models.IntegerField(default=0)
     turn_order = models.JSONField(default=list)
-    proposed_ending = models.ForeignKey('User',
+
+    class Proposal(models.TextChoices):
+        END_STORY = 'ES', _('End Story')
+        NEW_PARAGRAPH = 'NP', _('New Paragraph')
+
+        def gerund(self):
+            if self.name == 'END_STORY':
+                return 'ending the story'
+            elif self.name == 'NEW_PARAGRAPH':
+                return 'starting a new paragraph'
+
+    active_proposal = models.CharField(
+        max_length=2,
+        choices=Proposal.choices,
+        blank=True,
+        null=True,
+    )
+    proposing_user = models.ForeignKey('User',
                                         null=True, on_delete=models.SET_NULL,
                                         related_name='ending_proposed')
-    approved_ending = models.ManyToManyField(
+    approved_proposal = models.ManyToManyField(
         User,
         blank=True
     )
+
     story = models.OneToOneField(
         'Story',
         blank=True,
@@ -110,9 +137,16 @@ class Circle(models.Model):
         return story
 
     # Check if everyone in the game has approved ending the story in its current state
-    def all_approve_ending(self):
-        approved_usernames = list(user.username for user in self.approved_ending.all())
+    def all_approve_proposal(self):
+        approved_usernames = list(user.username for user in self.approved_proposal.all())
         return all((username in approved_usernames) for username in self.turn_order)
+
+    # Get rid of active proposal, reset proposal state, and save
+    def reset_proposal(self):
+        self.approved_proposal.clear()
+        self.proposing_user = None
+        self.active_proposal = None
+        self.save()
 
     #TODO: I need to figure out something to do with orphaned story instances that don't get finished, probably
 
