@@ -7,6 +7,7 @@ const proposeEndDom = document.getElementById('propose-end-button');
 const statusBarDom = document.getElementById('story-status-div');
 const turnOrderDom = document.querySelector("#turn-order-col");
 const authorTemplate = document.querySelector("#turn-order-author-template");
+const storyTextDom = document.querySelector("#text");
 
 const circleSocket = new WebSocket(
   'ws://'
@@ -26,12 +27,16 @@ circleSocket.onmessage = function(e) {
     case ('game_update'): 
       if (!data.story_started) {
         setStatusBar(`${thresholdUserCt} authors needed to start the story. Waiting for ${thresholdUserCt - data.turn_order.length} more!`);
+        hideProposeEnd();
+        hideProposeNewParagraph();
       }
       else {
         // Game is started
         document.getElementById('game-div').style.display = "block";
         // Update game display
-        document.querySelector("#text").innerHTML = data.text;
+        storyTextDom.innerHTML = "<p>" + data.text.replaceAll(/\n\n/ig, "</p><p>") + "</p>";
+        storyTextDom.lastChild.appendChild(wordInputDom);
+
         document.querySelector("#dev-turn-order").innerHTML = data.turn_order;
         const whoseTurn = data.turn_order[0];
 
@@ -87,12 +92,13 @@ circleSocket.onmessage = function(e) {
               showWordInput();
             // You can propose ending or new paragraph on your turn, if the text ends with
             // a sentence-ending punctuation mark.
-            if (data.text.length > 0 && ["?", "!", "."].includes(data.text.charAt(data.text.length-1))) {
+            if ((data.text.length > 0) && ["?", "!", "."].includes(data.text.charAt(data.text.length-1))) {
               showProposeEnd();
               showProposeNewParagraph();
             }
             else {
               hideProposeEnd();
+              hideProposeNewParagraph();
             }
           }
           else {

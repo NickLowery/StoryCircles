@@ -7,6 +7,7 @@ from .models import User, Story, Circle
 from .views import FinishedStoryView, CircleView
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
+from django.template.loader import get_template
 
 class CircleIndexConsumer(WebsocketConsumer):
     def connect(self):
@@ -157,7 +158,8 @@ class CircleConsumer(WebsocketConsumer):
             if circle_instance.active_proposal == Circle.Proposal.END_STORY:
                 self.end_story(circle_instance)
             elif circle_instance.active_proposal == Circle.Proposal.NEW_PARAGRAPH:
-                self.msg_client("TODO: Add a paragraph break")
+                self.msg_client("New paragraph initiated")
+                circle_instance.story.append_text("\n\n")
                 circle_instance.reset_proposal()
                 self.update_group(circle_instance)
         else:
@@ -212,6 +214,8 @@ class CircleConsumer(WebsocketConsumer):
 
     # Send a game state update to the circle
     def update_group(self, circle_instance, message=None):
+        story_template = get_template('circle/story_text.html')
+        story_html = story_template.render({'text': circle_instance.story.text})
         data = {'type': 'game_update',
                 'story_started': circle_instance.story.started,
                 'text': circle_instance.story.text,
@@ -277,7 +281,7 @@ def validate_word(word, text):
         else:
             return (False, "", "Sentence-ending punctuation can only go after a word.")
     if re.fullmatch("[a-zA-Z']+", word):
-        if text[-1] in ["?", ".", "!"]:
+        if text[-1] in ["?", ".", "!", "\n"]:
             return (True, (' ' + string.capwords(word)), "")
         else:
             return (True, (' ' + word), "")

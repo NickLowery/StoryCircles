@@ -11,51 +11,97 @@
 # hlsearch on (H) or off (h):
 ~H
 # Last Search Pattern:
-~MSle0~/Circle
+~MSle0~/template
 
 # Last Substitute Search Pattern:
-~MSle0&end
+~MSle0&SOMETHING
 
 # Last Substitute String:
-$new-paragraph
+$${prop_string}
 
 # Command Line History (newest to oldest):
 :xa
-|2,0,1613088753,,"xa"
+|2,0,1613272836,,"xa"
 :w
-|2,0,1613088746,,"w"
-:b ~/Dropbox/code/cs50w/final-project/notes.txt
-|2,0,1613088707,,"b ~/Dropbox/code/cs50w/final-project/notes.txt"
-:b 
-|2,0,1613088701,,"b "
-:b circle/models.py
-|2,0,1613088667,,"b circle/models.py"
-:b circle/consumers.py
-|2,0,1613088592,,"b circle/consumers.py"
+|2,0,1613272683,,"w"
 :b circle.js
-|2,0,1613088393,,"b circle.js"
+|2,0,1613272596,,"b circle.js"
+:b circle/consumers.py
+|2,0,1613272505,,"b circle/consumers.py"
+:b circle/static/circle/circle.js
+|2,0,1613272443,,"b circle/static/circle/circle.js"
+:b ~/Dropbox/code/cs50w/final-project/notes.txt
+|2,0,1613272065,,"b ~/Dropbox/code/cs50w/final-project/notes.txt"
+:b circle/views.py
+|2,0,1613271962,,"b circle/views.py"
+:b 
+|2,0,1613271952,,"b "
+:!./manage.py test
+|2,0,1613271807,,"!./manage.py test"
+:b circle/tests.py
+|2,0,1613271333,,"b circle/tests.py"
 :vs
-|2,0,1613088358,,"vs"
+|2,0,1613271330,,"vs"
+:b circle/templates/circle/story_text.html
+|2,0,1613268471,,"b circle/templates/circle/story_text.html"
+:b ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|2,0,1613268463,,"b ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+:q
+|2,0,1613268337,,"q"
+:e circle/templates/circle/story_text.html
+|2,0,1613268091,,"e circle/templates/circle/story_text.html"
+:b circle/template
+|2,0,1613267993,,"b circle/template"
+:e circle/static/circle/styles.scss
+|2,0,1613267643,,"e circle/static/circle/styles.scss"
+:b circle/templates/circle/circle.html
+|2,0,1613267609,,"b circle/templates/circle/circle.html"
+:!rm circle/templates/circle/story_text.html
+|2,0,1613266841,,"!rm circle/templates/circle/story_text.html"
+:q!
+|2,0,1613266829,,"q!"
+:b storycircles/settings.py
+|2,0,1613262529,,"b storycircles/settings.py"
+:b ~/Dropbox/code/cs50w/final-project/storycircles/circle/models.py
+|2,0,1613262259,,"b ~/Dropbox/code/cs50w/final-project/storycircles/circle/models.py"
+:b circle/models.py
+|2,0,1613261895,,"b circle/models.py"
+:'<,'>s/circl
+|2,0,1613195044,,"'<,'>s/circl"
+:W
+|2,0,1613194655,,"W"
+:'<,'>s/SOMETHING/${prop_string}/g
+|2,0,1613186455,,"'<,'>s/SOMETHING/${prop_string}/g"
+:'<,'>s/SOMETHING/{prop_string}/g
+|2,0,1613186417,,"'<,'>s/SOMETHING/{prop_string}/g"
+:s/"/`/g
+|2,0,1613186385,,"s/\"/`/g"
+:%s/endingApprovalDom/proposalApprovalDom/g
+|2,0,1613186244,,"%s/endingApprovalDom/proposalApprovalDom/g"
+:help
+|2,0,1613186188,,"help"
+:sb circle/consumers.py
+|2,0,1613184827,,"sb circle/consumers.py"
+:s/End/NewParagraph
+|2,0,1613173822,,"s/End/NewParagraph"
 :'<,'>s/end/new-paragraph/g
-|2,0,1613087870,,"'<,'>s/end/new-paragraph/g"
+|2,0,1613173803,,"'<,'>s/end/new-paragraph/g"
+:s/ending/proposal
+|2,0,1613169606,,"s/ending/proposal"
+:'<,'>s/ending/proposal/g
+|2,0,1613169561,,"'<,'>s/ending/proposal/g"
 :'<,'>s/ending/new-paragraph/g
 |2,0,1613087856,,"'<,'>s/ending/new-paragraph/g"
 :b circle.html
 |2,0,1613087722,,"b circle.html"
-:b circle/static/circle/circle.js
-|2,0,1613087708,,"b circle/static/circle/circle.js"
 :b circle/static/circle/general.js
 |2,0,1612310223,,"b circle/static/circle/general.js"
 :b circle/templates/circle/layout.html
 |2,0,1612309872,,"b circle/templates/circle/layout.html"
 :b circle/static/circle/styles.css
 |2,0,1612309861,,"b circle/static/circle/styles.css"
-:q
-|2,0,1612308522,,"q"
 :b
 |2,0,1612308521,,"b"
-:b circle/templates/circle/circle.html
-|2,0,1612308244,,"b circle/templates/circle/circle.html"
 :ls
 |2,0,1611950979,,"ls"
 :bdelete 34
@@ -106,8 +152,6 @@ $new-paragraph
 |2,0,1611703722,,"e ../../project4/network/templates/network/include/posts.html"
 :'<,'>w
 |2,0,1611703619,,"'<,'>w"
-:b circle/views.py
-|2,0,1611703577,,"b circle/views.py"
 :b circle/templates/circle/user_detail.html
 |2,0,1611703557,,"b circle/templates/circle/user_detail.html"
 :b index.html
@@ -206,18 +250,12 @@ $new-paragraph
 |2,0,1610754392,,"%s/circle"
 :%s/self.circle_group_name/circle_instance.group_name/g
 |2,0,1610753962,,"%s/self.circle_group_name/circle_instance.group_name/g"
-:b storycircles/settings.py
-|2,0,1610753555,,"b storycircles/settings.py"
 :e 
 |2,0,1610753423,,"e "
 :e circle/admin.py
 |2,0,1610741839,,"e circle/admin.py"
 :!./manage.py migrate
 |2,0,1610740599,,"!./manage.py migrate"
-:W
-|2,0,1610654945,,"W"
-:b circle/tests.py
-|2,0,1610584217,,"b circle/tests.py"
 :b asgi
 |2,0,1610567252,,"b asgi"
 :b circle/routing.py
@@ -262,14 +300,108 @@ $new-paragraph
 |2,0,1610496552,,"e ../notes.txt"
 
 # Search String History (newest to oldest):
+?/template
+|2,1,1613272512,47,"template"
+?/\n
+|2,1,1613272446,47,"\\n"
+??text
+|2,1,1613272325,63,"text"
+?/def valid
+|2,1,1613271742,47,"def valid"
+?/ending.
+|2,1,1613271517,47,"ending."
+?/data.text
+|2,1,1613269379,47,"data.text"
+?/par
+|2,1,1613267652,47,"par"
+?/par	
+|2,1,1613267650,47,"par	"
+?/p
+|2,1,1613267648,47,"p"
+?/update
+|2,1,1613267166,47,"update"
+?/def update
+|2,1,1613267001,47,"def update"
+?/TEM
+|2,1,1613262531,47,"TEM"
+?/reject
+|2,1,1613196802,47,"reject"
+??appro
+|2,1,1613195413,63,"appro"
+?/clear
+|2,1,1613194909,47,"clear"
+?/.
+|2,1,1613194634,47,"."
+??'
+|2,1,1613194373,63,"'"
+?/"""
+|2,1,1613194152,47,"\"\"\""
+?/end_story
+|2,1,1613193087,47,"end_story"
+?/if
+|2,1,1613192932,47,"if"
+?/propose_end
+|2,1,1613186717,47,"propose_end"
+?/def approve
+|2,1,1613186553,47,"def approve"
+?/appr
+|2,1,1613186547,47,"appr"
+? SOMETHING
+|2,1,1613186455,,"SOMETHING"
+?/SOMETHING
+|2,1,1613186439,47,"SOMETHING"
+? "
+|2,1,1613186385,,"\""
+?/console.log
+|2,1,1613186347,47,"console.log"
+? endingApprovalDom
+|2,1,1613186244,,"endingApprovalDom"
+?/ending
+|2,1,1613186154,47,"ending"
+??active
+|2,1,1613186100,63,"active"
+?/prop_code
+|2,1,1613186079,47,"prop_code"
+?/prop
+|2,1,1613186069,47,"prop"
+?/case
+|2,1,1613185958,47,"case"
+?/return
+|2,1,1613185942,47,"return"
+??case
+|2,1,1613185920,63,"case"
+?/choice
+|2,1,1613185022,47,"choice"
+?/approve
+|2,1,1613184686,47,"approve"
+?/debugger
+|2,1,1613175427,47,"debugger"
+? End
+|2,1,1613173822,,"End"
+? end
+|2,1,1613173803,,"end"
+??circle
+|2,1,1613172604,63,"circle"
+?/word_submit
+|2,1,1613172571,47,"word_submit"
+?/def end
+|2,1,1613169672,47,"def end"
+?/end
+|2,1,1613169667,47,"end"
+? ending
+|2,1,1613169606,,"ending"
+?/all
+|2,1,1613169343,47,"all"
+?/class Circle
+|2,1,1613169134,47,"class Circle"
+?/def Circle
+|2,1,1613169129,47,"def Circle"
+?/JSON
+|2,1,1613166954,47,"JSON"
 ?/Circle
 |2,1,1613088676,47,"Circle"
 ?/new
 |2,1,1613087875,47,"new"
-? end
-|2,1,1613087870,,"end"
-? ending
-|2,1,1613087856,,"ending"
 ?/alert
 |2,1,1612310220,47,"alert"
 ?/alert_message
@@ -358,8 +490,6 @@ $new-paragraph
 |2,1,1611280630,47,"connect"
 ?/dev
 |2,1,1611279120,47,"dev"
-?/update
-|2,1,1611278845,47,"update"
 ??started
 |2,1,1611278610,63,"started"
 ?/property
@@ -486,8 +616,6 @@ $new-paragraph
 |2,1,1610653987,47,"as"
 ?/def updat
 |2,1,1610653574,47,"def updat"
-?/def update
-|2,1,1610652605,47,"def update"
 ?/Req
 |2,1,1610651629,47,"Req"
 ?/self.send
@@ -519,45 +647,37 @@ $new-paragraph
 
 # Registers:
 "0	LINE	0
-	                        <div id="ending-approval-div" style="display: none;">
-	                            <input id="approve-end-button" type="button" value="Approve ending">
-	                            <input id="reject-end-button" type="button" value="Reject ending">
-	                        </div>
-|3,0,0,1,4,0,1613087839,"                        <div id=\"ending-approval-div\" style=\"display: none;\">","                            <input id=\"approve-end-button\" type=\"button\" value=\"Approve ending\">","                            <input id=\"reject-end-button\" type=\"button\" value=\"Reject ending\">","                        </div>"
+	        self.assertEqual((True, " I"), validate_word("i", "ending.")[:-1])
+	        self.assertEqual((True, " Island"), validate_word("island", "ending.")[:-1])
+	        self.assertEqual((True, " I'm"), validate_word("i'm", "ending.")[:-1])
+|3,0,0,1,3,0,1613271512,"        self.assertEqual((True, \" I\"), validate_word(\"i\", \"ending.\")[:-1])","        self.assertEqual((True, \" Island\"), validate_word(\"island\", \"ending.\")[:-1])","        self.assertEqual((True, \" I'm\"), validate_word(\"i'm\", \"ending.\")[:-1])"
 "1	LINE	0
-	                        <div id="new-paragraph
-|3,0,1,1,1,0,1613087836,"                        <div id=\"new-paragraph"
+	
+|3,0,1,1,1,0,1613271452,""
 "2	LINE	0
-	
-|3,0,2,1,1,0,1612310333,""
+	    def test_newline(self):
+|3,0,2,1,1,0,1613271451,"    def test_newline(self):"
 "3	LINE	0
-	  a
-|3,0,3,1,1,0,1612310264,"  a"
+	              if 
+|3,0,3,1,1,0,1613271297,"              if "
 "4	LINE	0
-	  const 
-|3,0,4,1,1,0,1612310253,"  const "
+	        storyTextDom.innerHTML
+|3,0,4,1,1,0,1613269420,"        storyTextDom.innerHTML"
 "5	LINE	0
-	
-|3,0,5,1,1,0,1612310232,""
+	        storyTextDom.innerHTML.replace(/\n+$/, "")
+|3,0,5,1,1,0,1613269346,"        storyTextDom.innerHTML.replace(/\\n+$/, \"\")"
 "6	LINE	0
-	            padding:5px;
-|3,0,6,1,1,0,1612310117,"            padding:5px;"
+	        storyTextDom.innerHTML.replace(/\n+$/, "")
+|3,0,6,1,1,0,1613269343,"        storyTextDom.innerHTML.replace(/\\n+$/, \"\")"
 "7	LINE	0
-	    @keyframes hide {
-	        0% {
-	            opacity: 1;
-	            height: 100%;
-	            line-height: 100%;
-	            padding:5
-	        }
-	    }
-|3,0,7,1,8,0,1612310093,"    @keyframes hide {","        0% {","            opacity: 1;","            height: 100%;","            line-height: 100%;","            padding:5","        }","    }"
+	        storyTextDom.innerHTML.replace(/\n+$/, "")
+|3,0,7,1,1,0,1613269339,"        storyTextDom.innerHTML.replace(/\\n+$/, \"\")"
 "8	LINE	0
-	  
-|3,0,8,1,1,0,1612308540,"  "
+	        data.story_html.replace(/\n+$/, "")
+|3,0,8,1,1,0,1613269217,"        data.story_html.replace(/\\n+$/, \"\")"
 "9	LINE	0
-	            self.msg_client("Proposal to end the story received.")
-|3,0,9,1,1,0,1612307985,"            self.msg_client(\"Proposal to end the story received.\")"
+	{%
+|3,0,9,1,1,0,1613268572,"{%"
 "a	CHAR	0
 	threshold_user_ct 
 |3,0,10,0,1,0,1611195021,"threshold_user_ct "
@@ -565,246 +685,246 @@ $new-paragraph
 	max_user_ct 
 |3,0,11,0,1,0,1611195023,"max_user_ct "
 ""-	CHAR	0
-	-
-|3,1,36,0,1,0,1613087881,"-"
+	)
+|3,1,36,0,1,0,1613272623,")"
 
 # global variables:
 
 # File marks:
-'0  558  57  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,48,558,57,1613088753,"~/Dropbox/code/cs50w/final-project/notes.txt"
-'1  35  99  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,49,35,99,1613088349,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
-'2  35  99  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,50,35,99,1613088349,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
-'3  15  10  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js
-|4,51,15,10,1612310408,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js"
-'4  15  10  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js
-|4,52,15,10,1612310408,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js"
-'5  15  10  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js
-|4,53,15,10,1612310408,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js"
-'6  15  10  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js
-|4,54,15,10,1612310408,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js"
-'7  82  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,55,82,0,1611950995,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
-'8  47  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,56,47,0,1611950995,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
-'9  82  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,57,82,0,1611950995,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+'0  95  15  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,48,95,15,1613272836,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+'1  217  14  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,49,217,14,1613272523,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+'2  217  14  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,50,217,14,1613272523,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+'3  284  42  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,51,284,42,1613272276,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+'4  284  42  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,52,284,42,1613272276,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+'5  284  42  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,53,284,42,1613272276,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+'6  284  42  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,54,284,42,1613272276,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+'7  558  57  ~/Dropbox/code/cs50w/final-project/notes.txt
+|4,55,558,57,1613088753,"~/Dropbox/code/cs50w/final-project/notes.txt"
+'8  558  57  ~/Dropbox/code/cs50w/final-project/notes.txt
+|4,56,558,57,1613088753,"~/Dropbox/code/cs50w/final-project/notes.txt"
+'9  558  57  ~/Dropbox/code/cs50w/final-project/notes.txt
+|4,57,558,57,1613088753,"~/Dropbox/code/cs50w/final-project/notes.txt"
 
 # Jumplist (newest first):
--'  558  57  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,558,57,1613088753,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  77  6  ~/Dropbox/code/cs50w/final-project/storycircles/circle/models.py
-|4,39,77,6,1613088707,"~/Dropbox/code/cs50w/final-project/storycircles/circle/models.py"
--'  30  13  ~/Dropbox/code/cs50w/final-project/storycircles/circle/models.py
-|4,39,30,13,1613088677,"~/Dropbox/code/cs50w/final-project/storycircles/circle/models.py"
--'  29  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/models.py
-|4,39,29,0,1613088676,"~/Dropbox/code/cs50w/final-project/storycircles/circle/models.py"
--'  56  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,39,56,0,1613088667,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
--'  555  0  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,555,0,1613088393,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  35  99  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,35,99,1613088349,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  35  99  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,35,99,1613088349,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  34  101  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,34,101,1613088322,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  34  101  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,34,101,1613088322,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  33  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,33,0,1613088319,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  33  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,33,0,1613088319,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  32  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,32,0,1613088318,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  32  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,32,0,1613088318,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  37  24  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,37,24,1613088315,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  37  24  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,37,24,1613088315,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  31  29  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,31,29,1613088314,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  31  29  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,31,29,1613088314,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  30  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,30,0,1613088313,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  30  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,30,0,1613088313,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  38  25  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,38,25,1613087952,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  38  25  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,38,25,1613087952,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  555  45  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,555,45,1613087722,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  503  0  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,503,0,1613087652,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  503  0  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,503,0,1613087652,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  15  10  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js
-|4,39,15,10,1612310408,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js"
--'  15  10  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js
-|4,39,15,10,1612310408,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js"
--'  15  10  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js
-|4,39,15,10,1612310408,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js"
--'  10  31  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js
-|4,39,10,31,1612310275,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js"
--'  10  31  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js
-|4,39,10,31,1612310275,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js"
--'  10  31  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js
-|4,39,10,31,1612310275,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js"
--'  146  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,39,146,0,1612310223,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
--'  146  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,39,146,0,1612310223,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
--'  146  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,39,146,0,1612310223,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
--'  1  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,39,1,0,1612310216,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
--'  1  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,39,1,0,1612310216,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
--'  1  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,39,1,0,1612310216,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
--'  62  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.css
-|4,39,62,0,1612310214,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.css"
--'  62  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.css
-|4,39,62,0,1612310214,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.css"
--'  62  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.css
-|4,39,62,0,1612310214,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.css"
--'  52  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/layout.html
-|4,39,52,17,1612309884,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/layout.html"
--'  52  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/layout.html
-|4,39,52,17,1612309884,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/layout.html"
--'  52  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/layout.html
-|4,39,52,17,1612309884,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/layout.html"
--'  30  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/layout.html
-|4,39,30,0,1612309875,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/layout.html"
--'  30  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/layout.html
-|4,39,30,0,1612309875,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/layout.html"
--'  30  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/layout.html
-|4,39,30,0,1612309875,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/layout.html"
--'  28  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.css
-|4,39,28,0,1612309872,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.css"
--'  28  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.css
-|4,39,28,0,1612309872,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.css"
--'  28  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.css
-|4,39,28,0,1612309872,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.css"
--'  502  8  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,502,8,1612309861,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  502  8  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,502,8,1612309861,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  502  8  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,502,8,1612309861,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  41  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,41,0,1612308341,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  41  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,41,0,1612308341,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  34  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-|4,39,34,0,1612308341,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
--'  125  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,125,17,1612308244,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  125  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,125,17,1612308244,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  125  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,125,17,1612308244,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  250  8  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,250,8,1612308020,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  250  8  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,250,8,1612308020,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  250  8  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,250,8,1612308020,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  246  8  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,246,8,1612308019,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  246  8  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,246,8,1612308019,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  246  8  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,246,8,1612308019,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  171  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,171,17,1612308005,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  171  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,171,17,1612308005,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  171  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,171,17,1612308005,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  149  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,149,17,1612307999,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  149  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,149,17,1612307999,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  149  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,149,17,1612307999,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  147  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,147,17,1612307998,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  147  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,147,17,1612307998,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  147  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,147,17,1612307998,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  134  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,134,17,1612307995,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  132  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,132,17,1612307995,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  134  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,134,17,1612307995,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  132  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,132,17,1612307995,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  134  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,134,17,1612307995,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  132  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,132,17,1612307995,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  85  12  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,85,12,1612307994,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  85  12  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,85,12,1612307994,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  85  12  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,85,12,1612307994,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  280  12  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,280,12,1612307975,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  280  12  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,280,12,1612307975,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  280  12  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,280,12,1612307975,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  34  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,34,0,1612307625,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  34  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,34,0,1612307625,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  34  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-|4,39,34,0,1612307625,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
--'  59  1  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,39,59,1,1612307624,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
--'  59  1  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,39,59,1,1612307624,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
--'  59  1  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,39,59,1,1612307624,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
--'  482  53  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,482,53,1611952974,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  482  53  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,482,53,1611952974,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  482  53  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,482,53,1611952974,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  34  0  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,34,0,1611952915,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  34  0  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,34,0,1611952915,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  34  0  ~/Dropbox/code/cs50w/final-project/notes.txt
-|4,39,34,0,1611952915,"~/Dropbox/code/cs50w/final-project/notes.txt"
--'  80  8  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,39,80,8,1611951675,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
--'  80  8  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-|4,39,80,8,1611951675,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  95  15  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,95,15,1613272836,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  37  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,37,0,1613272600,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  217  14  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,217,14,1613272523,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  217  14  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,217,14,1613272523,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  162  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,162,0,1613272512,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  162  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,162,0,1613272512,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  37  66  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,37,66,1613272505,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  94  49  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,94,49,1613272447,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  94  49  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,94,49,1613272447,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  218  74  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,218,74,1613272328,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  221  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,221,17,1613272328,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  252  18  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,252,18,1613272328,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  254  21  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,254,21,1613272328,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  218  74  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,218,74,1613272328,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  221  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,221,17,1613272328,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  252  18  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,252,18,1613272328,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  254  21  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,254,21,1613272328,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  258  18  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,258,18,1613272327,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  261  21  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,261,21,1613272327,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  264  73  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,264,73,1613272327,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  258  18  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,258,18,1613272327,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  261  21  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,261,21,1613272327,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  264  73  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,264,73,1613272327,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  266  41  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,266,41,1613272326,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  270  24  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,270,24,1613272326,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  271  11  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,271,11,1613272326,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  266  41  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,266,41,1613272326,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  270  24  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,270,24,1613272326,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  271  11  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,271,11,1613272326,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  279  11  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,279,11,1613272325,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  284  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,284,0,1613272325,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  279  11  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,279,11,1613272325,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  284  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,284,0,1613272325,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  284  42  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,284,42,1613272276,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  221  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,221,0,1613271742,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  94  49  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,94,49,1613271328,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  37  67  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,37,67,1613271170,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  590  26  ~/Dropbox/code/cs50w/final-project/notes.txt
+|4,39,590,26,1613269943,"~/Dropbox/code/cs50w/final-project/notes.txt"
+-'  590  26  ~/Dropbox/code/cs50w/final-project/notes.txt
+|4,39,590,26,1613269943,"~/Dropbox/code/cs50w/final-project/notes.txt"
+-'  590  26  ~/Dropbox/code/cs50w/final-project/notes.txt
+|4,39,590,26,1613269943,"~/Dropbox/code/cs50w/final-project/notes.txt"
+-'  95  16  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,95,16,1613269391,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  95  16  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,95,16,1613269391,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  38  8  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,38,8,1613269348,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  38  8  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,38,8,1613269348,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  38  8  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,38,8,1613269348,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  1  43  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/story_text.html
+|4,39,1,43,1613268815,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/story_text.html"
+-'  1  43  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/story_text.html
+|4,39,1,43,1613268815,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/story_text.html"
+-'  1  43  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/story_text.html
+|4,39,1,43,1613268815,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/story_text.html"
+-'  218  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,218,0,1613268471,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  29  47  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,29,47,1613268444,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  29  47  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,29,47,1613268444,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  29  47  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,29,47,1613268444,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  104  2  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss
+|4,39,104,2,1613267714,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss"
+-'  104  2  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss
+|4,39,104,2,1613267714,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss"
+-'  104  2  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss
+|4,39,104,2,1613267714,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss"
+-'  62  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss
+|4,39,62,0,1613267648,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss"
+-'  62  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss
+|4,39,62,0,1613267648,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss"
+-'  62  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss
+|4,39,62,0,1613267648,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss"
+-'  15  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
+|4,39,15,0,1613267643,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
+-'  15  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
+|4,39,15,0,1613267643,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
+-'  15  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
+|4,39,15,0,1613267643,"~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html"
+-'  31  33  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,31,33,1613267609,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  31  33  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,31,33,1613267609,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  31  33  ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+|4,39,31,33,1613267609,"~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js"
+-'  222  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,222,0,1613267364,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  222  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,222,0,1613267364,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  222  0  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,222,0,1613267364,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  224  19  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,224,19,1613267195,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  224  19  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,224,19,1613267195,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  224  19  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,224,19,1613267195,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  201  21  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,201,21,1613267176,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  201  21  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,201,21,1613267176,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  201  21  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,201,21,1613267176,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  174  13  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,174,13,1613267174,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  174  13  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,174,13,1613267174,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  174  13  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,174,13,1613267174,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  167  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,167,17,1613267173,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  167  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,167,17,1613267173,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  167  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,167,17,1613267173,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  164  21  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,164,21,1613267172,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  156  27  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,156,27,1613267172,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  164  21  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,164,21,1613267172,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  156  27  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,156,27,1613267172,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  164  21  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,164,21,1613267172,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  156  27  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,156,27,1613267172,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  155  44  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,155,44,1613267171,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  155  44  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,155,44,1613267171,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  155  44  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,155,44,1613267171,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  152  36  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,152,36,1613267169,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  152  36  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,152,36,1613267169,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  152  36  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,152,36,1613267169,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  142  36  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,142,36,1613267168,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  142  36  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,142,36,1613267168,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  142  36  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,142,36,1613267168,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  106  13  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,106,13,1613267166,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  106  13  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,106,13,1613267166,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  106  13  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,106,13,1613267166,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  225  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,225,17,1613267034,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
+-'  225  17  ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+|4,39,225,17,1613267034,"~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py"
 
 # Buffer list:
-%~/Dropbox/code/cs50w/final-project/notes.txt	558	57
-%~/Dropbox/code/cs50w/final-project/storycircles/circle/models.py	77	6
-%~/Dropbox/code/cs50w/final-project/storycircles/circle/views.py	34	4
-%~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html	35	99
-%~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py	137	0
+%~/Dropbox/code/cs50w/final-project/notes.txt	597	15
+%~/Dropbox/code/cs50w/final-project/storycircles/circle/models.py	59	0
+%~/Dropbox/code/cs50w/final-project/storycircles/circle/views.py	15	0
+%~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html	15	85
+%~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py	217	14
 %~/Dropbox/code/cs50w/final-project/storycircles/circle/urls.py	14	0
-%~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js	56	0
+%~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js	95	15
 %~/Dropbox/code/cs50w/final-project/storycircles/circle/routing.py	10	0
 %~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/index.js	34	4
 %~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/finishedstory_detail.html	22	0
-%~/Dropbox/code/cs50w/final-project/storycircles/circle/tests.py	34	4
-%~/Dropbox/code/cs50w/final-project/storycircles/storycircles/settings.py	34	4
+%~/Dropbox/code/cs50w/final-project/storycircles/circle/tests.py	31	65
+%~/Dropbox/code/cs50w/final-project/storycircles/storycircles/settings.py	61	0
 %~/Dropbox/code/cs50w/final-project/storycircles/storycircles/asgi.py	26	0
 %~/Dropbox/code/cs50w/final-project/storycircles/circle/admin.py	6	0
 %~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/index.html	34	4
@@ -825,28 +945,223 @@ $new-paragraph
 %~/Dropbox/code/cs50w/project4/network/templates/network/index.html	14	0
 %~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/include/finished_story_table.html	12	0
 %~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/include/finished_story_list.html	1	0
+%~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/story_text.html	1	43
+%~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss	104	2
 
 # History of marks within files (newest to oldest):
 
+> ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
+	*	1613272683	0
+	"	95	15
+	^	95	16
+	.	95	15
+	+	63	10
+	+	59	38
+	+	61	31
+	+	66	32
+	+	72	37
+	+	73	48
+	+	79	46
+	+	165	0
+	+	160	0
+	+	163	0
+	+	65	35
+	+	67	47
+	+	73	68
+	+	79	66
+	+	88	30
+	+	109	37
+	+	95	100
+	+	98	0
+	+	96	0
+	+	97	36
+	+	95	0
+	+	99	0
+	+	95	0
+	+	94	49
+	+	95	0
+	+	88	0
+	+	95	86
+	+	79	93
+	+	12	0
+	+	12	27
+	+	12	34
+	+	63	14
+	+	12	20
+	+	63	34
+	+	63	61
+	+	12	0
+	+	185	0
+	+	175	2
+	+	174	32
+	+	184	0
+	+	177	32
+	+	179	13
+	+	176	9
+	+	179	14
+	+	183	44
+	+	178	11
+	+	181	11
+	+	63	0
+	+	62	65
+	+	63	0
+	+	5	0
+	+	202	33
+	+	203	32
+	+	63	0
+	+	67	0
+	+	211	20
+	+	212	12
+	+	202	20
+	+	202	12
+	+	205	19
+	+	173	0
+	+	172	0
+	+	168	0
+	+	170	19
+	+	202	0
+	+	81	0
+	+	84	0
+	+	81	73
+	+	82	50
+	+	83	0
+	+	216	52
+	+	219	18
+	+	37	0
+	+	36	0
+	+	36	57
+	+	36	36
+	+	17	7
+	+	36	52
+	+	37	59
+	+	101	17
+	+	31	33
+	+	39	0
+	+	37	76
+	+	10	52
+	+	37	19
+	+	38	56
+	+	37	41
+	+	36	0
+	+	37	47
+	+	37	0
+	+	38	0
+	+	38	29
+	+	37	0
+	+	38	0
+	+	37	67
+	+	95	36
+	+	96	0
+	+	37	66
+	+	95	103
+	+	95	15
+
+> ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
+	*	1613272523	0
+	"	217	14
+	^	162	55
+	.	162	54
+	+	213	19
+	+	213	0
+	+	213	25
+	+	220	22
+	+	227	24
+	+	219	29
+	+	212	12
+	+	213	43
+	+	185	43
+	+	187	0
+	+	186	70
+	+	187	0
+	+	226	66
+	+	229	72
+	+	225	24
+	+	226	73
+	+	227	29
+	+	228	36
+	+	230	13
+	+	213	0
+	+	124	35
+	+	131	15
+	+	132	9
+	+	134	9
+	+	132	55
+	+	136	0
+	+	133	51
+	+	132	11
+	+	137	64
+	+	141	0
+	+	156	29
+	+	154	78
+	+	155	5
+	+	154	6
+	+	155	63
+	+	157	50
+	+	169	25
+	+	132	24
+	+	141	59
+	+	156	51
+	+	169	0
+	+	159	46
+	+	169	0
+	+	160	78
+	+	161	0
+	+	160	13
+	+	164	34
+	+	164	0
+	+	168	0
+	+	166	0
+	+	142	16
+	+	152	58
+	+	164	21
+	+	151	0
+	+	163	0
+	+	164	0
+	+	163	36
+	+	173	39
+	+	156	7
+	+	145	15
+	+	125	35
+	+	146	0
+	+	146	50
+	+	146	62
+	+	147	75
+	+	149	67
+	+	126	33
+	+	171	14
+	+	175	34
+	+	176	0
+	+	172	49
+	+	175	91
+	+	170	21
+	+	144	21
+	+	175	92
+	+	172	66
+	+	162	21
+	+	161	55
+	+	162	54
+	+	10	46
+	+	219	62
+	+	219	0
+	+	219	8
+	+	219	73
+	+	221	27
+	+	219	0
+	+	221	45
+	+	219	0
+	+	218	20
+	+	217	62
+	+	218	79
+	+	220	0
+	+	221	49
+	+	284	42
+	+	162	54
+
 > ~/Dropbox/code/cs50w/final-project/notes.txt
-	*	1613088751	0
-	"	558	57
-	^	558	58
-	.	558	0
-	+	248	0
-	+	251	0
-	+	252	0
-	+	255	0
-	+	256	0
-	+	258	7
-	+	260	28
-	+	260	0
-	+	262	0
-	+	265	0
-	+	266	0
-	+	269	0
-	+	273	0
-	+	278	0
+	*	1613272173	0
+	"	597	15
+	^	597	16
+	.	597	0
 	+	279	0
 	+	280	35
 	+	283	0
@@ -933,337 +1248,165 @@ $new-paragraph
 	+	502	0
 	+	555	45
 	+	558	0
+	+	568	0
+	+	569	0
+	+	573	81
+	+	574	0
+	+	577	56
+	+	586	0
+	+	589	0
+	+	590	0
+	+	596	0
+	+	597	0
 
-> ~/Dropbox/code/cs50w/final-project/storycircles/circle/models.py
-	*	1613088701	0
-	"	77	6
-	^	78	70
-	.	76	46
-	+	85	17
-	+	60	18
-	+	16	0
-	+	17	43
-	+	52	57
-	+	51	24
-	+	52	0
-	+	55	60
-	+	54	54
-	+	88	0
-	+	75	0
-	+	71	21
-	+	71	4
-	+	72	0
-	+	71	108
-	+	72	42
-	+	72	38
-	+	69	51
-	+	70	0
-	+	42	39
-	+	70	0
+> ~/Dropbox/code/cs50w/final-project/storycircles/circle/views.py
+	*	1613271963	0
+	"	15	0
+	^	44	28
+	.	44	27
+	+	20	17
+	+	21	32
+	+	98	15
+	+	98	16
+	+	98	49
+	+	10	67
+	+	98	16
+	+	10	26
+	+	18	0
+	+	98	0
+	+	33	0
+	+	27	58
+	+	33	0
+	+	28	6
+	+	29	51
+	+	32	0
+	+	39	53
+	+	46	0
+	+	41	38
+	+	9	52
+	+	31	34
+	+	14	69
+	+	14	41
+	+	14	49
+	+	17	4
+	+	15	50
+	+	16	74
+	+	18	0
 	+	42	0
-	+	45	0
+	+	46	0
 	+	42	0
 	+	43	0
-	+	42	0
+	+	44	53
 	+	44	0
-	+	42	23
-	+	69	26
-	+	72	27
-	+	72	26
-	+	72	60
-	+	72	59
-	+	4	52
-	+	7	0
-	+	4	56
-	+	72	20
-	+	72	54
-	+	20	42
-	+	21	77
-	+	43	48
-	+	42	47
-	+	6	14
-	+	107	50
-	+	42	65
-	+	43	59
-	+	42	58
-	+	108	0
-	+	103	25
-	+	103	54
-	+	103	24
-	+	103	0
-	+	65	0
-	+	63	48
-	+	58	88
-	+	64	18
-	+	103	25
-	+	103	0
 	+	46	0
-	+	49	0
-	+	103	0
-	+	48	25
-	+	42	0
-	+	74	43
-	+	33	0
-	+	90	37
-	+	91	28
-	+	26	9
-	+	30	12
-	+	29	0
-	+	28	44
-	+	24	0
-	+	31	0
-	+	32	67
-	+	5	0
-	+	32	51
-	+	95	26
-	+	97	0
-	+	93	58
-	+	96	59
-	+	25	40
-	+	28	104
-	+	25	72
-	+	28	72
-	+	72	72
-	+	73	46
-	+	72	38
-	+	73	0
-	+	72	0
-	+	71	44
-	+	9	68
-	+	38	28
-	+	76	48
-	+	77	77
-	+	78	69
-	+	76	46
-
-> ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/circle.js
-	*	1613088665	0
-	"	56	0
-	^	56	13
-	.	57	10
-	+	17	91
-	+	18	0
-	+	7	64
-	+	26	0
-	+	26	149
-	+	26	0
-	+	31	0
-	+	34	44
-	+	82	33
-	+	82	41
-	+	113	0
-	+	112	40
-	+	26	20
-	+	26	138
-	+	82	42
-	+	26	139
-	+	82	0
-	+	82	86
-	+	82	46
-	+	82	0
-	+	82	12
-	+	82	9
-	+	82	70
-	+	82	13
-	+	82	21
-	+	82	0
-	+	82	47
-	+	82	8
-	+	82	0
-	+	82	27
-	+	82	0
-	+	29	0
-	+	82	39
-	+	82	81
-	+	82	38
-	+	82	0
-	+	82	10
-	+	82	50
-	+	82	60
-	+	82	0
-	+	82	94
-	+	82	14
-	+	82	78
-	+	82	0
-	+	82	105
-	+	82	61
-	+	82	0
-	+	41	0
-	+	41	9
-	+	82	0
-	+	41	0
-	+	35	0
-	+	41	0
-	+	52	0
-	+	60	34
-	+	82	0
-	+	62	0
-	+	37	18
-	+	63	0
-	+	65	0
-	+	81	0
-	+	46	54
-	+	58	8
-	+	42	25
-	+	47	25
-	+	52	0
-	+	65	0
-	+	67	30
-	+	65	0
-	+	73	0
-	+	65	0
-	+	81	0
-	+	74	0
-	+	75	33
-	+	82	0
-	+	81	0
-	+	82	0
-	+	86	0
-	+	42	26
-	+	47	0
-	+	38	34
-	+	41	0
-	+	42	0
-	+	39	0
-	+	47	0
 	+	45	0
-	+	51	0
-	+	45	15
-	+	56	0
-	+	57	10
-
-> ~/Dropbox/code/cs50w/final-project/storycircles/circle/consumers.py
-	*	1613088598	0
-	"	137	0
-	^	295	58
-	.	136	0
-	+	153	58
-	+	238	40
-	+	152	58
-	+	153	0
-	+	152	56
-	+	153	0
-	+	153	73
-	+	152	32
-	+	153	57
-	+	152	0
-	+	143	0
-	+	138	0
-	+	152	51
-	+	138	0
-	+	151	0
-	+	179	70
-	+	169	0
-	+	30	52
-	+	33	0
-	+	30	58
-	+	183	64
-	+	184	0
-	+	30	60
-	+	20	56
-	+	21	0
 	+	30	61
-	+	31	0
-	+	30	59
-	+	31	90
-	+	32	65
-	+	244	60
-	+	72	32
-	+	76	0
-	+	73	80
-	+	75	40
-	+	222	56
-	+	206	18
-	+	54	74
-	+	74	38
-	+	73	80
-	+	74	24
-	+	73	79
-	+	74	24
-	+	73	34
-	+	187	0
-	+	70	0
-	+	101	68
-	+	73	71
-	+	60	71
-	+	60	0
-	+	62	82
-	+	60	34
-	+	61	24
-	+	65	21
-	+	257	17
-	+	257	0
-	+	258	28
-	+	259	40
-	+	199	0
-	+	201	0
-	+	199	47
-	+	200	105
-	+	199	0
-	+	62	51
-	+	63	0
-	+	62	49
-	+	63	91
-	+	63	0
-	+	30	0
-	+	25	37
-	+	39	0
-	+	26	0
-	+	29	16
-	+	39	0
-	+	29	16
-	+	25	18
-	+	29	0
-	+	28	84
+	+	44	27
+
+> ~/Dropbox/code/cs50w/final-project/storycircles/circle/tests.py
+	*	1613271868	0
+	"	31	65
+	^	31	66
+	.	31	65
+	+	110	5
+	+	95	51
+	+	110	35
+	+	110	37
+	+	110	0
+	+	4	49
+	+	110	44
+	+	6	52
+	+	110	84
+	+	110	25
+	+	110	33
+	+	110	54
+	+	110	51
+	+	110	63
+	+	110	22
+	+	110	0
+	+	110	41
+	+	110	0
+	+	110	82
+	+	110	66
+	+	110	38
+	+	110	0
+	+	8	29
+	+	110	0
+	+	110	66
+	+	7	53
+	+	110	66
+	+	110	0
+	+	110	40
+	+	110	74
+	+	110	20
+	+	110	34
+	+	110	0
+	+	110	39
+	+	110	4
+	+	110	8
+	+	110	67
+	+	110	9
+	+	110	53
+	+	110	20
+	+	110	38
+	+	9	0
+	+	5	0
+	+	110	0
+	+	110	39
+	+	110	0
+	+	99	0
+	+	109	0
+	+	96	78
+	+	97	1
+	+	96	1
+	+	95	1
+	+	13	29
+	+	15	26
+	+	31	64
 	+	15	0
-	+	131	42
-	+	136	63
-	+	150	0
-	+	147	64
-	+	148	9
-	+	161	46
-	+	225	66
-	+	210	37
-	+	225	74
-	+	231	0
-	+	228	0
-	+	230	0
-	+	231	0
-	+	229	77
-	+	225	0
-	+	210	0
-	+	211	25
-	+	214	17
-	+	161	45
-	+	295	57
-	+	136	0
+	+	16	54
+	+	21	67
+	+	22	77
+	+	23	71
+	+	31	65
+
+> ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/story_text.html
+	*	1613268635	0
+	"	1	43
+	^	1	44
+	.	1	44
+	+	1	0
+	+	1	3
+	+	1	0
+	+	1	46
+	+	1	44
 
 > ~/Dropbox/code/cs50w/final-project/storycircles/circle/templates/circle/circle.html
-	*	1613088329	0
-	"	35	99
-	.	35	0
+	*	1613267993	0
+	"	15	85
+	^	15	40
+	.	15	39
 	+	5	18
 	+	5	84
-	+	40	0
-	+	19	79
-	+	20	98
-	+	20	0
-	+	19	0
-	+	18	37
-	+	16	27
-	+	16	45
-	+	16	20
-	+	16	56
-	+	16	49
+	+	32	0
+	+	17	79
+	+	18	98
+	+	18	0
+	+	17	0
+	+	16	37
+	+	15	27
+	+	15	45
+	+	15	20
+	+	15	56
+	+	15	49
 	+	15	0
-	+	16	0
-	+	25	0
-	+	16	0
-	+	24	0
+	+	23	0
+	+	15	0
+	+	22	0
 	+	5	96
 	+	11	47
 	+	12	0
-	+	23	0
+	+	21	0
 	+	11	20
 	+	11	0
 	+	11	42
@@ -1283,12 +1426,139 @@ $new-paragraph
 	+	7	0
 	+	11	0
 	+	8	10
-	+	38	0
-	+	38	41
-	+	38	42
-	+	38	0
-	+	38	101
-	+	35	0
+	+	30	0
+	+	30	41
+	+	30	42
+	+	30	0
+	+	30	101
+	+	30	0
+	+	22	40
+	+	30	0
+	+	24	0
+	+	25	40
+	+	30	0
+	+	26	47
+	+	27	46
+	+	26	46
+	+	27	81
+	+	26	83
+	+	15	0
+	+	16	0
+	+	15	39
+
+> ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/styles.scss
+	*	1613267707	0
+	"	104	2
+
+> ~/Dropbox/code/cs50w/final-project/storycircles/storycircles/settings.py
+	*	1613262535	0
+	"	61	0
+
+> ~/Dropbox/code/cs50w/final-project/storycircles/circle/models.py
+	*	1613261944	0
+	"	59	0
+	^	85	49
+	.	85	48
+	+	43	0
+	+	44	0
+	+	43	0
+	+	45	0
+	+	43	23
+	+	70	26
+	+	73	27
+	+	73	26
+	+	73	60
+	+	73	59
+	+	4	52
+	+	8	0
+	+	4	56
+	+	73	20
+	+	73	54
+	+	21	42
+	+	22	77
+	+	44	48
+	+	43	47
+	+	7	14
+	+	125	50
+	+	43	65
+	+	44	59
+	+	43	58
+	+	126	0
+	+	121	25
+	+	121	54
+	+	121	24
+	+	121	0
+	+	66	0
+	+	64	48
+	+	59	88
+	+	65	18
+	+	121	25
+	+	121	0
+	+	47	0
+	+	50	0
+	+	121	0
+	+	49	25
+	+	43	0
+	+	74	43
+	+	34	0
+	+	108	37
+	+	109	28
+	+	27	9
+	+	31	12
+	+	30	0
+	+	29	44
+	+	25	0
+	+	32	0
+	+	33	67
+	+	5	0
+	+	33	51
+	+	113	26
+	+	115	0
+	+	111	58
+	+	114	59
+	+	26	40
+	+	29	104
+	+	26	72
+	+	29	72
+	+	73	72
+	+	74	46
+	+	73	38
+	+	74	0
+	+	73	0
+	+	72	44
+	+	10	68
+	+	39	28
+	+	93	48
+	+	94	77
+	+	95	69
+	+	93	16
+	+	96	20
+	+	93	17
+	+	92	0
+	+	77	0
+	+	100	0
+	+	87	0
+	+	7	0
+	+	6	53
+	+	74	0
+	+	131	27
+	+	132	81
+	+	136	28
+	+	135	5
+	+	136	13
+	+	135	56
+	+	137	27
+	+	137	8
+	+	137	11
+	+	138	0
+	+	140	18
+	+	135	63
+	+	136	12
+	+	87	0
+	+	86	0
+	+	83	22
+	+	82	37
+	+	85	48
 
 > ~/Dropbox/code/cs50w/final-project/storycircles/circle/static/circle/general.js
 	*	1612310352	0
@@ -1473,50 +1743,6 @@ $new-paragraph
 	*	1611950907	0
 	"	1	0
 
-> ~/Dropbox/code/cs50w/final-project/storycircles/circle/views.py
-	*	1611950906	0
-	"	34	4
-	^	44	28
-	.	44	27
-	+	20	17
-	+	21	32
-	+	98	15
-	+	98	16
-	+	98	49
-	+	10	67
-	+	98	16
-	+	10	26
-	+	18	0
-	+	98	0
-	+	33	0
-	+	27	58
-	+	33	0
-	+	28	6
-	+	29	51
-	+	32	0
-	+	39	53
-	+	46	0
-	+	41	38
-	+	9	52
-	+	31	34
-	+	14	69
-	+	14	41
-	+	14	49
-	+	17	4
-	+	15	50
-	+	16	74
-	+	18	0
-	+	42	0
-	+	46	0
-	+	42	0
-	+	43	0
-	+	44	53
-	+	44	0
-	+	46	0
-	+	45	0
-	+	30	61
-	+	44	27
-
 > ~/Dropbox/code/cs50w/final-project/storycircles/circle/urls.py
 	*	1611950906	0
 	"	14	0
@@ -1582,69 +1808,6 @@ $new-paragraph
 	+	15	54
 	+	5	25
 	+	12	16
-
-> ~/Dropbox/code/cs50w/final-project/storycircles/circle/tests.py
-	*	1611950906	0
-	"	34	4
-	^	13	30
-	.	13	29
-	+	106	5
-	+	91	51
-	+	106	35
-	+	106	37
-	+	106	0
-	+	4	49
-	+	106	44
-	+	6	52
-	+	106	84
-	+	106	25
-	+	106	33
-	+	106	54
-	+	106	51
-	+	106	63
-	+	106	22
-	+	106	0
-	+	106	41
-	+	106	0
-	+	106	82
-	+	106	66
-	+	106	38
-	+	106	0
-	+	8	29
-	+	106	0
-	+	106	66
-	+	7	53
-	+	106	66
-	+	106	0
-	+	106	40
-	+	106	74
-	+	106	20
-	+	106	34
-	+	106	0
-	+	106	39
-	+	106	4
-	+	106	8
-	+	106	67
-	+	106	9
-	+	106	53
-	+	106	20
-	+	106	38
-	+	9	0
-	+	5	0
-	+	106	0
-	+	106	39
-	+	106	0
-	+	95	0
-	+	105	0
-	+	92	78
-	+	93	1
-	+	92	1
-	+	91	1
-	+	13	29
-
-> ~/Dropbox/code/cs50w/final-project/storycircles/storycircles/settings.py
-	*	1611950906	0
-	"	34	4
 
 > ~/Dropbox/code/cs50w/final-project/storycircles/storycircles/asgi.py
 	*	1611950906	0

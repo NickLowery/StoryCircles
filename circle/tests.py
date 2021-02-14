@@ -13,11 +13,14 @@ class ValidateWordTestCase(TestCase):
     #TODO: Test for first word
 
     def test_title_case(self):
-        """After sentence-ending punctuation, the next word should be
+        """After sentence-ending punctuation or newline, the next word should be
         capitalized."""
         self.assertEqual((True, " I"), validate_word("i", "ending.")[:-1])
         self.assertEqual((True, " Island"), validate_word("island", "ending.")[:-1])
         self.assertEqual((True, " I'm"), validate_word("i'm", "ending.")[:-1])
+        self.assertEqual((True, " I"), validate_word("i", "ending.\n")[:-1])
+        self.assertEqual((True, " Island"), validate_word("island", "ending.\n")[:-1])
+        self.assertEqual((True, " I'm"), validate_word("i'm", "ending.\n")[:-1])
 
     def test_sentence_ending(self):
         """Sentence-ending should work only by itself and after a word"""
@@ -25,6 +28,7 @@ class ValidateWordTestCase(TestCase):
             self.assertEqual((True, punct), validate_word(punct, "word")[:-1])
             self.assertEqual((True, punct), validate_word(punct, "isn't")[:-1])
             self.assertEqual((True, punct), validate_word(punct, "lily-livered")[:-1])
+            self.assertFalse(validate_word(punct, "ending.\n")[0])
         for (p1,p2) in itertools.product([".", "!", "?"], repeat=2):
             self.assertFalse(validate_word(p1, ("ending" + p2))[0])
         for (word, text) in itertools.product(['word.', 'word?', 'word!'],['word', 'ending.',
