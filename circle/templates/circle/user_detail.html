@@ -4,7 +4,7 @@
 {% block body %}
 <div id=data-div data-isthisme="{% if detail_user.username == user.username %}true{% else %}false{% endif %}"></div>
 
-<h1>{{ detail_user.username }}</h1>
+<h1 class="page-title">{{ detail_user.username }}</h1>
 <h4>User Since: {{ detail_user.user_since.date }}</h4>
 <h4>Works:</h4>
 {% include "circle/include/finished_story_table.html" %}

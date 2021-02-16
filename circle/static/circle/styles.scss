@@ -47,14 +47,6 @@ body {
     background-color: BurlyWood;
 }
 
-#story-title-div {
-    background-color: Peru;
-    h1 {
-        font-weight: bold;
-        font-family: "Times New Roman", serif;
-    }
-}
-
 #game-div {
     background-color: DarkGoldenRod;
 }
@@ -62,6 +54,14 @@ body {
 h1 {
     margin-top: 0.5rem;
     text-align: center;
+    font-weight: bold;
+    font-family: "Times New Roman", serif;
+}
+
+.page-title {
+    background-color: Peru;
+    margin: 0;
+    padding: 0.5rem;
 }
 
 h3 {
@@ -114,14 +114,19 @@ button:active {
     transform: scale(0.99);
 }
 
-#text-page {
+.text-page {
     background-color: AntiqueWhite;
     max-width: 50rem;
-    margin: 1rem auto;
+    margin: 0 auto;
+    top-margin: 1rem;
     font-size: 1.2em;
     padding-top: 1rem;
     padding-left: 1rem;
     padding-right: 1rem;
+
+    h1 {
+        font-weight: bold;
+    }
 
     p {
         text-indent: 3em;
@@ -131,6 +136,9 @@ button:active {
     }
 }
 
+.finished-text-page {
+    font-family: "New Century Schoolbook", "TeX Gyre Schola", serif;
+}
 
 #alert-template {
     animation-name: hide;

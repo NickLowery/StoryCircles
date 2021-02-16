@@ -1,15 +1,11 @@
 {% extends "circle/layout.html" %}
 {% load static %}
 {% block body %}
-    <h1>
+    <h1 class="page-title">
         Write a Story
     </h1>
     <h3>Start a new circle by choosing a title</h3>
     <div id="alert-holder"></div>
-    <div class="alert alert-warning alert-dismissible fade show" id="alert-template" role="alert" style="display: none;">
-        <span id="alert-text">Placeholder Alert text</span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
     <div class="input-div">
         <input id="title-input" type="text" size="20">
         <button id="title-submit" type="button">Begin</button><br>

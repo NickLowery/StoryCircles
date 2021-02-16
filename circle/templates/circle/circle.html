@@ -1,9 +1,7 @@
 {% extends "circle/layout.html" %}
 {% load static %}
 {% block body %}
-    <div id="story-title-div">
-        <h1>{{ circle.story.title }}</h1>
-    </div>
+    <h1 class="page-title">{{ circle.story.title }}</h1>
     <div id="story-status-div">
         ...
     </div>
@@ -11,13 +9,9 @@
     <div id="game-div" class="container-xxl d-flex flex-column h-100" style="display: none;">
         <div id="game-row" class="row d-flex flex-fill">
             <div id="game-col" class="col">
-                <div id="text-page" class="flex-column h-100">
+                <div class="text-page flex-column h-100">
                     <div id="text"></div><input id="word-input" type="text" size="10">
                     <div id="alert-holder"></div>
-                    <div class="alert alert-warning alert-dismissible fade show" id="alert-template" role="alert" style="display: none;">
-                        <span id="alert-text">Placeholder Alert text</span>
-                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
                     <button type="button" id="word-submit">Go</button>
                     <div id="proposal-div">
                         <button id="propose-end-button" type="button">Propose end</button>
