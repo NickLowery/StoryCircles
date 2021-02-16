@@ -47,8 +47,25 @@ body {
     background-color: BurlyWood;
 }
 
-#content-container {
+.text-col {
     background-color: DarkGoldenRod;
+}
+
+#turn-order-col {
+    background-color: BurlyWood;
+
+    #turn-order-author-template {
+        display: none;
+    }
+
+    .turn-order-author { 
+        background-color: beige;
+        width: 100%;
+        font-size: 1.5rem;
+        border: 1px solid black;
+        margin: 0.2em;
+        padding: 0em 0.3em;
+    }
 }
 
 h1 {
@@ -147,23 +164,6 @@ button:active {
     animation-play-state: paused;
 }
 
-#turn-order-col {
-    background-color: BurlyWood;
-
-    #turn-order-author-template {
-        display: none;
-    }
-
-    .turn-order-author { 
-        background-color: beige;
-        width: 100%;
-        font-size: 1.5rem;
-        border: 1px solid black;
-        margin: 0.2em;
-        padding: 0em 0.3em;
-    }
-}
-
 
 .input-div {
     margin-left: 1rem;
@@ -176,6 +176,7 @@ button:active {
 }
 
 table {
+    background-color: AntiqueWhite;
     border-collapse: collapse;
     margin-left: 1rem;
 }
