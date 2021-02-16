@@ -6,7 +6,7 @@
         ...
     </div>
     <div id="data-div" data-circlepk="{{ circle.pk }}" data-threshold-user-ct="{{ circle.threshold_user_ct }}"></div>
-    <div id="game-div" class="container-xxl d-flex flex-column h-100" style="display: none;">
+    <div id="content-container" class="container-xxl d-flex flex-column h-100" style="display: none;">
         <div id="game-row" class="row d-flex flex-fill">
             <div id="game-col" class="col">
                 <div class="text-page flex-column h-100">
@@ -28,13 +28,6 @@
             </div>
         </div>
     </div>
-    <div id="dev-turn-order" style=display:none;"></div>
-    <div id="dev-info" style="display: none;">
-        Threshold User Ct: {{ circle.threshold_user_ct }}<br>
-        Max User Ct: {{ circle.max_user_ct }}<br>
-        Circle creation time: {{ circle.creation_time }}
-    </div>
-
 {% endblock %}
 {% block script %}
     <script src="{% static 'circle/general.js' %}"></script>

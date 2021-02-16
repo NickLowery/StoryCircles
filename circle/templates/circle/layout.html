@@ -11,6 +11,9 @@
         {% csrf_token %}
     </head>
     <body>
+        <header>
+            {{ user.username|json_script:"user-data" }}
+        </header>
         <nav class="navbar navbar-expand-md navbar-light bg-primary">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{% url 'index' %}">Story Circles</a>
@@ -45,9 +48,6 @@
                 </div>
             </div>
         </nav>
-        <header>
-            {{ user.username|json_script:"user-data" }}
-        </header>
         <div class="alert alert-warning alert-dismissible fade show" id="alert-template" role="alert" style="display: none;">
             <span id="alert-text">Placeholder Alert text</span>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

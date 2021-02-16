@@ -7,6 +7,7 @@ const proposeEndDom = document.getElementById('propose-end-button');
 const statusBarDom = document.getElementById('story-status-div');
 const turnOrderDom = document.querySelector("#turn-order-col");
 const authorTemplate = document.querySelector("#turn-order-author-template");
+const textPage = document.querySelector(".text-page");
 const storyTextDom = document.querySelector("#text");
 
 const circleSocket = new WebSocket(
@@ -25,36 +26,35 @@ circleSocket.onmessage = function(e) {
 
   switch (data.type) {
     case ('game_update'): 
+      // Populate turn order list
+      const whoseTurn = data.turn_order[0];
+      turnOrderDom.innerHTML = "";
+      data.turn_order.forEach(function (username, index) {
+        const userDiv = authorTemplate.cloneNode(true);
+        userDiv.removeAttribute("id");
+        userDiv.innerHTML = username;
+        userDiv.style.display = "block";
+        if (username === clientUsername) {
+          userDiv.style.backgroundColor = "chartreuse";
+        }
+        if (index === 0) {
+          userDiv.style.fontWeight = "bold";
+        }
+        turnOrderDom.appendChild(userDiv);
+      });
       if (!data.story_started) {
+        textPage.style.display = "none";
         setStatusBar(`${thresholdUserCt} authors needed to start the story. Waiting for ${thresholdUserCt - data.turn_order.length} more!`);
         hideProposeEnd();
         hideProposeNewParagraph();
       }
       else {
         // Game is started
-        document.getElementById('game-div').style.display = "block";
+        textPage.style.display = "block";
         // Update game display
         storyTextDom.innerHTML = data.text_html;
         storyTextDom.lastChild.appendChild(wordInputDom);
 
-        document.querySelector("#dev-turn-order").innerHTML = data.turn_order;
-        const whoseTurn = data.turn_order[0];
-
-        // Populate turn order list
-        turnOrderDom.innerHTML = "";
-        data.turn_order.forEach(function (username, index) {
-          const userDiv = authorTemplate.cloneNode(true);
-          userDiv.removeAttribute("id");
-          userDiv.innerHTML = username;
-          userDiv.style.display = "block";
-          if (username === clientUsername) {
-            userDiv.style.backgroundColor = "chartreuse";
-          }
-          if (index === 0) {
-            userDiv.style.fontWeight = "bold";
-          }
-          turnOrderDom.appendChild(userDiv);
-        });
 
         // First deal with any proposal that exists because regular input will be 
         // disabled
