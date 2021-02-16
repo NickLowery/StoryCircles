@@ -1,29 +1,27 @@
 {% extends "circle/layout.html" %}
 {% load static %}
 {% block body %}
-    <div id="content-container" class="container-xxl d-flex flex-column h-100" style="display: none;">
-        <div id="game-col" class="col">
-            <div class="flex-column h-100 text-page finished-text-page">
-                <h1>
-                    {{ story.title }}
-                </h1>
-                <div id="text">
-                    {% include 'circle/story_text.html' %}
-                </div>
-                <div id="authors-div">
-                    {% if story.authors.all %}
-                        By: 
-                        <ul>
-                        {% for author in story.authors.all %}
-                        <li><a href="{{ author.get_absolute_url }}">{{ author.username }}</a></li>
-                        {% endfor %}
-                        </ul>
-                    {% else %}
-                        No authors found
-                    {% endif %}
-                </div>
-                </div>
-            </div>
+<div id="content-col" class="col">
+    <div class="flex-column h-100 text-page finished-text-page">
+        <h1>
+            {{ story.title }}
+        </h1>
+        <div id="text">
+            {% include 'circle/story_text.html' %}
+        </div>
+        <div id="authors-div">
+            {% if story.authors.all %}
+                By: 
+                <ul>
+                {% for author in story.authors.all %}
+                <li><a href="{{ author.get_absolute_url }}">{{ author.username }}</a></li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                No authors found
+            {% endif %}
+        </div>
         </div>
     </div>
+</div>
 {% endblock %}

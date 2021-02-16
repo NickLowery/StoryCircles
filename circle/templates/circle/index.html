@@ -1,9 +1,12 @@
 {% extends "circle/layout.html" %}
 {% load static %}
-{% block body %}
+{% block fullwidth %}
     <h1 class="page-title">
         Write a Story
     </h1>
+{% endblock %}
+{% block body %}
+<div class="col">
     <h3>Start a new circle by choosing a title</h3>
     <div id="alert-holder"></div>
     <div class="input-div">
@@ -48,6 +51,7 @@
         {% endfor %}
     </table>
 
+</div>
 
 {% endblock %}
 {% block script %}

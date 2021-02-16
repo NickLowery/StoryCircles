@@ -1,10 +1,14 @@
 {% extends "circle/layout.html" %}
 {% load static %}
-{% block body %}
+{% block fullwidth %}
     <h1 class="page-title">
         Finished Stories
     </h1>
+{% endblock %}
+{% block body %}
+<div class="col">
     {% include "circle/include/finished_story_table.html" %}
+</div>
 {% endblock %}
 {% block script %}
     <script src="{% static 'circle/finishedstory_list.js' %}"></script>

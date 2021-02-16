@@ -1,13 +1,16 @@
 {% extends "circle/layout.html" %}
 {% load static %}
-
-{% block body %}
+{% block fullwidth %}
 <div id=data-div data-isthisme="{% if detail_user.username == user.username %}true{% else %}false{% endif %}"></div>
 
 <h1 class="page-title">{{ detail_user.username }}</h1>
-<h4>User Since: {{ detail_user.user_since.date }}</h4>
-<h4>Works:</h4>
-{% include "circle/include/finished_story_table.html" %}
+{% endblock %}
+{% block body %}
+<div class="col">
+    <h4>User Since: {{ detail_user.user_since.date }}</h4>
+    <h4>Works:</h4>
+    {% include "circle/include/finished_story_table.html" %}
+</div>
 {% endblock %}
 {% block script %}
     <script src="{% static 'circle/user_detail.js' %}"></script>

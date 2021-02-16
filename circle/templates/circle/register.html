@@ -1,9 +1,12 @@
 {% extends "circle/layout.html" %}
 {% load static %}
 
-{% block body %}
+{% block fullwidth %}
+    <h1 class="page-title">Register</h1>
+{% endblock %}
 
-    <h2>Register</h2>
+{% block body %}
+<div class="col">
 
     {% if message %}
         <div>{{ message }}</div>
@@ -27,7 +30,7 @@
     </form>
 
     Already have an account? <a href="{% url 'login' %}">Log In here.</a>
-
+</div>
 {% endblock %}
 {% block script %}
     <script src="{% static 'circle/register.js' %}"></script>

@@ -20,6 +20,8 @@ const circleSocket = new WebSocket(
 
 const thresholdUserCt = parseInt(document.getElementById('data-div').dataset.thresholdUserCt);
 
+textPage.style.display = "none";
+
 circleSocket.onmessage = function(e) {
   const data = JSON.parse(e.data);
   console.log(data);

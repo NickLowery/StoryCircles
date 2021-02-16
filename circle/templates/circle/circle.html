@@ -1,33 +1,31 @@
 {% extends "circle/layout.html" %}
 {% load static %}
-{% block body %}
+{% block fullwidth %}
+    <div id="data-div" data-circlepk="{{ circle.pk }}" data-threshold-user-ct="{{ circle.threshold_user_ct }}"></div>
     <h1 class="page-title">{{ circle.story.title }}</h1>
     <div id="story-status-div">
         ...
     </div>
-    <div id="data-div" data-circlepk="{{ circle.pk }}" data-threshold-user-ct="{{ circle.threshold_user_ct }}"></div>
-    <div id="content-container" class="container-xxl d-flex flex-column h-100" style="display: none;">
-        <div id="game-row" class="row d-flex flex-fill">
-            <div id="game-col" class="col">
-                <div class="text-page flex-column h-100">
-                    <div id="text"></div><input id="word-input" type="text" size="10">
-                    <div id="alert-holder"></div>
-                    <button type="button" id="word-submit">Go</button>
-                    <div id="proposal-div">
-                        <button id="propose-end-button" type="button">Propose end</button>
-                        <button id="propose-new-paragraph-button" type="button">Propose new paragraph</button>
-                        <div id="proposal-approval-div" style="display: none;">
-                            <button id="approve-button" type="button">Approve</button>
-                            <button id="reject-button" type="button">Reject</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="turn-order-col" class="col-md-auto">
-                <div class="turn-order-author" id="turn-order-author-template"></div>
+{% endblock %}
+{% block body %}
+<div id="game-col" class="col">
+    <div class="text-page flex-column h-100" style: "display: none;">
+        <div id="text"></div><input id="word-input" type="text" size="10">
+        <div id="alert-holder"></div>
+        <button type="button" id="word-submit">Go</button>
+        <div id="proposal-div">
+            <button id="propose-end-button" type="button">Propose end</button>
+            <button id="propose-new-paragraph-button" type="button">Propose new paragraph</button>
+            <div id="proposal-approval-div" style="display: none;">
+                <button id="approve-button" type="button">Approve</button>
+                <button id="reject-button" type="button">Reject</button>
             </div>
         </div>
     </div>
+</div>
+<div id="turn-order-col" class="col-md-auto">
+    <div class="turn-order-author" id="turn-order-author-template"></div>
+</div>
 {% endblock %}
 {% block script %}
     <script src="{% static 'circle/general.js' %}"></script>
