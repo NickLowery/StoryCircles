@@ -32,6 +32,9 @@ html, body {
 body {
   background-color: BurlyWood; }
 
+.non-story-col {
+  background-color: NavajoWhite; }
+
 .text-col {
   background-color: DarkGoldenRod; }
 

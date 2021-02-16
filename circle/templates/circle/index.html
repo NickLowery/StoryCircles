@@ -6,10 +6,11 @@
     </h1>
 {% endblock %}
 {% block body %}
-<div class="col">
-    <h2>Start a new circle by choosing a title</h2>
+<div class="non-story-col col-lg">
+    <h2>Start a new circle</h2>
     <div id="alert-holder"></div>
     <div class="input-div">
+        <label for="title-input">Title</label>
         <input id="title-input" type="text" size="20">
         <button id="title-submit" type="button">Begin</button><br>
     </div>
@@ -20,6 +21,8 @@
         <label for="max-user-ct">Max # of users in circle</label>
         <input id="max-user-ct-input" type="number" name="max-user-ct" min ="2" max="100" value="4">
     </div>
+</div>
+<div class="non-story-col col-lg">
     <h3>Stories Waiting for Authors to Start</h3>
     <table>
         <tr>
