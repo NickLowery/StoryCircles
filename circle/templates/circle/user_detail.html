@@ -7,8 +7,8 @@
 {% endblock %}
 {% block body %}
 <div class="col">
-    <h4>User Since: {{ detail_user.user_since.date }}</h4>
-    <h4>Works:</h4>
+    <h3>User Since: {{ detail_user.user_since.date }}</h3>
+    <h3>Works:</h3>
     {% include "circle/include/finished_story_table.html" %}
 </div>
 {% endblock %}

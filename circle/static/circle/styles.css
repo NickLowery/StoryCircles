@@ -58,8 +58,9 @@ h1 {
   margin: 0;
   padding: 0.5rem; }
 
-h3 {
-  margin-top: 0.5em; }
+h2, h3 {
+  margin-top: 0.5em;
+  font-weight: bold; }
 
 h4 {
   margin-top: 0.25em; }
