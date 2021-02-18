@@ -86,6 +86,10 @@ def register_view(request):
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
+        except ValueError as v:
+            return render(request, "circle/register.html", {
+                "message": "Make sure you provide all information",
+            })
         except IntegrityError:
             return render(request, "circle/register.html", {
                 "message": "Something went wrong; possibly that username is already taken."
