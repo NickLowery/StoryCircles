@@ -72,6 +72,12 @@ input {
   box-sizing: border-box;
   margin: 3px 1px; }
 
+input[type=text], input[type=password], input[type=email] {
+  width: 20em; }
+
+.form-control, .form-control:focus {
+  background-color: #fcf4e8; }
+
 input[type=number] {
   width: 4em; }
 

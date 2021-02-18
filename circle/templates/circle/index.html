@@ -7,20 +7,26 @@
 {% endblock %}
 {% block body %}
 <div id="content-row" class="row w-100 justify-content-around">
-    <div class="col-lg col-xl-auto">
+    <div class="col-lg">
         <h2>Start a new circle</h2>
         <div id="alert-holder"></div>
-        <div class="input-div">
-            <label for="title-input">Title</label>
-            <input id="title-input" type="text" size="20">
-            <button id="title-submit" type="button">Begin</button><br>
-        </div>
+        <div class="input-div"><form>
+            <label for="title-input" class="form-label">Title</label>
+            <input id="title-input" class="form-control" type="text" size="20">
+            <button id="title-submit" type="submit">Begin</button><br>
+        </form></div>
         <h4>Options</h4>
         <div class="input-div">
-            <label for="threshold-user-ct">Minimum # of users to start</label>
-            <input id="threshold-user-ct-input" type="number" name="threshold-user-ct" min="2" max="100" value="2"><br>
-            <label for="max-user-ct">Max # of users in circle</label>
-            <input id="max-user-ct-input" type="number" name="max-user-ct" min ="2" max="100" value="4">
+            <form class="row justify-content-start">
+                <div class="col-auto">
+                    <label for="threshold-user-ct" class="form-label">Minimum # of users to start</label>
+                    <input id="threshold-user-ct-input" class="form-control" type="number" name="threshold-user-ct" min="2" max="100" value="2">
+                </div>
+                <div class="col-auto">
+                    <label for="max-user-ct" class="form-label">Max # of users in circle</label>
+                    <input id="max-user-ct-input" class="form-control" type="number" name="max-user-ct" min ="2" max="100" value="4">
+                </div>
+            </form>
         </div>
     </div>
     <div class="col-lg-auto">
