@@ -32,7 +32,7 @@ html, body {
 body {
   background-color: BurlyWood; }
 
-.non-story-col {
+#content-container {
   background-color: NavajoWhite; }
 
 .text-col {

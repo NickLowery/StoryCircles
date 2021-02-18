@@ -6,10 +6,12 @@
 <h1 class="page-title">{{ detail_user.username }}</h1>
 {% endblock %}
 {% block body %}
-<div class="col">
-    <h3>User Since: {{ detail_user.user_since.date }}</h3>
-    <h3>Works:</h3>
-    {% include "circle/include/finished_story_table.html" %}
+<div class="row h-100">
+    <div class="non-story-col col-lg">
+        <h3>User Since: {{ detail_user.user_since.date }}</h3>
+        <h3>Works:</h3>
+        {% include "circle/include/finished_story_table.html" %}
+    </div>
 </div>
 {% endblock %}
 {% block script %}

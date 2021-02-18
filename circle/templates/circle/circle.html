@@ -8,23 +8,25 @@
     </div>
 {% endblock %}
 {% block body %}
-<div id="game-col" class="col text-col">
-    <div class="text-page flex-column h-100" style: "display: none;">
-        <div id="text"></div><input id="word-input" type="text" size="10">
-        <div id="alert-holder"></div>
-        <button type="button" id="word-submit">Go</button>
-        <div id="proposal-div">
-            <button id="propose-end-button" type="button">Propose end</button>
-            <button id="propose-new-paragraph-button" type="button">Propose new paragraph</button>
-            <div id="proposal-approval-div" style="display: none;">
-                <button id="approve-button" type="button">Approve</button>
-                <button id="reject-button" type="button">Reject</button>
+<div id="content-row" class="row h-100">
+    <div id="game-col" class="col text-col">
+        <div class="text-page flex-column h-100" style: "display: none;">
+            <div id="text"></div><input id="word-input" type="text" size="10">
+            <div id="alert-holder"></div>
+            <button type="button" id="word-submit">Go</button>
+            <div id="proposal-div">
+                <button id="propose-end-button" type="button">Propose end</button>
+                <button id="propose-new-paragraph-button" type="button">Propose new paragraph</button>
+                <div id="proposal-approval-div" style="display: none;">
+                    <button id="approve-button" type="button">Approve</button>
+                    <button id="reject-button" type="button">Reject</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div id="turn-order-col" class="col-md-auto">
-    <div class="turn-order-author" id="turn-order-author-template"></div>
+    <div id="turn-order-col" class="col-md-auto">
+        <div class="turn-order-author" id="turn-order-author-template"></div>
+    </div>
 </div>
 {% endblock %}
 {% block script %}
