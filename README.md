@@ -61,6 +61,12 @@ the story work. It's been fun and challenging.
 - circle/rules.py
     Contains two methods for validating words in the game and story titles.
 
+- circle/tests.py
+    Contains tests for validating words and titles. I wanted to do automated 
+    testing of the websockets code but could not figure out the tooling for 
+    doing it. Text validation did seem to be a good place for automated testing 
+    to make sure I didn't accidentally break things when I changed the logic.
+
 - circle/consumers.py
     This is where the bulk of my Python code is as it controls all the real-time 
     websocket interaction using Channels. There are two classes here, 
@@ -101,7 +107,6 @@ the story work. It's been fun and challenging.
 - circle/templates/circle/register.html
 - circle/templates/circle/story_text.html
 - circle/templates/circle/user_detail.html
-- circle/tests.py
 - circle/urls.py
 - circle/views.py
 - storycircles/asgi.py

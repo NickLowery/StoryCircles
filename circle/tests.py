@@ -1,6 +1,6 @@
 import itertools
 from django.test import TestCase
-from .consumers import validate_word, validate_title
+from .rules import validate_word, validate_title
 from channels.testing import WebsocketCommunicator
 from channels.db import database_sync_to_async
 from storycircles.asgi import application as asgi_app
@@ -10,7 +10,18 @@ from circle.models import User
 # Create your tests here.
 
 class ValidateWordTestCase(TestCase):
-    #TODO: Test for first word
+    def test_simplest_case(self):
+        self.assertEqual((True, " expeditiously"), validate_word("expeditiously", "disembarked")[:-1])
+
+    def test_first_word(self):
+        self.assertEqual((True, "Expeditiously"), validate_word("expeditiously", "")[:-1])
+        self.assertEqual((True, "I"), validate_word("i", "")[:-1])
+        self.assertEqual((True, "I"), validate_word("I", "")[:-1])
+        self.assertFalse(validate_word(", i", "")[0])
+        self.assertFalse(validate_word("-livered", "")[0])
+        self.assertFalse(validate_word(".", "")[0])
+        self.assertFalse(validate_word(" ", "")[0])
+        self.assertFalse(validate_word(" i", "")[0])
 
     def test_comma(self):
         """After a word, the next 'word' can be of the form ', word'."""
@@ -79,13 +90,10 @@ class ValidateWordTestCase(TestCase):
             self.assertFalse(validate_word("-?", text)[0])
             self.assertFalse(validate_word("-'", text)[0])
 
-    def test_ordinary_words(self):
-        #TODO: implement test_ordinary_words
-        pass
+        # A hyphen inside a word should fail
+        self.assertFalse(validate_word("lily-livered", "text")[0])
 
 class ValidateTitleTestCase(TestCase):
-    #TODO: Should I test more exhaustively for disallowed characters?
-    # TODO: Should I disallow using spaces in stupid ways (like some of the valid tests right now?)
     def test_empty(self):
         self.assertFalse(validate_title(""))
 
@@ -95,6 +103,15 @@ class ValidateTitleTestCase(TestCase):
         self.assertFalse(validate_title("9"))
         self.assertFalse(validate_title("0"))
         self.assertFalse(validate_title("130 3940"))
+
+    def test_consecutive_spaces(self):
+        self.assertFalse(validate_title("Jaws  2"))
+
+    def test_initial_spaces(self):
+        self.assertFalse(validate_title(" Jaws 2"))
+
+    def test_final_spaces(self):
+        self.assertFalse(validate_title("Jaws 2 "))
 
     def test_valid(self):
         self.assertTrue(validate_title("a"))
@@ -115,19 +132,4 @@ class ValidateTitleTestCase(TestCase):
         self.assertFalse(validate_title("a ["))
         self.assertFalse(validate_title("a {"))
         self.assertFalse(validate_title("a <"))
-
-# NOTE: Experimental testing of starting a new story
-# NOTE: I could not get this working. May return to it but I'm going to try to 
-# just fix the bug instead for now
-# class IndexChannelTestCase(TestCase):
-#     async def test_auth(self):
-#         user = User.objects.create_user('test_user')
-#         communicator = WebsocketCommunicator(asgi_app, "/ws/circle_index/")
-#         communicator.scope['user'] = user
-#         connected, subprotocol = await communicator.connect()
-#         self.assertTrue(connected)
-#         self.assertEquals(communicator.instance.scope['user'], user)
-#         communicator.disconnect()
-
-#     async def test_valid_title(self):
-#         pass
+        self.assertFalse(validate_title("a \n"))
