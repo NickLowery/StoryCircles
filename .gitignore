@@ -5,3 +5,4 @@ __pycache__/
 *.sqlite3*
 *.scssc
 viminfo*
+setup_docker_dev.sh
