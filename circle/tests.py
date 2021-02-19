@@ -119,10 +119,7 @@ class ValidateTitleTestCase(TestCase):
         self.assertTrue(validate_title("Rambo 9"))
         self.assertTrue(validate_title("7 Samurai"))
         self.assertTrue(validate_title("The end of the world"))
-        self.assertTrue(validate_title("a       "))
         self.assertTrue(validate_title("X9134457914 390281795"))
-        self.assertTrue(validate_title("a       "))
-        self.assertTrue(validate_title("a       "))
 
     def test_disallowed_characters(self):
         self.assertFalse(validate_title("a ."))

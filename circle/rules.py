@@ -47,7 +47,9 @@ def validate_word(word, text):
 def validate_title(title):
     """Check if a story title is valid. It needs to contain at least one letter and nothing but
     letters, digits, and spaces. Return True if valid, False if not"""
-    if re.search("[a-zA-Z]", title) and re.fullmatch("[a-zA-Z0-9\ ]+", title):
+    if re.search("^ ", title) or re.search("  ", title) or re.search(" $", title):
+        return False
+    elif re.search("[a-zA-Z]", title) and re.fullmatch("[a-zA-Z0-9\ ]+", title):
         return True
     else:
         return False
