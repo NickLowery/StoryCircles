@@ -43,11 +43,23 @@ the story work. It's been fun and challenging.
     Just registers a couple models I wanted to be able to edit with the admin 
     app
 
+- circle/models.py
+
+
 - circle/consumers.py
     This is where the bulk of my Python code is as it controls all the real-time 
-    interaction. There are two classes here, one for the 
+    interaction using Channels. There are two classes here, *WriteIndexConsumer* 
+    and *CircleConsumer*. 
 
-- circle/models.py
+    *WriteIndexConsumer*, for the "Write" page lets a user submit a new story 
+    title and checks to see if it's valid before starting a new Circle for them.  
+    This could have been achieved with a regular Django view but I originally 
+    planned to have real-time updating of the list of ongoing stories, and I 
+    want to leave that option open for the future.
+
+    *CircleConsumer* handles all the interaction between a client and an active 
+    Circle. TODO: More description here.
+
 - circle/routing.py
 - circle/static/circle/circle.js
 - circle/static/circle/finishedstory_list.js

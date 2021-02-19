@@ -10,11 +10,6 @@ import re
 
 class User(AbstractUser):
     user_since = models.DateTimeField(blank=False, auto_now_add=True)
-    liked_stories = models.ManyToManyField(
-        "Story",
-        related_name="liked_by",
-        blank=True,
-    )
 
     def get_absolute_url(self):
         return reverse('user', args=[self.pk])
