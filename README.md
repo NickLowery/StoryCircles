@@ -80,8 +80,8 @@ the story work. It's been fun and challenging.
 
     *CircleConsumer* handles all the interaction between a client and an active 
     Circle. It has methods for handling websocket messages from the client, and 
-    Channel group messages from other users. It also 
-
+    Channel group messages from other users. A lot of the game logic is also in 
+    this file when it didn't seem to make sense to abstract it out further.
 
 - circle/admin.py
     Just registers a couple models I wanted to be able to edit with the admin 

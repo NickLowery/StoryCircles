@@ -200,18 +200,19 @@ class CircleConsumer(WebsocketConsumer):
             else:
                 self.msg_client(message)
 
-    # --METHODS SENDING AND RECEIVING FROM CIRCLE
-    # Receive story finished message from the circle
+    # --METHODS RECEIVING MESSAGES FROM THE CIRCLE
     def story_finished(self, event):
+        """Receive story finished message from the Circle"""
         self.redirect_client(event['redirect'],
-                             "Story finished! You will be redirected to its permanent home in 5 seconds.")
+                             "Story finished! You will be redirected to its permanent home in a few seconds.")
 
-    # Receive game update message from circle
     def game_update(self, event):
+        """Receive game update message from Circle"""
         self.send(text_data=json.dumps(event))
 
-    # Send a game state update to the circle
+    # --METHODS SENDING MESSAGES TO THE CIRCLE 
     def update_group(self, circle_instance, message=None):
+        """Send a game state update to the Circle"""
         data = {'type': 'game_update',
                 'story_started': circle_instance.story.started,
                 'text': circle_instance.story.text,
@@ -232,8 +233,8 @@ class CircleConsumer(WebsocketConsumer):
             data
         )
 
-    # End story and send a message to the circle
     def end_story(self, circle_instance):
+        """End story and send a message to the circle"""
         finished_story = circle_instance.finish_story()
         async_to_sync(self.channel_layer.group_send)(
             self.group_name,
@@ -243,15 +244,16 @@ class CircleConsumer(WebsocketConsumer):
             }
         )
 
-    # --OTHER COMMUNICATION METHODS
-    # Send a message to client
+    # --BASIC METHODS SENDING MESSAGES TO CLIENT
     def msg_client(self, message):
+        """Send a message to client"""
         self.send(text_data=json.dumps({
             'type': 'message',
             'message_text': message,
         }))
 
     def redirect_client(self, redirect_url, message):
+        """Redirect client to a different page"""
         self.send(text_data=json.dumps({
             'type': 'redirect',
             'redirect_url': redirect_url,
