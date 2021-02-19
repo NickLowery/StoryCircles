@@ -86,7 +86,22 @@ the story work. It's been fun and challenging.
 - circle/admin.py
     Just registers a couple models I wanted to be able to edit with the admin 
     app.
+
+- storycircles/asgi.py
 - circle/routing.py
+    Routing information for the websocket code.
+
+- storycircles/wsgi.py
+- circle/urls.py
+- storycircles/urls.py
+    Routing information for the regular Django views
+
+- storycircles/settings.py
+    Has a few settings changed to make the websocket routing and Redis backend 
+    for Channels work.
+
+
+- circle/views.py
 - circle/static/circle/circle.js
 - circle/static/circle/finishedstory_list.js
 - circle/static/circle/general.js
@@ -107,9 +122,3 @@ the story work. It's been fun and challenging.
 - circle/templates/circle/register.html
 - circle/templates/circle/story_text.html
 - circle/templates/circle/user_detail.html
-- circle/urls.py
-- circle/views.py
-- storycircles/asgi.py
-- storycircles/settings.py
-- storycircles/urls.py
-- storycircles/wsgi.py
