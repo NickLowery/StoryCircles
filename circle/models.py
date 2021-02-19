@@ -43,7 +43,13 @@ class Story(models.Model):
         self.text += new_text
         self.save()
 
+    def append_paragraph_break(self):
+        """Append a paragraph break, represented by two newline characters"""
+        self.text += "\n\n"
+        self.save()
+
     def start(self):
+        """Called when minimum User threshold is reached"""
         self.start_time = datetime.datetime.now()
         self.save()
 
@@ -144,7 +150,8 @@ class Circle(models.Model):
         return all((username in approved_usernames) for username in self.turn_order)
 
     def reset_proposal(self):
-        """Get rid of active proposal, reset proposal state, and save"""
+        """Call when proposal is rejected or enacted. Reset proposal state
+        and save"""
         self.approved_proposal.clear()
         self.proposing_user = None
         self.active_proposal = None

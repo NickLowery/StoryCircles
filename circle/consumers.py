@@ -1,15 +1,15 @@
 import json
-import re
-import string
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from .models import User, Story, Circle
 from .views import FinishedStoryView, CircleView
+from .rules import validate_word, validate_title
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.template.loader import get_template
 
 class WriteIndexConsumer(WebsocketConsumer):
+    """Handle submission of new story on Write page"""
     def connect(self):
         self.user_instance = User.objects.get(username=self.scope['user'])
         self.accept()
@@ -48,14 +48,14 @@ class WriteIndexConsumer(WebsocketConsumer):
         }))
 
 class CircleConsumer(WebsocketConsumer):
-    # When a client connects
+    """Handles Websocket connection between user and Circle"""
     def connect(self):
+        """Handle client connecting to Circle. Only logged in Users will be 
+        accepted. Start the story if necessary. Update the group"""
         # This will fail if the user isn't logged in, so maybe I'm good as far as authentication?
         self.user_instance = User.objects.get(username=self.scope['user'])
-        # TODO: Only accept connection if there is room for another author.
 
         self.circle_pk = int(self.scope['url_route']['kwargs']['circle_pk_string'])
-        #TODO: Redirect the user if the story is finished.
         circle_instance = get_object_or_404(Circle, pk=self.circle_pk, story__finished=False)
 
         if circle_instance.user_ct >= circle_instance.max_user_ct:
@@ -93,9 +93,9 @@ class CircleConsumer(WebsocketConsumer):
         self.update_group(circle_instance)
         self.accept()
 
-    # Runs when a client disconnects
     def disconnect(self, close_code):
-        # Update turn schedule
+        """Update the Circle when a user disconnects"""
+        # Update turn schedule if Circle still exists
         try:
             circle_instance = Circle.objects.get(pk=self.circle_pk)
             circle_instance.turn_order.remove(self.user_instance.username)
@@ -111,12 +111,10 @@ class CircleConsumer(WebsocketConsumer):
             self.group_name,
             self.channel_name
         )
-        # TODO: Eventually we need some kind of timeout for removing users or at least
-        # skipping them in the order
 
     # --METHODS RECEIVING MESSAGES FROM CLIENT--
-    # Receive message from WebSocket
     def receive(self, text_data):
+        """Dispatch messages from client to approporiate methods"""
         circle_instance = Circle.objects.get(pk=self.circle_pk)
         data = json.loads(text_data)
         method_for_message_type = {
@@ -127,8 +125,8 @@ class CircleConsumer(WebsocketConsumer):
         }.get(data['type'])
         method_for_message_type(data, circle_instance)
 
-    # Process proposal to end the story from client
     def propose(self, data, circle_instance):
+        """Process proposal from User that requires unanimous consent"""
         if data['proposal'] not in Circle.Proposal.values:
             self.msg_client("Error: Unknown proposal.")
         elif circle_instance.active_proposal:
@@ -136,13 +134,13 @@ class CircleConsumer(WebsocketConsumer):
         elif circle_instance.turn_order[0] != self.user_instance.username:
             self.msg_client("Error: You can only make a proposal if it's your turn")
         else:
+            circle_instance.active_proposal = data['proposal']
             circle_instance.proposing_user = self.user_instance
             circle_instance.approved_proposal.add(self.user_instance)
-            circle_instance.active_proposal = data['proposal']
             self.check_approval_and_update(circle_instance)
 
-    # Process proposal approval from client
     def approve(self, data, circle_instance):
+        """Process User approving proposal"""
         if (circle_instance.active_proposal != data['proposal']):
             self.msg_client("Error: The proposal you approved is not active.")
         elif (self.user_instance in circle_instance.approved_proposal.all()):
@@ -151,15 +149,15 @@ class CircleConsumer(WebsocketConsumer):
             circle_instance.approved_proposal.add(self.user_instance)
             self.check_approval_and_update(circle_instance)
 
-    """ See if a proposal has been unanimously approved, take appropriate action
-    if it has, save the circle instance and update the group """
     def check_approval_and_update(self, circle_instance):
+        """ See if a proposal has been unanimously approved, take appropriate action
+        if it has, save the circle instance and update the group """
         if circle_instance.all_approve_proposal():
             if circle_instance.active_proposal == Circle.Proposal.END_STORY:
                 self.end_story(circle_instance)
             elif circle_instance.active_proposal == Circle.Proposal.NEW_PARAGRAPH:
                 self.msg_client("New paragraph initiated")
-                circle_instance.story.append_text("\n\n")
+                circle_instance.story.append_paragraph_break()
                 circle_instance.reset_proposal()
                 self.update_group(circle_instance)
         else:
@@ -167,21 +165,21 @@ class CircleConsumer(WebsocketConsumer):
             self.update_group(circle_instance)
 
 
-    # Process proposal rejection from client
     def reject(self, data, circle_instance):
+        """Process user rejecting proposal"""
         proposal = Circle.Proposal(circle_instance.active_proposal)
         circle_instance.reset_proposal()
         self.update_group(circle_instance,
                           message=f"{self.user_instance.username} rejected {proposal.gerund()}."
                           )
 
-    # Process word submission from client
     def word_submit(self, data, circle_instance):
+        """Process word submission from User"""
         #It has to be our client's turn
         if (circle_instance.turn_order[0] != self.user_instance.username):
             self.msg_client('Error: we got a word submission from ' \
                                 'your browser when it was not your turn.')
-        # No submitting words when there's an ending of the circle proposed
+        # No submitting words when there's an active proposal
         elif circle_instance.active_proposal:
             self.msg_client("Error: Can't submit a word when a proposal is pending.")
         else:
@@ -259,56 +257,3 @@ class CircleConsumer(WebsocketConsumer):
             'redirect_url': redirect_url,
             'message_text': message,
         }))
-
-# Check if something is a valid "word" submission with previous existing text.
-# Return (valid, formatted_word, message), where valid is a boolean, formatted_word is
-# the word ready to be added to existing text (adding a space if applicable), and 
-# message is an error message if the word was not valid.
-# It can be a word, or ?, !, . for now. Can make it a little more complicated later.
-# TODO: Move this into some appropriate other file since it's not a consumer?
-def validate_word(word, text):
-    if not text:
-        if re.fullmatch("[a-zA-Z']+", word):
-            return (True, string.capwords(word), "")
-        else:
-            return (False, "", "Story must begin with a word")
-    if word == "":
-        return (False, "", "You have to write something!")
-    if re.fullmatch("[a-zA-Z']+", word):
-        if text[-1] in ["?", ".", "!", "\n"]:
-            return (True, (' ' + string.capwords(word)), "")
-        else:
-            return (True, (' ' + word), "")
-    if re.fullmatch("\-[a-zA-Z']+", word):
-        if not text[-1].isalpha():
-            return (False, "", "You can only hyphenate after a word.")
-        if re.search("\-'", word):
-            return(False, "", "An apostrophe cannot directly follow a hyphen.")
-        else:
-            return (True, word, "")
-    if re.search(",", word):
-        if re.fullmatch(", [a-zA-Z']+", word):
-            if text[-1].isalpha():
-                return (True, word, "")
-            else:
-                return (False, "", "A comma can only come after a word.")
-        else:
-            return (False, "", "Invalid comma use.")
-    if word in ["?", ".", "!"]:
-        if text[-1].isalpha():
-            return (True, word, "")
-        else:
-            return (False, "", "Sentence-ending punctuation can only go after a word.")
-    if " " in word:
-        return (False, "", "Word cannot contain spaces except after a comma.")
-    else:
-        return (False, "", "Not a valid word for some reason (disallowed characters?)")
-
-# Check if a story title is valid. It needs to contain at least one letter and nothing but 
-# letters, digits, and spaces. Return True if valid, False if not
-# TODO: Would it be worth it to allow apostrophes?
-def validate_title(title):
-    if re.search("[a-zA-Z]", title) and re.fullmatch("[a-zA-Z0-9\ ]+", title):
-        return True
-    else:
-        return False

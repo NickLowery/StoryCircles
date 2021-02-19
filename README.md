@@ -58,11 +58,13 @@ the story work. It's been fun and challenging.
     stored as JSON), min, max, and current user counts, and proposals to end the 
     story or add a paragraph break.
 
+- circle/rules.py
+    Contains two methods for validating words in the game and story titles.
 
 - circle/consumers.py
     This is where the bulk of my Python code is as it controls all the real-time 
-    interaction using Channels. There are two classes here, *WriteIndexConsumer* 
-    and *CircleConsumer*. 
+    websocket interaction using Channels. There are two classes here, 
+    *WriteIndexConsumer* and *CircleConsumer*. 
 
     *WriteIndexConsumer*, for the "Write" page lets a user submit a new story 
     title and checks to see if it's valid before starting a new Circle for them.  
@@ -71,7 +73,8 @@ the story work. It's been fun and challenging.
     want to leave that option open for the future.
 
     *CircleConsumer* handles all the interaction between a client and an active 
-    Circle. TODO: More description here.
+    Circle. It has methods for handling websocket messages from the client, and 
+    Channel group messages from other users. It also 
 
 
 - circle/admin.py
