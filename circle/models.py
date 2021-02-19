@@ -9,27 +9,14 @@ import datetime
 import re
 
 class User(AbstractUser):
+    """A registered user"""
     user_since = models.DateTimeField(blank=False, auto_now_add=True)
 
     def get_absolute_url(self):
         return reverse('user', args=[self.pk])
 
-class CircleManager(models.Manager):
-    def create_circle(self, title, **kwargs):
-        circle = self.create(story=Story.objects.create(title=title), **kwargs)
-        circle.save()
-        return circle
-
-# Stories in progress allowing more users (i.e. excludes waiting circles)
-class OpenCircleManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(user_ct__lt=F('max_user_ct'), story__start_time__isnull=False)
-
-class WaitingCircleManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(story__start_time__isnull=True)
-
 class Story(models.Model):
+    """Represents a story, which could be in progress or finished"""
     title = models.TextField(unique=True)
     authors = models.ManyToManyField(
         User,
@@ -43,17 +30,16 @@ class Story(models.Model):
 
     @property
     def started(self):
+        """The story being "started" is represented by start_time being non-null"""
         return (self.start_time is not None)
 
     def get_absolute_url(self):
         if self.finished:
             return reverse('finished_story', args = [self.pk])
         else:
-            # TODO: Use this in list of working stories
             return reverse('circle', args = [self.circle.pk])
 
     def append_text(self, new_text):
-        # NOTE: Throw an error if we try to append when story is finished or not started?
         self.text += new_text
         self.save()
 
@@ -61,28 +47,50 @@ class Story(models.Model):
         self.start_time = datetime.datetime.now()
         self.save()
 
-    """ Return the text as html with "\n\n" converted to paragraph breaks """
     def text_as_html(self):
+        """ Return the text as html with "\n\n" converted to paragraph breaks """
         t = get_template('circle/story_text.html')
         text = t.render({'story': self}).rstrip()
         return text
 
+class CircleManager(models.Manager):
+    """Manager to provide a standard method of creating a Circle with its associated Story"""
+
+    def create_circle(self, title, **kwargs):
+        circle = self.create(story=Story.objects.create(title=title), **kwargs)
+        circle.save()
+        return circle
+
+class OpenCircleManager(models.Manager):
+    """Stories in progress allowing more users (i.e. excludes waiting circles)"""
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user_ct__lt=F('max_user_ct'), story__start_time__isnull=False)
+
+class WaitingCircleManager(models.Manager):
+    """Stories waiting for more users to start"""
+
+    def get_queryset(self):
+        return super().get_queryset().filter(story__start_time__isnull=True)
 
 class Circle(models.Model):
-    # This is a list of the usernames of users in the turn order. First name
-    # is the user whose turn it is.
+    """ Represents the (possibly-empty) group of users working on an in-progress Story"""
     creation_time = models.DateTimeField(auto_now_add=True)
 
-    threshold_user_ct = models.IntegerField() #This is the number of users that must be connected to start the story
+    threshold_user_ct = models.IntegerField() # The number of users that must be connected to start the story
     max_user_ct = models.IntegerField()
     user_ct = models.IntegerField(default=0)
-    turn_order = models.JSONField(default=list)
+    turn_order = models.JSONField(default=list) # Represented with a list of
+    # usernames starting with the user whose turn it is
 
     class Proposal(models.TextChoices):
+        """Choices of possible actions that can be proposed and need unanimous
+        consent from active authors"""
         END_STORY = 'ES', _('End Story')
         NEW_PARAGRAPH = 'NP', _('New Paragraph')
 
         def gerund(self):
+            """Text description of the represented action"""
             if self.name == 'END_STORY':
                 return 'ending the story'
             elif self.name == 'NEW_PARAGRAPH':
@@ -100,30 +108,28 @@ class Circle(models.Model):
     approved_proposal = models.ManyToManyField(
         User,
         blank=True
-    )
-
+    ) # Users who have approved the active proposal
     story = models.OneToOneField(
         'Story',
         blank=True,
         on_delete=models.CASCADE,
     )
-
     objects = CircleManager()
     open_circles = OpenCircleManager()
     waiting_circles = WaitingCircleManager()
 
-    #The number of users needed to meet the start threshold
     @property
     def users_needed(self):
+        """The number of users remaining to meet the start threshold"""
         return max(0, self.threshold_user_ct - self.user_ct)
 
-    # This will be used as the channel layer group name.
     @property
     def group_name(self):
+        """To be used as the channel layer group name"""
         return 'circle_' + self.story.title.replace(" ", "_")
 
-    # End the story and return a reference to the finished story instance.
     def finish_story(self):
+        """End the story and return a reference to the finished Story."""
         story = self.story
         story.finished = True
         story.finish_time = datetime.datetime.now()
@@ -131,17 +137,15 @@ class Circle(models.Model):
         self.delete()
         return story
 
-    # Check if everyone in the game has approved ending the story in its current state
     def all_approve_proposal(self):
+        """Check if everyone in the game has approved the current proposal and
+        return as a Boolean"""
         approved_usernames = list(user.username for user in self.approved_proposal.all())
         return all((username in approved_usernames) for username in self.turn_order)
 
-    # Get rid of active proposal, reset proposal state, and save
     def reset_proposal(self):
+        """Get rid of active proposal, reset proposal state, and save"""
         self.approved_proposal.clear()
         self.proposing_user = None
         self.active_proposal = None
         self.save()
-
-    #TODO: I need to figure out something to do with orphaned story instances that don't get finished, probably
-

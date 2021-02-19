@@ -22,11 +22,12 @@ and the app does some basic enforcement of rules of the game:
     above, and apostrophes.
 - On your turn, if the previous sentence has ended, you can propose a paragraph 
     break or ending the story. Unanimous consent is required for either. This is 
-    how my friends and I used to play the game...
+    how my friends and I used to play the game.
 
 The app doesn't attempt to check that "words" are real words, or that grammar 
 makes sense, etc. It just tried to make sure that punctuation can only be used 
-in reasonable ways and that the typography will make sense in that framework.
+in reasonable ways and that the typography will make sense in the context of 
+words and allowed punctuation.
 
 The app also provides users the ability to see a list of finished stories and 
 read them, as well as very basic author profile pages with a list of stories the 
@@ -39,11 +40,23 @@ the story work. It's been fun and challenging.
 
 ### What is in the files (ignoring .gitignore and things I didn't directly edit):
 
-- circle/admin.py
-    Just registers a couple models I wanted to be able to edit with the admin 
-    app
-
 - circle/models.py
+    Contains all my models.
+
+    *User* just provides a join date and get_absolute_url method to get the 
+    user's profile page.
+
+    *Story* tracks text, title, and status of a story, finished or in progress.  
+    I tried to encapsulate as much implementation as possible away from the 
+    consumer and view code.
+
+    There are three managers for *Circle* that get different querysets and a 
+    custom create_circle method for creating a Circle and Story together.
+
+    *Circle* represents the group working on a Story. Importantly, it keeps 
+    track of the turn order (which is represented with a list of usernames and 
+    stored as JSON), min, max, and current user counts, and proposals to end the 
+    story or add a paragraph break.
 
 
 - circle/consumers.py
@@ -60,6 +73,10 @@ the story work. It's been fun and challenging.
     *CircleConsumer* handles all the interaction between a client and an active 
     Circle. TODO: More description here.
 
+
+- circle/admin.py
+    Just registers a couple models I wanted to be able to edit with the admin 
+    app.
 - circle/routing.py
 - circle/static/circle/circle.js
 - circle/static/circle/finishedstory_list.js

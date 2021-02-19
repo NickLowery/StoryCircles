@@ -12,7 +12,7 @@ currentNav.setAttribute("aria-current", "page");
 const indexSocket = new WebSocket(
   'ws://'
   + window.location.host
-  + '/ws/circle_index/'
+  + '/ws/write_index/'
 );
 
 indexSocket.onmessage = function(e) {
