@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.template.loader import get_template
 
-class CircleIndexConsumer(WebsocketConsumer):
+class WriteIndexConsumer(WebsocketConsumer):
     def connect(self):
         self.user_instance = User.objects.get(username=self.scope['user'])
         self.accept()
