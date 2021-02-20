@@ -1,7 +1,5 @@
-README.md
-=========
 "Story Circles"
---------------
+=========
 Nick Lowery 2021
 ---------------
 
@@ -25,7 +23,7 @@ and the app does some basic enforcement of rules of the game:
     how my friends and I used to play the game.
 
 The app doesn't attempt to check that "words" are real words, or that grammar 
-makes sense, etc. It just tried to make sure that punctuation can only be used 
+makes sense, etc. It just tries to make sure that punctuation can only be used 
 in reasonable ways and that the typography will make sense in the context of 
 words and allowed punctuation.
 
@@ -40,7 +38,8 @@ the story work. It's been fun and challenging.
 
 ### What is in the files (ignoring .gitignore and things I didn't directly edit):
 
-- circle/models.py
+- **circle/models.py**
+
     Contains all my models.
 
     *User* just provides a join date and get_absolute_url method to get the 
@@ -58,16 +57,19 @@ the story work. It's been fun and challenging.
     stored as JSON), min, max, and current user counts, and proposals to end the 
     story or add a paragraph break.
 
-- circle/rules.py
+- **circle/rules.py**
+        
     Contains two methods for validating words in the game and story titles.
 
-- circle/tests.py
+- **circle/tests.py**
+
     Contains tests for validating words and titles. I wanted to do automated 
     testing of the websockets code but could not figure out the tooling for 
     doing it. Text validation did seem to be a good place for automated testing 
     to make sure I didn't accidentally break things when I changed the logic.
 
-- circle/consumers.py
+- **circle/consumers.py**
+    
     This is where the bulk of my Python code is as it controls all the real-time 
     websocket interaction using Channels. There are two classes here, 
     *WriteIndexConsumer* and *CircleConsumer*. 
@@ -83,46 +85,53 @@ the story work. It's been fun and challenging.
     Channel group messages from other users. A lot of the game logic is also in 
     this file when it didn't seem to make sense to abstract it out further.
 
-- circle/admin.py
+- **circle/admin.py**
+
     Just registers a couple models I wanted to be able to edit with the admin 
     app.
 
-- circle/forms.py
+- **circle/forms.py**
+
     Has my user registration form. I used Django's Forms API because it allowed 
     me to get semi-reasonable password validation for free.
 
-- storycircles/asgi.py
-- circle/routing.py
+- **storycircles/asgi.py** and **circle/routing.py**
+
     Routing information for the websocket code.
 
-- storycircles/wsgi.py
-- circle/urls.py
-- storycircles/urls.py
+- **storycircles/wsgi.py**, **circle/urls.py**, and **storycircles/urls.py**
+
     Routing information for the regular Django views
 
-- storycircles/settings.py
+- **storycircles/settings.py**
+
     Has a few settings changed to make the websocket routing and Redis backend 
     for Channels work.
 
+- **circle/views.py**
 
-- circle/views.py
-- circle/static/circle/circle.js
-- circle/static/circle/finishedstory_list.js
-- circle/static/circle/general.js
-- circle/static/circle/index.js
-- circle/static/circle/login.js
-- circle/static/circle/register.js
-- circle/static/circle/styles.css
-- circle/static/circle/styles.css.map
-- circle/static/circle/styles.scss
-- circle/static/circle/user_detail.js
-- circle/templates/circle/circle.html
-- circle/templates/circle/finishedstory_detail.html
-- circle/templates/circle/finishedstory_list.html
-- circle/templates/circle/include/finished_story_table.html
-- circle/templates/circle/index.html
-- circle/templates/circle/layout.html
-- circle/templates/circle/login.html
-- circle/templates/circle/register.html
-- circle/templates/circle/story_text.html
-- circle/templates/circle/user_detail.html
+    All my regular Django views are here. My index view serves the Write page 
+    where the user can start or join a Circle and calls up two querysets of 
+    Circles. Otherwise, all the views except for registering and logging in are 
+    very simple and use Django's generic class-based views.
+
+- **circle/static/circle/circle.js**
+- **circle/static/circle/finishedstory_list.js**
+- **circle/static/circle/general.js**
+- **circle/static/circle/index.js**
+- **circle/static/circle/login.js**
+- **circle/static/circle/register.js**
+- **circle/static/circle/styles.css**
+- **circle/static/circle/styles.css.map**
+- **circle/static/circle/styles.scss**
+- **circle/static/circle/user_detail.js**
+- **circle/templates/circle/circle.html**
+- **circle/templates/circle/finishedstory_detail.html**
+- **circle/templates/circle/finishedstory_list.html**
+- **circle/templates/circle/include/finished_story_table.html**
+- **circle/templates/circle/index.html**
+- **circle/templates/circle/layout.html**
+- **circle/templates/circle/login.html**
+- **circle/templates/circle/register.html**
+- **circle/templates/circle/story_text.html**
+- **circle/templates/circle/user_detail.html**

@@ -3,6 +3,7 @@ from django import forms
 from .models import User
 
 class RegisterForm(UserCreationForm):
+    """Form to register a new user"""
     email = forms.EmailField(max_length=254, help_text='Required')
     class Meta:
         model = User

@@ -10,7 +10,9 @@
     <div class="non-story-col col-lg">
         <h3>User Since: {{ detail_user.user_since.date }}</h3>
         <h3>Works:</h3>
+        {% with stories=detail_user.finished_stories %}
         {% include "circle/include/finished_story_table.html" %}
+        {% endwith %}
     </div>
 </div>
 {% endblock %}

@@ -12,6 +12,10 @@ class User(AbstractUser):
     """A registered user"""
     user_since = models.DateTimeField(blank=False, auto_now_add=True)
 
+    @property
+    def finished_stories(self):
+        return self.stories.filter(finished=True)
+
     def get_absolute_url(self):
         return reverse('user', args=[self.pk])
 
