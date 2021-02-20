@@ -87,6 +87,10 @@ the story work. It's been fun and challenging.
     Just registers a couple models I wanted to be able to edit with the admin 
     app.
 
+- circle/forms.py
+    Has my user registration form. I used Django's Forms API because it allowed 
+    me to get semi-reasonable password validation for free.
+
 - storycircles/asgi.py
 - circle/routing.py
     Routing information for the websocket code.
