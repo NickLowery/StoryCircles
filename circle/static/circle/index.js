@@ -16,7 +16,6 @@ const indexSocket = new WebSocket(
 );
 
 indexSocket.onmessage = function(e) {
-  // For now we just log whatever messages we get. Building this out.
   const data = JSON.parse(e.data);
   console.log(data);
   if (data.type === "message") {
@@ -25,7 +24,6 @@ indexSocket.onmessage = function(e) {
   else if (data.type === "redirect") {
     window.location.href = data.url;
   }
-
 }
 
 titleInputDom.focus();
@@ -52,4 +50,3 @@ titleSubmitDom.onclick = function(e) {
     alert_message("Invalid title");
   }
 }
-

@@ -45,7 +45,7 @@ the story work. It's been fun and challenging.
     *User* just provides a join date and get_absolute_url method to get the 
     user's profile page.
 
-    *Story* tracks text, title, and status of a story, finished or in progress.  
+    *Story* tracks text, title, and status of a story, finished or in progress. 
     I tried to encapsulate as much implementation as possible away from the 
     consumer and view code.
 
@@ -121,15 +121,26 @@ the story work. It's been fun and challenging.
     logic is in the gameUpdate function and decides when to show inputs based on 
     the state of the game.
 
-- **circle/static/circle/finishedstory_list.js**
-- **circle/static/circle/general.js**
 - **circle/static/circle/index.js**
-- **circle/static/circle/login.js**
-- **circle/static/circle/register.js**
+
+    For the Write page, uses a websocket to send title proposals to the server 
+    for validation and displays any messages that come back.
+
+- **circle/static/circle/general.js**
+
+    Just provides an alert_message function that index.js and circle.js both use 
+    to display Bootstrap alerts for certain messages from the server.
+
+- **circle/static/circle/finishedstory_list.js**, 
+  **circle/static/circle/login.js**, **circle/static/circle/register.js**, and 
+  **circle/static/circle/user_detail.js**
+
+    The only thing these files do is tag the appropriate nav bar option as 
+    active for their respective pages.
+
 - **circle/static/circle/styles.css**
 - **circle/static/circle/styles.css.map**
 - **circle/static/circle/styles.scss**
-- **circle/static/circle/user_detail.js**
 - **circle/templates/circle/circle.html**
 - **circle/templates/circle/finishedstory_detail.html**
 - **circle/templates/circle/finishedstory_list.html**
