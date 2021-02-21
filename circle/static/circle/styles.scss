@@ -5,6 +5,7 @@ $outermost-gutter-color: BurlyWood;
 $content-background-color: NavajoWhite;
 $text-background-color: AntiqueWhite;
 $text-gutter-color: DarkGoldenRod;
+$input-color: rgb(252,244,232);
 
 @media screen and (max-width: 992px) {
     #turn-order-col {
@@ -83,7 +84,7 @@ input[type=text], input[type=password], input[type=email] {
 }
 
 .form-control, .form-control:focus {
-    background-color: rgb(252,244,232);
+    background-color: $input-color;
 }
 
 input[type=number] {
