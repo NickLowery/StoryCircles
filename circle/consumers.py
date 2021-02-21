@@ -215,7 +215,6 @@ class CircleConsumer(WebsocketConsumer):
         """Send a game state update to the Circle"""
         data = {'type': 'game_update',
                 'story_started': circle_instance.story.started,
-                'text': circle_instance.story.text,
                 'text_html': circle_instance.story.text_as_html(),
                 'turn_order': circle_instance.turn_order,
             }
