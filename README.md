@@ -34,6 +34,12 @@ author participated in writing.
 That's about it! The bulk of the work went into making the real-time writing of 
 the story work. It's been fun and challenging.
 
+### Is it mobile-responsive?
+
+Yes! It has a nav bar that collapses, columns that collapse into one on the 
+Write index page, and a turn order display sidebar that disappears on smaller 
+displays.
+
 ### How To Run It
 
 ### What is in the files (ignoring .gitignore and things I didn't directly edit):
@@ -138,9 +144,13 @@ the story work. It's been fun and challenging.
     The only thing these files do is tag the appropriate nav bar option as 
     active for their respective pages.
 
-- **circle/static/circle/styles.css**
-- **circle/static/circle/styles.css.map**
-- **circle/static/circle/styles.scss**
+- **circle/static/circle/styles.css**, **circle/static/circle/styles.css.map**, 
+    and **circle/static/circle/styles.scss**
+
+    Along with Bootstrap these provide all my styling. They set up the hiding of 
+    the turn order sidebar in smaller viewports and also provide animation for 
+    hiding the alert messages on the Circle and Write pages.
+
 - **circle/templates/circle/circle.html**
 - **circle/templates/circle/finishedstory_detail.html**
 - **circle/templates/circle/finishedstory_list.html**

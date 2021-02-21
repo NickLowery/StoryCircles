@@ -81,7 +81,7 @@ input[type=text], input[type=password], input[type=email] {
 input[type=number] {
   width: 4em; }
 
-button {
+.circle-button {
   display: inline-block;
   border-radius: 0.25rem;
   border: none;
@@ -98,15 +98,15 @@ button {
   -webkit-appearance: none;
   -moz-appearance: none; }
 
-button:hover,
-button:focus {
+.circle-button:hover,
+.circle-button:focus {
   background: DarkGoldenRod; }
 
-button:focus {
+.circle-button:focus {
   outline: 1px solid #fff;
   outline-offset: -4px; }
 
-button:active {
+.circle-button:active {
   transform: scale(0.99); }
 
 .text-page {
