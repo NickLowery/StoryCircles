@@ -88,8 +88,12 @@ displays.
 
     *CircleConsumer* handles all the interaction between a client and an active 
     Circle. It has methods for handling websocket messages from the client, and 
-    Channel group messages from other users. A lot of the game logic is also in 
-    this file when it didn't seem to make sense to abstract it out further.
+    Channel group messages from other users. Managing these messages is the bulk 
+    of the work on the app. I tried to design in such a way that a word 
+    submission would only trigger queries to the database in the consumer 
+    serving the user who submitted the word, then pass all necessary data to the 
+    other users through the Channel layer. A lot of the game logic is also in 
+    this file when it didn't seem to make sense to abstract it out further. 
 
 - **circle/admin.py**
 
@@ -151,12 +155,27 @@ displays.
     the turn order sidebar in smaller viewports and also provide animation for 
     hiding the alert messages on the Circle and Write pages.
 
+- **circle/templates/circle/layout.html**
+
+    My main layout template with nav bar and containers for content. I used 
+    Bootstrap for the layout utilities and input styling, as well as the 
+    collapsible nav bar.
+
 - **circle/templates/circle/circle.html**
+
+    The main writing page. Includes the page of text and all the inputs 
+    necessary. It calls circle.js, which takes care of all the interactivity and 
+    updating of the game state, and also places the word-input at the end of the 
+    last paragraph of text. This also includes the turn order sidebar, which 
+    collapses on viewports under a certain width.
+
 - **circle/templates/circle/finishedstory_detail.html**
+
+
+
 - **circle/templates/circle/finishedstory_list.html**
 - **circle/templates/circle/include/finished_story_table.html**
 - **circle/templates/circle/index.html**
-- **circle/templates/circle/layout.html**
 - **circle/templates/circle/login.html**
 - **circle/templates/circle/register.html**
 - **circle/templates/circle/story_text.html**
