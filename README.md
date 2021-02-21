@@ -3,7 +3,6 @@
 Nick Lowery 2021
 ---------------
 
-
 ### What is it?
 
 Have you ever played the game where a group of people take turns contributing 
@@ -11,8 +10,11 @@ single words to write a story? Story Circles is a web implementation of that
 game. Users can register, log in, and then start or join a group (I call it a 
 Circle) where they play the game. 
 
-All the users are updated in real time with other users' input in their Circle. 
-I used the Channels library to make this work. 
+All the users are updated in real time with other users' input in their Circle.  
+Story Circles uses the Channels library to make this work. All the information 
+about the state of the game is stored in the Circle model (and the Story model 
+for the text) and Channels interfaces with the models and communicates with the 
+users through websockets.
 
 Users can only type a word on their turn, and the app does some basic 
 enforcement of rules of the game:
@@ -37,8 +39,39 @@ The app also provides users the ability to see a list of finished stories and
 read them, as well as very basic author profile pages with a list of stories the 
 author participated in writing. 
 
-That's about it! The bulk of the work went into making the real-time writing of 
-the story work. It's been fun and challenging.
+That's about it!
+
+### What makes it complex and distinct from the other projects in CS50W?
+
+The most complex and challenging aspect of implementing this project was the 
+real-time interaction. This was definitely quite different from anything in the 
+course materials or other projects. It was a new API to work with and the logic 
+was challenging at first, because one user's interaction needed to trigger 
+websocket messages to other users, ideally without a cascade of database hits. 
+There were some interesting design questions in deciding how to represent and 
+communicate the state of the game. I ended up representing everything at the 
+model level in Django, because it seemed like there could be problems with 
+inconsistent representations of the state of the game otherwise, and trying to 
+send the minimum amount of necessary information at the Channel layer to keep 
+all the users up to date.
+
+For example, I had to figure out where to do validation of word submissions. 
+Each user in a circle has an instance of CircleConsumer, which persists as long 
+as they're on the Circle's page and controls the websocket connection, and I 
+ended up deciding on the client-side to let clients send basically anything as a 
+submission and have it get validated at the level of their CircleConsumer. That 
+way the server isn't ever adding text to the database that hasn't been evaluated 
+by server-side code, and the rest of the users only get a message once the 
+submission has been validated and the whole game state is updated on the server.
+
+It would be possible to do the validation on the client-side as well, and have 
+less websocket traffic carrying invalid submissions, but the validation logic is 
+complicated enough that that seemed like premature optimization.
+
+On the other hand, I left deciding what inputs to show the user up to the 
+client-side code, since it would of course control the DOM anyway, and an HTML 
+representation of the story text and JSON representation of the turn order was 
+sufficient to do that.
 
 ### Is it mobile-responsive?
 
