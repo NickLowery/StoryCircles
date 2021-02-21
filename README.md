@@ -116,6 +116,11 @@ the story work. It's been fun and challenging.
     very simple and use Django's generic class-based views.
 
 - **circle/static/circle/circle.js**
+
+    Client-side code for interactively writing a story in a Circle. Most of the 
+    logic is in the gameUpdate function and decides when to show inputs based on 
+    the state of the game.
+
 - **circle/static/circle/finishedstory_list.js**
 - **circle/static/circle/general.js**
 - **circle/static/circle/index.js**
