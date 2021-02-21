@@ -1,4 +1,4 @@
-function alert_message(message) {
+function alertMessage(message) {
   // Display message in an alert
   console.log("Message: " + message);
   const alertTemplateDom = document.querySelector("#alert-template");

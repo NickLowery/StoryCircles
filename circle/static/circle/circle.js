@@ -67,10 +67,10 @@ function receiveWS(message) {
       break;
     case ('message'):
       // Display message in an alert
-      alert_message(data.message_text);
+      alertMessage(data.message_text);
       break;
     case ('redirect'):
-      alert_message(data.message_text);
+      alertMessage(data.message_text);
       setTimeout(() => {
         window.location.href = data.redirect_url;
       }, 5000);
@@ -158,7 +158,7 @@ function gameUpdate(data) {
     }
   }
   if (data.message) {
-    alert_message(data.message);
+    alertMessage(data.message);
   }
 }
 

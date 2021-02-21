@@ -19,7 +19,7 @@ indexSocket.onmessage = function(e) {
   const data = JSON.parse(e.data);
   console.log(data);
   if (data.type === "message") {
-    alert_message(data.message_text);
+    alertMessage(data.message_text);
   }
   else if (data.type === "redirect") {
     window.location.href = data.url;
@@ -47,6 +47,6 @@ titleSubmitDom.onclick = function(e) {
     }));
   }
   else {
-    alert_message("Invalid title");
+    alertMessage("Invalid title");
   }
 }

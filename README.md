@@ -128,7 +128,7 @@ the story work. It's been fun and challenging.
 
 - **circle/static/circle/general.js**
 
-    Just provides an alert_message function that index.js and circle.js both use 
+    Just provides an alertMessage function that index.js and circle.js both use 
     to display Bootstrap alerts for certain messages from the server.
 
 - **circle/static/circle/finishedstory_list.js**, 
