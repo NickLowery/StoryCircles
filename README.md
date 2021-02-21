@@ -9,23 +9,29 @@ Nick Lowery 2021
 Have you ever played the game where a group of people take turns contributing 
 single words to write a story? Story Circles is a web implementation of that 
 game. Users can register, log in, and then start or join a group (I call it a 
-Circle) where they play the game. All the users are updated in real time with 
-other users' input in their Circle. Users can only type a word on their turn, 
-and the app does some basic enforcement of rules of the game:
-- One word at a time
-- Ending a sentence with a period, exclamation mark, or question mark uses your turn.
-- You can hyphenate another word onto the previous word.
+Circle) where they play the game. 
+
+All the users are updated in real time with other users' input in their Circle. 
+I used the Channels library to make this work. 
+
+Users can only type a word on their turn, and the app does some basic 
+enforcement of rules of the game:
+- One word per turn
+- You can also use your turn to end a sentence with a period, question mark, or 
+    exclamation mark.
 - You can put a comma between the previous word and your word.
+- You can hyphenate another word onto the previous word.
 - No punctuation is allowed in this version, except for the marks mentioned 
-    above, and apostrophes.
+  above, and apostrophes.
 - On your turn, if the previous sentence has ended, you can propose a paragraph 
     break or ending the story. Unanimous consent is required for either. This is 
     how my friends and I used to play the game.
 
 The app doesn't attempt to check that "words" are real words, or that grammar 
 makes sense, etc. It just tries to make sure that punctuation can only be used 
-in reasonable ways and that the typography will make sense in the context of 
-words and allowed punctuation.
+according to these rules and that the typography will make sense in the context 
+of words and allowed punctuation, by capitalizing the first word in a sentence, 
+making sure there's exactly one space between words, etc.
 
 The app also provides users the ability to see a list of finished stories and 
 read them, as well as very basic author profile pages with a list of stories the 
@@ -169,14 +175,48 @@ displays.
     last paragraph of text. This also includes the turn order sidebar, which 
     collapses on viewports under a certain width.
 
+- **circle/templates/circle/index.html**
+
+    The "Write" home page which is the default place for users to land when they 
+    log in. This has the most complicated layout, which is really only 
+    collapsing two columns into one on smaller viewports.  It has the inputs for 
+    starting a new story and lists of waiting and started stories the user can 
+    join in on.
+
 - **circle/templates/circle/finishedstory_detail.html**
 
+    Template for finished story page. I wanted it to look similar to the Circle 
+    page but gave it scriptier fonts for fun.
 
+- **circle/templates/circle/include/finished_story_table.html**
+
+    Simple template for table of finished stories, included by 
+    **finishedstory_list.html** and **user_detail.html**
 
 - **circle/templates/circle/finishedstory_list.html**
-- **circle/templates/circle/include/finished_story_table.html**
-- **circle/templates/circle/index.html**
-- **circle/templates/circle/login.html**
-- **circle/templates/circle/register.html**
-- **circle/templates/circle/story_text.html**
+
+    Simply lists all finished stories.
+
 - **circle/templates/circle/user_detail.html**
+
+    Very minimal user profile page, since it's not a social network I'm just 
+    tracking the join date, and providing a list of stories the user 
+    participated in writing.
+
+- **circle/templates/circle/login.html**
+
+    Simple log-in template. If login fails it has a tag to display a message to 
+    them, or an alert if they've been redirected here.
+
+- **circle/templates/circle/register.html**
+
+    Simple registration template. It uses Django's Forms API.
+
+- **circle/templates/circle/story_text.html**
+
+    This is a tiny template that gets called inside the Story model to deliver 
+    its story as html (to get proper paragraphs). I figured that if I was 
+    sending out html through the websocket it would be best to go through 
+    Django's template engine, since that way I would also get escaping of 
+    special characters and such.
+
