@@ -91,7 +91,7 @@ input[type=number] {
 table {
   background-color: AntiqueWhite;
   border-collapse: collapse;
-  margin-left: 1rem; }
+  margin: 1rem; }
 
 table, th, td {
   border: 1px solid black;
