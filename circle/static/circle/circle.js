@@ -3,12 +3,14 @@ const clientUsername = JSON.parse(document.getElementById('user-data').textConte
 const wordInputDom = document.getElementById('word-input');
 const wordSubmitDom = document.getElementById('word-submit');
 const proposalApprovalDom = document.getElementById('proposal-approval-div');
-const proposeEndDom = document.getElementById('propose-end-button');
 const statusBarDom = document.getElementById('story-status-div');
 const turnOrderDom = document.querySelector("#turn-order-col");
 const authorTemplate = document.querySelector("#turn-order-author-template");
 const textPage = document.querySelector(".text-page");
 const storyTextDom = document.querySelector("#text");
+
+const thresholdUserCt = parseInt(document.getElementById('data-div').dataset.thresholdUserCt);
+textPage.style.display = "none";
 
 const circleSocket = new WebSocket(
   'ws://'
@@ -17,13 +19,46 @@ const circleSocket = new WebSocket(
   + circlePk
   + '/'
 );
+circleSocket.onmessage = (message) => receiveWS(message);
+circleSocket.onclose = () => console.error('Circle socket closed unexpectedly');
 
-const thresholdUserCt = parseInt(document.getElementById('data-div').dataset.thresholdUserCt);
+wordInputDom.onkeyup = (e) => {
+  if (e.keyCode === 13) { // enter, return
+    wordSubmitDom.click();
+  }
+};
 
-textPage.style.display = "none";
+wordSubmitDom.onclick = () => {
+  circleSocket.send(JSON.stringify({
+    'type': 'word_submit',
+    'word': wordInputDom.value
+  }));
+  wordInputDom.value = '';
+};
 
-circleSocket.onmessage = function(e) {
-  const data = JSON.parse(e.data);
+document.querySelector("#reject-button").onclick = () => {
+  circleSocket.send(JSON.stringify({
+    'type': 'reject',
+  }));
+}
+
+document.querySelector("#propose-end-button").onclick = () => {
+  circleSocket.send(JSON.stringify({
+    'type': 'propose',
+    'proposal': 'ES',
+  }));
+}
+
+document.querySelector("#propose-new-paragraph-button").onclick = () => {
+  circleSocket.send(JSON.stringify({
+    'type': 'propose',
+    'proposal': 'NP',
+  }));
+}
+
+function receiveWS(message) {
+  // Process a message from the websocket
+  const data = JSON.parse(message.data);
   console.log(data);
 
   switch (data.type) {
@@ -130,11 +165,8 @@ circleSocket.onmessage = function(e) {
     default:
       console.error("Default hit on socket message type")
   }
-};
-
-circleSocket.onclose = function(e) {
-  console.error('Circle socket closed unexpectedly');
 }
+
 
 function showWordInput() {
   wordInputDom.style.display = "inline-block";
@@ -187,38 +219,3 @@ function prop_code_to_string(code) {
   }
 }
 
-wordInputDom.onkeyup = function(e) {
-  if (e.keyCode === 13) { // enter, return
-    wordSubmitDom.click();
-  }
-};
-
-wordSubmitDom.onclick = function(e) {
-  const word = wordInputDom.value;
-  circleSocket.send(JSON.stringify({
-    'type': 'word_submit',
-    'word': word
-  }));
-  wordInputDom.value = '';
-};
-
-
-document.querySelector("#reject-button").onclick = function(e) {
-  circleSocket.send(JSON.stringify({
-    'type': 'reject',
-  }));
-}
-
-document.querySelector("#propose-end-button").onclick = function(e) {
-  circleSocket.send(JSON.stringify({
-    'type': 'propose',
-    'proposal': 'ES',
-  }));
-}
-
-document.querySelector("#propose-new-paragraph-button").onclick = function(e) {
-  circleSocket.send(JSON.stringify({
-    'type': 'propose',
-    'proposal': 'NP',
-  }));
-}
