@@ -29,27 +29,6 @@ html, body {
 .flex-fill {
   flex: 1; }
 
-body {
-  background-color: BurlyWood; }
-
-#content-container {
-  background-color: NavajoWhite; }
-
-.text-col {
-  background-color: DarkGoldenRod; }
-
-#turn-order-col {
-  background-color: BurlyWood; }
-  #turn-order-col #turn-order-author-template {
-    display: none; }
-  #turn-order-col .turn-order-author {
-    background-color: beige;
-    width: 100%;
-    font-size: 1.5rem;
-    border: 1px solid black;
-    margin: 0.2em;
-    padding: 0em 0.3em; }
-
 h1 {
   margin-top: 0.5rem;
   text-align: center;
@@ -109,6 +88,24 @@ input[type=number] {
 .circle-button:active {
   transform: scale(0.99); }
 
+table {
+  background-color: AntiqueWhite;
+  border-collapse: collapse;
+  margin-left: 1rem; }
+
+table, th, td {
+  border: 1px solid black;
+  padding: 2px 5px; }
+
+body {
+  background-color: BurlyWood; }
+
+#content-container {
+  background-color: NavajoWhite; }
+
+.text-col {
+  background-color: DarkGoldenRod; }
+
 .text-page {
   background-color: AntiqueWhite;
   max-width: 50rem;
@@ -140,13 +137,16 @@ input[type=number] {
   background-color: LightSteelBlue;
   font-size: 1.5rem; }
 
-table {
-  background-color: AntiqueWhite;
-  border-collapse: collapse;
-  margin-left: 1rem; }
-
-table, th, td {
-  border: 1px solid black;
-  padding: 2px 5px; }
+#turn-order-col {
+  background-color: BurlyWood; }
+  #turn-order-col #turn-order-author-template {
+    display: none; }
+  #turn-order-col .turn-order-author {
+    background-color: NavajoWhite;
+    width: 100%;
+    font-size: 1.5rem;
+    border: 1px solid black;
+    margin: 0.2em;
+    padding: 0em 0.3em; }
 
 /*# sourceMappingURL=styles.css.map */
