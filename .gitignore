@@ -6,3 +6,4 @@ __pycache__/
 *.scssc
 viminfo*
 setup_docker_dev.sh
+*.swp

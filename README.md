@@ -81,6 +81,16 @@ displays.
 
 ### How To Run It
 
+cd StoryCircles/
+sudo apt-get update
+sudo apt install python3-pip
+pip3 install -U channels
+sudo apt install docker.io
+sudo docker run -p 6379:6379 -d redis:5
+pip3 install channels-redis
+python3 manage.py migrate
+python3 manage.py runserver
+
 ### What is in the files (ignoring .gitignore and things I didn't directly edit):
 
 - **circle/models.py**
