@@ -10,7 +10,7 @@ single words to write a story? Story Circles is a web implementation of that
 game. Users can register, log in, and then start or join a group (I call it a 
 Circle) where they play the game. 
 
-All the users are updated in real time with other users' input in their Circle.  
+All the users are updated in real time with other users' input in their Circle.
 Story Circles uses the Channels library to make this work. All the information 
 about the state of the game is stored in the Circle model (and the Story model 
 for the text) and Channels interfaces with the models and communicates with the 
@@ -22,7 +22,8 @@ enforcement of rules of the game:
 - You can also use your turn to end a sentence with a period, question mark, or 
     exclamation mark.
 - You can put a comma between the previous word and your word.
-- You can hyphenate another word onto the previous word.
+- You can hyphenate another word onto the previous word, and this is the only 
+    way hyphenated words can be formed.
 - No punctuation is allowed in this version, except for the marks mentioned 
   above, and apostrophes.
 - On your turn, if the previous sentence has ended, you can propose a paragraph 
@@ -56,7 +57,7 @@ send the minimum amount of necessary information at the Channel layer to keep
 all the users up to date.
 
 For example, I had to figure out where to do validation of word submissions. 
-Each user in a circle has an instance of CircleConsumer, which persists as long 
+Each user in a Circle has an instance of CircleConsumer, which persists as long 
 as they're on the Circle's page and controls the websocket connection, and I 
 ended up deciding on the client-side to let clients send basically anything as a 
 submission and have it get validated at the level of their CircleConsumer. That 
@@ -105,8 +106,8 @@ where necessary.
 
     Contains all my models.
 
-    *User* just provides a join date and get_absolute_url method to get the 
-    user's profile page.
+    *User* subclasses Django's AbstractUser, and beyond that just provides a 
+    join date and get_absolute_url method to get the user's profile page.
 
     *Story* tracks text, title, and status of a story, finished or in progress. 
     I tried to encapsulate as much implementation as possible away from the 
@@ -122,14 +123,15 @@ where necessary.
 
 - **circle/rules.py**
         
-    Contains two methods for validating words in the game and story titles.
+    Contains code for validating words in the game and story titles.
 
 - **circle/tests.py**
 
     Contains tests for validating words and titles. I wanted to do automated 
     testing of the websockets code but could not figure out the tooling for 
-    doing it. Text validation did seem to be a good place for automated testing 
-    to make sure I didn't accidentally break things when I changed the logic.
+    doing it. However, text validation seemed to be an important place for 
+    automated testing to make sure I didn't accidentally break things when I 
+    changed the logic.
 
 - **circle/consumers.py**
     
@@ -139,9 +141,9 @@ where necessary.
 
     *WriteIndexConsumer*, for the "Write" page lets a user submit a new story 
     title and checks to see if it's valid before starting a new Circle for them.  
-    This could have been achieved with a regular Django view but I originally 
-    planned to have real-time updating of the list of ongoing stories, and I 
-    want to leave that option open for the future.
+    This could have been achieved with a regular Django view and form but I 
+    originally planned to have real-time updating of the lists of ongoing 
+    stories, and I want to leave that option open for the future.
 
     *CircleConsumer* handles all the interaction between a client and an active 
     Circle. It has methods for handling websocket messages from the client, and 
@@ -241,7 +243,7 @@ where necessary.
 
 - **circle/templates/circle/include/finished_story_table.html**
 
-    Simple template for table of finished stories, included by 
+    Simple template just for tables of finished stories, included by 
     **finishedstory_list.html** and **user_detail.html**
 
 - **circle/templates/circle/finishedstory_list.html**
@@ -257,7 +259,7 @@ where necessary.
 - **circle/templates/circle/login.html**
 
     Simple log-in template. If login fails it has a tag to display a message to 
-    them, or an alert if they've been redirected here.
+    the client, or an alert if they've been redirected here.
 
 - **circle/templates/circle/register.html**
 
@@ -265,9 +267,8 @@ where necessary.
 
 - **circle/templates/circle/story_text.html**
 
-    This is a tiny template that gets called inside the Story model to deliver 
-    its story as html (to get proper paragraphs). I figured that if I was 
-    sending out html through the websocket it would be best to go through 
+    This is a tiny template that gets rendered from inside the Story model to 
+    deliver its story as html (to get proper paragraphs). I figured that if I 
+    was sending out html through the websocket it would be best to go through 
     Django's template engine, since that way I would also get escaping of 
     special characters and such.
-
