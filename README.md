@@ -81,16 +81,23 @@ displays.
 
 ### How To Run It
 
-StoryCircles requires Channels. I ran it with the Redis backend for Channels, in a Docker container (this setup came from Channels tutorials and seems to be the easiest way to get Channels code running).
+StoryCircles requires Channels. I ran it with the Redis backend for Channels, in 
+a Docker container (this setup came from [this 
+tutorial](https://channels.readthedocs.io/en/stable/tutorial/part_2.html#enable-a-channel-layerand) 
+in the Channels docs and seems to be the easiest way to get Channels code
+running).
 
-With pip and git installed and the git repository cloned, I was able to run the app on a new Ubuntu virtual machine by moving to the root of the cloned repository and running the following commands, authenticating and confirming where necessary.
+With pip and git installed and the git repository cloned, I was able to run the 
+app on a new Ubuntu virtual machine by moving to the root of the cloned 
+repository and running the following commands, authenticating and confirming 
+where necessary.
 
-sudo apt-get update
-pip3 install -r requirements.txt
-sudo apt install docker.io
-sudo docker run -p 6379:6379 -d redis:5
-python3 manage.py migrate
-python3 manage.py runserver
+    sudo apt-get update
+    pip3 install -r requirements.txt
+    sudo apt install docker.io
+    sudo docker run -p 6379:6379 -d redis:5
+    python3 manage.py migrate
+    python3 manage.py runserver
 
 ### What is in the files (ignoring .gitignore and things I didn't directly edit):
 
