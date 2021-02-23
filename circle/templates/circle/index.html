@@ -7,7 +7,7 @@
 {% endblock %}
 {% block body %}
 <div id="content-row" class="row w-100 justify-content-around">
-    <div class="col-lg">
+    <div class="col-lg content-col">
         <h2>Start a new circle</h2>
         <div id="alert-holder"></div>
         <div class="input-div">
@@ -18,18 +18,18 @@
         <h4>Options</h4>
         <div class="input-div">
             <form class="row justify-content-start">
-                <div class="col-auto">
+                <div class="col-auto content-col">
                     <label for="threshold-user-ct" class="form-label">Minimum # of users to start</label>
                     <input id="threshold-user-ct-input" class="form-control" type="number" name="threshold-user-ct" min="2" max="100" value="2">
                 </div>
-                <div class="col-auto">
+                <div class="col-auto content-col">
                     <label for="max-user-ct" class="form-label">Max # of users in circle</label>
                     <input id="max-user-ct-input" class="form-control" type="number" name="max-user-ct" min ="2" max="100" value="4">
                 </div>
             </form>
         </div>
     </div>
-    <div class="col-lg-auto">
+    <div class="col-lg-auto content-col">
         <h3>Stories Waiting for Authors to Start</h3>
         <table>
             <tr>

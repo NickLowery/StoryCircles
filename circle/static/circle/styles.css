@@ -1,6 +1,8 @@
 @media screen and (max-width: 992px) {
   #turn-order-col {
-    display: none; } }
+    display: none;
+  }
+}
 @keyframes hide {
   0% {
     opacity: 1;
@@ -8,57 +10,71 @@
     line-height: 100%;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    margin-bottom: 1rem; }
+    margin-bottom: 1rem;
+  }
   50% {
     opacity: 0;
     height: 100%;
     line-height: 100%;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    margin-bottom: 1rem; }
+    margin-bottom: 1rem;
+  }
   100% {
     opacity: 0;
     height: 0px;
     line-height: 0px;
     padding-top: 0px;
     padding-bottom: 0px;
-    margin-bottom: 0px; } }
+    margin-bottom: 0px;
+  }
+}
 html, body {
-  height: 100%; }
+  height: 100%;
+}
 
 .flex-fill {
-  flex: 1; }
+  flex: 1;
+}
 
 h1 {
   margin-top: 0.5rem;
   text-align: center;
   font-weight: bold;
-  font-family: "Times New Roman", serif; }
+  font-family: "Times New Roman", serif;
+}
 
 .page-title {
   background-color: Peru;
   margin: 0;
-  padding: 0.5rem; }
+  padding: 0.5rem;
+}
 
 h2, h3 {
   margin-top: 0.5em;
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 h4 {
-  margin-top: 0.25em; }
+  margin-top: 0.25em;
+}
 
 input {
   box-sizing: border-box;
-  margin: 3px 1px; }
+  margin: 3px 1px;
+}
 
 input[type=text], input[type=password], input[type=email] {
-  width: 20em; }
+  width: 20em;
+}
 
 .form-control, .form-control:focus {
-  background-color: #fcf4e8; }
+  background-color: #fcf4e8;
+}
 
 input[type=number] {
-  width: 4em; }
+  width: 4em;
+}
 
 .circle-button {
   display: inline-block;
@@ -75,36 +91,49 @@ input[type=number] {
   text-align: center;
   transition: background 250ms ease-in-out, transform 150ms ease;
   -webkit-appearance: none;
-  -moz-appearance: none; }
+  -moz-appearance: none;
+}
 
 .circle-button:hover,
 .circle-button:focus {
-  background: DarkGoldenRod; }
+  background: DarkGoldenRod;
+}
 
 .circle-button:focus {
   outline: 1px solid #fff;
-  outline-offset: -4px; }
+  outline-offset: -4px;
+}
 
 .circle-button:active {
-  transform: scale(0.99); }
+  transform: scale(0.99);
+}
 
 table {
   background-color: AntiqueWhite;
   border-collapse: collapse;
-  margin: 1rem; }
+  margin: 1rem;
+}
 
 table, th, td {
   border: 1px solid black;
-  padding: 2px 5px; }
+  padding: 2px 5px;
+}
 
 body {
-  background-color: BurlyWood; }
+  background-color: BurlyWood;
+}
 
 #content-container {
-  background-color: NavajoWhite; }
+  background-color: NavajoWhite;
+}
+
+.content-col {
+  background-color: NavajoWhite;
+}
 
 .text-col {
-  background-color: DarkGoldenRod; }
+  background-color: DarkGoldenRod;
+}
 
 .text-page {
   background-color: AntiqueWhite;
@@ -114,39 +143,48 @@ body {
   font-size: 1.2em;
   padding-top: 1rem;
   padding-left: 1rem;
-  padding-right: 1rem; }
-  .text-page h1 {
-    font-weight: bold; }
-  .text-page p {
-    text-indent: 3em; }
-
+  padding-right: 1rem;
+}
+.text-page h1 {
+  font-weight: bold;
+}
+.text-page p {
+  text-indent: 3em;
+}
 .finished-text-page {
-  font-family: "New Century Schoolbook", "TeX Gyre Schola", serif; }
+  font-family: "New Century Schoolbook", "TeX Gyre Schola", serif;
+}
 
 #alert-template {
   animation-name: hide;
   animation-duration: 2s;
   animation-fill-mode: forwards;
-  animation-play-state: paused; }
+  animation-play-state: paused;
+}
 
 .input-div {
-  margin-left: 1rem; }
+  margin-left: 1rem;
+}
 
 #story-status-div {
   text-align: center;
   background-color: LightSteelBlue;
-  font-size: 1.5rem; }
+  font-size: 1.5rem;
+}
 
 #turn-order-col {
-  background-color: BurlyWood; }
-  #turn-order-col #turn-order-author-template {
-    display: none; }
-  #turn-order-col .turn-order-author {
-    background-color: NavajoWhite;
-    width: 100%;
-    font-size: 1.5rem;
-    border: 1px solid black;
-    margin: 0.2em;
-    padding: 0em 0.3em; }
+  background-color: BurlyWood;
+}
+#turn-order-col #turn-order-author-template {
+  display: none;
+}
+#turn-order-col .turn-order-author {
+  background-color: NavajoWhite;
+  width: 100%;
+  font-size: 1.5rem;
+  border: 1px solid black;
+  margin: 0.2em;
+  padding: 0em 0.3em;
+}
 
 /*# sourceMappingURL=styles.css.map */
