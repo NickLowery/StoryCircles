@@ -1,4 +1,4 @@
-"Story Circles"
+"StoryCircles"
 =========
 Nick Lowery 2021
 ---------------
@@ -6,15 +6,15 @@ Nick Lowery 2021
 ### What is it?
 
 Have you ever played the game where a group of people take turns contributing 
-single words to write a story? Story Circles is a web implementation of that 
+single words to write a story? StoryCircles is a web implementation of that 
 game. Users can register, log in, and then start or join a group (I call it a 
 Circle) where they play the game. 
 
 All the users are updated in real time with other users' input in their Circle.
-Story Circles uses the [Channels](https://github.com/django/channels/) library 
-to make this work. All the information about the state of the game is stored in 
-the Circle model (and the Story model for the text) and Channels interfaces with 
-the models and communicates with the users through websockets.
+StoryCircles uses the [Channels](https://github.com/django/channels/) library to 
+make this work. All the information about the state of the game is stored in the 
+Circle model (and the Story model for the text) and Channels interfaces with the 
+models and communicates with the users through websockets.
 
 Users can only type a word on their turn, and the app does some basic 
 enforcement of rules of the game:
