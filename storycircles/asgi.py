@@ -8,13 +8,13 @@ https://docs.djangoproject.com/en/3.1/howto/deployment/asgi/
 """
 
 import os
-
-import storycircles.settings
-os.environ['DJANGO_SETTINGS_MODULE'] = storycircles.settings
-from channels.auth import AuthMiddlewareStack
+os.environ['DJANGO_SETTINGS_MODULE'] = 'storycircles.settings'
+import django
+django.setup()
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 import circle.routing
+from channels.auth import AuthMiddlewareStack
 
 
 application = ProtocolTypeRouter({
