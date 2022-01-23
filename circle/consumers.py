@@ -52,7 +52,6 @@ class CircleConsumer(WebsocketConsumer):
     def connect(self):
         """Handle client connecting to Circle. Only logged in Users will be 
         accepted. Start the story if necessary. Update the group"""
-        # This will fail if the user isn't logged in, so maybe I'm good as far as authentication?
         self.user_instance = User.objects.get(username=self.scope['user'])
 
         self.circle_pk = int(self.scope['url_route']['kwargs']['circle_pk_string'])
