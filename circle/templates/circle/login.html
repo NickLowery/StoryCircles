@@ -12,9 +12,16 @@
         {% endif %}
 
         {% if redirect %}
-            <div class="alert alert-primary" role="alert">
-                The page you tried to access requires you to be logged in. Please log in!
-            </div>
+            {% url 'index' as index_url %}
+            {% ifequal next_url index_url %}
+                <div class="alert alert-primary" role="alert">
+                    Please log in or register to use StoryCircles.
+                </div>
+            {% else %}
+                <div class="alert alert-primary" role="alert">
+                    The page you tried to access requires you to be logged in. Please log in!
+                </div>
+            {% endifequal %}
         {% endif %}
 
         <form action="{% url 'login' %}" method="post">
